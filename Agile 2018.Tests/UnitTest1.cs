@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Agile_2018;
 
 namespace Agile_2018.Tests
 {
@@ -7,8 +8,13 @@ namespace Agile_2018.Tests
     public class UnitTest1
     {
         [TestMethod]
-        public void TestMethod1()
+        public void Example()
         {
+            Example e = new Example();
+
+            int r = e.AddNumbers(1, 1);
+
+            Assert.AreEqual(2, r, "Result is equal to 2");
         }
     }
 }
