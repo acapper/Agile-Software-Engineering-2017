@@ -5,7 +5,7 @@ using System.Web;
 
 namespace Agile_2018
 {
-    public class Example
+    public class Issue3
     {
         public int AddNumbers(int v1, int v2)
         {
