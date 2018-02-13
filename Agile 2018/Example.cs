@@ -10,7 +10,9 @@ namespace Agile_2018
         //Brians Comment
         public int AddNumbers(int v1, int v2)
         {
-            return v1 + v2;
+            //return the sum
+            return v1 * v2;
+
         }
     }
 }
