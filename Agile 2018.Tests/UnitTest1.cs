@@ -12,7 +12,7 @@ namespace Agile_2018.Tests
         {
             Example e = new Example();
 
-            int r = e.AddNumbers(1, 2);
+            int r = e.AddNumbers(1, 1);
 
             Assert.AreEqual(2, r, "Result is equal to 2");
         }
