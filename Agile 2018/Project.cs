@@ -16,7 +16,6 @@ namespace Agile_2018
     {
 
         int idToView = 0;
-        
         public int viewProject(int input)
         {
             ConnectionClass.OpenConnection();
@@ -34,10 +33,19 @@ namespace Agile_2018
 
 
             return idToView;
-            
+
+
+
+
+            //1. take in project id
+            //2. query projects in database for the row with this id
+            //3. query stored files for all files with this id in the database. 
+            //4. you shoul dhave 2 arrays at this point. one with the first query and one with the second query, 
+            //5. Combine these in some way, such as with a json
+            //6. return the combined results from the json file. 
 
         }
-        
+
 
 
 
