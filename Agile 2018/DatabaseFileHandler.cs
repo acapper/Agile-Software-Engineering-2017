@@ -11,8 +11,16 @@ namespace Agile_2018
 {
     public class DatabaseFileHandler
     {
+        /// <summary>
+        /// Uploads the file at the path location to the database. 
+        /// </summary>
+        /// <param name="id">Project ID that the file belongs to</param>
+        /// <param name="path">Path to the file that you are uploading</param>
+        /// <param name="fileName">File name to display to the user</param>
+        /// <returns>Number of rows effected</returns>
         public int UploadFile(int id, string path, string fileName)
         {
+            //Convert file to bytes
             byte[] file;
             using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
@@ -22,6 +30,7 @@ namespace Agile_2018
                 }
             }
 
+            //Insert bytes into the storedfiles table
             ConnectionClass.OpenConnection();
             MySqlCommand comm = ConnectionClass.con.CreateCommand();
             comm.CommandText = "INSERT INTO storedfiles(ProjectID, FileName, FileData) VALUES(@id, @fileName, @fileData)";
@@ -34,8 +43,14 @@ namespace Agile_2018
             return i;
         }
 
+        /// <summary>
+        /// Takes a file primary key (fileID) and deletes all rows from storedfiles with that key.
+        /// </summary>
+        /// <param name="fileID">Database primary key that you want to delete</param>
+        /// <returns>Number of rows effected</returns>
         public int DeleteFile(int fileID)
         {
+            //Deletes all rows with primary key = fileID
             ConnectionClass.OpenConnection();
             MySqlCommand comm = ConnectionClass.con.CreateCommand();
             comm.CommandText = "DELETE FROM storedfiles WHERE FileID = @id";
@@ -64,6 +79,7 @@ namespace Agile_2018
                         fs.Write(blob, 0, blob.Length);
                 }
             ConnectionClass.CloseConnection();
+            
             return blob;
         }
 
