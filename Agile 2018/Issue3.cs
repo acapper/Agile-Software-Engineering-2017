@@ -12,39 +12,33 @@ namespace Agile_2018
         //make a connection string
         
         
-        public bool SubmitDB(string title,int researcherSign, int status)
+        public bool SubmitDB(string title)
         {
            
             MySqlCommand cmd;
             ConnectionClass.OpenConnection();
+            cmd = ConnectionClass.con.CreateCommand(); //New Connection object
+
             try
             {
-                cmd = ConnectionClass.con.CreateCommand();
-                cmd.CommandText = "INSERT INTO projects(Title, ResearcherSigned)VALUES(@title,@researcherSign)"; 
+                //SQL Query
+                cmd.CommandText = "INSERT INTO projects(Title)VALUES(@title)";
+
+                // Populate SQl query values
                 cmd.Parameters.AddWithValue("@title", title);
-                cmd.Parameters.AddWithValue("@researcherSign", researcherSign);
-                Debug.WriteLine("Entered1");
-               // cmd.Parameters.AddWithValue("@status", status); //Fails test, possible issue: foreign key constraints.
+
+                // Execute Query
                 cmd.ExecuteNonQuery();
-                Debug.WriteLine("Entered");
+
+                // Close Connection
                 ConnectionClass.CloseConnection();
                 return true;
             }
             catch(Exception)
             {
-                Debug.WriteLine("Exception");
                 ConnectionClass.CloseConnection();
                 return false;
                 throw;
-            }
-            finally
-            {
-               /* if(connection.State == System.Data.ConnectionState.Open)
-                {
-
-                    ConnectionClass.closeConnection();
-                    
-                }*/
             }
         }
     }
