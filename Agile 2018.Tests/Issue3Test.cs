@@ -10,12 +10,12 @@ namespace Agile_2018.Tests
         [TestMethod]
         public void Test()
         {
-            Issue3 Issue3 = new Issue3();
+            Project newProject = new Project();
 
-            //
-            string teststring = "ISSUE3TESTRECORD";//test name
+            //Name of new project to be added
+            string teststring = "ISSUE3TESTRECORD";
 
-            Assert.IsTrue(Issue3.SubmitDB(teststring));
+            Assert.IsTrue(newProject.CreateProject(teststring));
         }
     }
 }

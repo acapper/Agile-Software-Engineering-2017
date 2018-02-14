@@ -22,15 +22,15 @@ namespace Agile_2018
             if (result.Rows[0][0].ToString() == "1")        //when login matches
             {
                 //...........
+                ConnectionClass.CloseConnection();
                 return true;
             }
             else
             {
                 Console.Write("Invalid username or password");
+                ConnectionClass.CloseConnection();
                 return false;
             }
-            ConnectionClass.CloseConnection();
-            
         }
     }
 }
