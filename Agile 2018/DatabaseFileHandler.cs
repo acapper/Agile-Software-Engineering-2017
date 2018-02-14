@@ -34,6 +34,42 @@ namespace Agile_2018
             return i;
         }
 
+        public byte[] DownloadFile(int id, string path)
+        {
+            /*using (var varConnection = Locale.sqlConnectOneTime(Locale.sqlDataConnectionDetails))
+            using (var sqlQuery = new SqlCommand(@"SELECT [RaportPlik] FROM [dbo].[Raporty] WHERE [RaportID] = @varID", varConnection))
+            {
+                sqlQuery.Parameters.AddWithValue("@varID", varID);
+                using (var sqlQueryResult = sqlQuery.ExecuteReader())
+                    if (sqlQueryResult != null)
+                    {
+                        sqlQueryResult.Read();
+                        var blob = new Byte[(sqlQueryResult.GetBytes(0, 0, null, 0, int.MaxValue))];
+                        sqlQueryResult.GetBytes(0, 0, blob, 0, blob.Length);
+                        using (var fs = new FileStream(varPathToNewLocation, FileMode.Create, FileAccess.Write))
+                            fs.Write(blob, 0, blob.Length);
+                    }
+            }*/
+
+            byte[] blob = null;
+
+            ConnectionClass.OpenConnection();
+            MySqlCommand comm = ConnectionClass.con.CreateCommand();
+            comm.CommandText = "SELECT FileData FROM storedfiles sf WHERE sf.ProjectID = @id";
+            comm.Parameters.AddWithValue("@id", id);
+            using (MySqlDataReader sqlQueryResult = comm.ExecuteReader())
+                if (sqlQueryResult != null)
+                {
+                    sqlQueryResult.Read();
+                    blob = new Byte[(sqlQueryResult.GetBytes(0, 0, null, 0, int.MaxValue))];
+                    sqlQueryResult.GetBytes(0, 0, blob, 0, blob.Length);
+                    using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write))
+                        fs.Write(blob, 0, blob.Length);
+                }
+            ConnectionClass.CloseConnection();
+            return blob;
+        }
+
         /*Stream myStream = null;
         DatabaseFileHandler dfh = new DatabaseFileHandler();
 
