@@ -10,7 +10,7 @@ namespace Agile_2018
 {
     public class LoginClass
     {
-        public void MyMethod(string StaffID, string Password)
+        public Boolean MyMethod(string StaffID, string Password)
         {
            
             //open connection
@@ -22,10 +22,12 @@ namespace Agile_2018
             if (result.Rows[0][0].ToString() == "1")        //when login matches
             {
                 //...........
+                return true;
             }
             else
             {
                 Console.Write("Invalid username or password");
+                return false;
             }
             ConnectionClass.CloseConnection();
             
