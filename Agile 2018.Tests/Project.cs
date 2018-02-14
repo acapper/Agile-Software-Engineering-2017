@@ -21,9 +21,9 @@ namespace Agile_2018.Tests
             int idToView = 1;
             //SQL statement which queries the database for this project based on this input
             MySqlCommand viewProjectSQL = new MySqlCommand("Select ProjectID from projects where ProjectID = '" + idToView + "'", ConnectionClass.con);
-
+            
             //The one that this statement has returned must have a specific title (title = "Dylan").
-
+            
             int UserExist = 0;
             UserExist = (int)viewProjectSQL.ExecuteScalar();
             Console.WriteLine(UserExist);
