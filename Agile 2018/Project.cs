@@ -8,6 +8,10 @@ using MySql.Data.MySqlClient;
 
 namespace Agile_2018
 {
+    /*
+     * Method which takes in the project ID the user wants to search for from 
+     * the user and returns it from the database. 
+     */
     public class Project
     {
 
