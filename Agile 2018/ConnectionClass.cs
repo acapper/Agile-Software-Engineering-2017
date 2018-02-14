@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using MySql.Data;
 using System.Linq;
 using System.Web;
 
@@ -14,12 +14,12 @@ namespace Agile_2018
         //variable holds database information
         static string ConnectionString = "Server=silva.computing.dundee.ac.uk;Database=17agileteam5db;Uid=17agileteam5;Pwd=7485.at5.5847;";
         //variable holds the SQL connection
-        static public SqlConnection con;
+        static public mySqlConnection con;
 
         //function that connects to the database
         public static void OpenConnection()
         {
-            con = new SqlConnection(ConnectionString);
+            con = new mySqlConnection(ConnectionString);
             con.Open();
         }
 
