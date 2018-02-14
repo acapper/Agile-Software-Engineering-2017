@@ -14,15 +14,58 @@ namespace Agile_2018
      */
     public class ProjectManager
     {
+        //object [] returnedRow = new object[9];
+        public DataRow returnedRow;
+        public DataTable dt = new DataTable();
+        public int ProjectID;
 
-        int idToView = 0;
+        public String searchProject(int input)
+        {
+            String Title;
+            ConnectionClass.OpenConnection();
+            int userInput = input;
+            MySqlCommand cmd = ConnectionClass.con.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM projects WHERE ProjectID = '" + userInput + "'";
+            cmd.ExecuteNonQuery();
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+            da.Fill(dt);
+            ProjectID = Convert.ToInt32(dt.Rows[0]["ProjectID"]);
+            Title = Convert.ToString(dt.Rows[0]["Title"]);
+            return Title;
+            //returnedRow = dt.Select("ProjectID = '" + userInput + "'");
+        }
 
-        
-
-        public int viewProject(int input)
+            public void viewProject(int input)
         {
             ConnectionClass.OpenConnection();
-            idToView = input;
+            int userInput = input;
+            MySqlCommand cmd = ConnectionClass.con.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "SELECT * FROM projects WHERE ProjectID = '" + userInput + "'";
+            cmd.ExecuteNonQuery();
+            DataTable dt = new DataTable();
+            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+            da.Fill(dt);
+
+            /*
+            MySqlCommand cmd = new MySqlCommand();
+            MySqlDataReader dr;
+
+           // DataTable dt;
+           // DataRow dr;
+
+            int idToView = input;
+
+            //adp.SelectCommand = new MySqlCommand("Select * from project where ProjectID = '" + idToView + "'", ConnectionClass.con);
+
+            //adp.Fill(ds, "result");
+            //dt = ds.Tables["result"];
+           // dr = dt.Rows[0];
+
+            //dg.DataSource = ds.Tables["results"];
+
+
             string[] results = new string[8];
 
             MySqlCommand viewProjectSQL = new MySqlCommand("Select ProjectID from projects where ProjectID = '" + idToView + "'", ConnectionClass.con);
@@ -63,7 +106,7 @@ namespace Agile_2018
             //4. you should have 2 arrays at this point. one with the first query and one with the second query, 
             //5. Combine these in some way, such as with a json
             //6. return the combined results from the json file. 
-
+            */
         }
 
 
