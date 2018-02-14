@@ -10,9 +10,7 @@ namespace Agile_2018.Tests
         [TestMethod]
         public void Login()
         {
-            //open connection            
-
-            Assert.IsTrue(true); //use login function to return true
+            
         }
     }
 }

@@ -11,9 +11,17 @@ namespace Agile_2018.Tests
         [TestMethod]
         public void DatabaseConnectionTest()
         {
-            //open connection
+            //open connection            
+            ConnectionClass.OpenConnection();
 
-            Assert.IsTrue(true);    //insert sql command to select some data
-                }
+            //check connection bhas opened
+            Assert.IsTrue(ConnectionClass.con.State == System.Data.ConnectionState.Open);
+
+            //close connection
+            ConnectionClass.CloseConnection();
+
+            //check connection is closed
+            Assert.IsTrue(ConnectionClass.con.State == System.Data.ConnectionState.Closed);
+        }
     }
 }
