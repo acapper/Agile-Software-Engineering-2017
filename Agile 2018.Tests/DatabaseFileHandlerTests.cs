@@ -14,9 +14,18 @@ namespace Agile_2018.Tests
             DatabaseFileHandler dfh = new DatabaseFileHandler();
 
             String path = "C:\\windows-version.txt";
-            dfh.UploadFile(path);
+            String fileName = "windows-version.txt";
+            int id = 50;
 
-            Assert.IsTrue(false, path);
+            int i = dfh.UploadFile(id, path, fileName);
+
+            Assert.AreEqual(1, i);
+        }
+
+        [TestMethod]
+        public void DownloadFile()
+        {
+
         }
     }
 }
