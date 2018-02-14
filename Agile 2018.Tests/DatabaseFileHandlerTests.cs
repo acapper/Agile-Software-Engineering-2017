@@ -3,6 +3,8 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Windows.Forms;
 using System.IO;
 using MySql.Data.MySqlClient;
+using System.Collections.Generic;
+using System.Threading;
 
 namespace Agile_2018.Tests
 {
@@ -14,13 +16,27 @@ namespace Agile_2018.Tests
         {
             DatabaseFileHandler dfh = new DatabaseFileHandler();
 
-            String path = "C:\\windows-version.txt";
-            String fileName = "windows-version.txt";
+            String fileName = "test.txt";
+            String path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            String fullPath = System.IO.Path.Combine(path, fileName);
+            if (!File.Exists(fullPath))
+            {
+                using (StreamWriter sw = File.CreateText(fullPath))
+                {
+                    sw.WriteLine("TEST FILE :)");
+                    sw.WriteLine("Maybe it needs lots of text????");
+                }
+                while (!File.Exists(fullPath))
+                {
+                    Thread.Sleep(1000);
+                }
+            }
             int id = 50;
 
-            int i = dfh.UploadFile(id, path, fileName);
+            int i = dfh.UploadFile(id, fullPath, fileName);
 
             Assert.AreEqual(1, i);
+            File.Delete(fullPath);
         }
 
         [TestMethod]
@@ -28,11 +44,19 @@ namespace Agile_2018.Tests
         {
             DatabaseFileHandler dfh = new DatabaseFileHandler();
 
-            String path = "U:\\Desktop\\windows-version-copy.txt";
+            String path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             int id = 50;
 
-            byte[] b = dfh.DownloadFile(id, path);
-            Assert.IsNotNull(b);
+            List<String> fileList = dfh.DownloadFile(id, path);
+
+            foreach (String f in fileList)
+            {
+                if (File.Exists(f))
+                {
+                    Assert.IsTrue(true);
+                    File.Delete(f);
+                }
+            }
         }
 
         [TestMethod]
@@ -40,11 +64,17 @@ namespace Agile_2018.Tests
         {
             DatabaseFileHandler dfh = new DatabaseFileHandler();
 
-            String path = "C:\\windows-version.txt";
-            String fileName = "windows-version.txt";
+            String fileName = "test.txt";
+            String path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            String fullPath = System.IO.Path.Combine(path, fileName);
+            if (!File.Exists(fullPath))
+            {
+                FileStream f = File.Create(fullPath);
+                f.Close();
+            }
             int id = 50;
 
-            dfh.UploadFile(id, path, fileName);
+            dfh.UploadFile(id, fullPath, fileName);
 
             int fileID = 0;
 

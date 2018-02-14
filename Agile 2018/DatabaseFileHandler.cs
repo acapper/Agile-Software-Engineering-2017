@@ -29,6 +29,7 @@ namespace Agile_2018
                     file = reader.ReadBytes((int)stream.Length);
                 }
             }
+            //Check for empty file
 
             //Insert bytes into the storedfiles table
             ConnectionClass.OpenConnection();
@@ -61,58 +62,84 @@ namespace Agile_2018
             return i;
         }
 
-        public byte[] DownloadFile(int id, string path)
+        /// <summary>
+        /// Downloads all files with the passed project ID into the path location passed to it
+        /// </summary>
+        /// <param name="id">Project ID to fetch files from</param>
+        /// <param name="path">Path to download folder</param>
+        /// <returns>List of paths to the files downloaded</returns>
+        public List<String> DownloadFile(int id, string path)
         {
-            byte[] blob = null;
-
+            List<String> fileList = new List<string>();
             ConnectionClass.OpenConnection();
             MySqlCommand comm = ConnectionClass.con.CreateCommand();
-            comm.CommandText = "SELECT FileData FROM storedfiles sf WHERE sf.ProjectID = @id";
+            comm.CommandText = "SELECT FileData, FileName FROM storedfiles WHERE ProjectID = @id";
             comm.Parameters.AddWithValue("@id", id);
             using (MySqlDataReader sqlQueryResult = comm.ExecuteReader())
-                if (sqlQueryResult != null)
-                {
-                    sqlQueryResult.Read();
-                    blob = new Byte[(sqlQueryResult.GetBytes(0, 0, null, 0, int.MaxValue))];
-                    sqlQueryResult.GetBytes(0, 0, blob, 0, blob.Length);
-                    using (FileStream fs = new FileStream(path, FileMode.Create, FileAccess.Write))
-                        fs.Write(blob, 0, blob.Length);
-                }
-            ConnectionClass.CloseConnection();
-            
-            return blob;
-        }
-
-        /*Stream myStream = null;
-        DatabaseFileHandler dfh = new DatabaseFileHandler();
-
-        OpenFileDialog openFileDialog1 = new OpenFileDialog();
-
-        openFileDialog1.InitialDirectory = "C:";
-        openFileDialog1.Filter = "txt files (*.txt)|*.txt|All files (*.*)|*.*";
-        openFileDialog1.FilterIndex = 2;
-        openFileDialog1.RestoreDirectory = true;
-
-        String path = "";
-
-        if (openFileDialog1.ShowDialog() == DialogResult.OK)
-        {
-            try
             {
-                if ((myStream = openFileDialog1.OpenFile()) != null)
+                if (sqlQueryResult.HasRows)
                 {
-                    using (myStream)
+                    //Loop for all files
+                    while (sqlQueryResult != null && sqlQueryResult.Read())
                     {
-                        path = openFileDialog1.FileName;
-                        Console.WriteLine(path);
-                        //dfh.UploadFile(path);
+                        byte[] blob = new Byte[(sqlQueryResult.GetBytes(sqlQueryResult.GetOrdinal("FileData"), 0, null, 0, int.MaxValue))];
+                        sqlQueryResult.GetBytes(sqlQueryResult.GetOrdinal("FileData"), 0, blob, 0, blob.Length);
+                        
+                        //Manage file name duplication filename(count).filetype
+                        String fileName = sqlQueryResult["FileName"].ToString();
+                        String fullPath = System.IO.Path.Combine(path, fileName);
+                        int count = 1;
+                        while (File.Exists(fullPath))
+                        {
+                            string[] split = fileName.Split('.');
+                            fullPath = System.IO.Path.Combine(path, split[0] + "(" + count + ")." + split[1]);
+                            count++;
+                        }
+
+                        using (FileStream fs = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
+                        {
+                            fs.Write(blob, 0, blob.Length);
+                            fileList.Add(fullPath);
+                        }
                     }
                 }
             }
-            catch (Exception ex)
+            ConnectionClass.CloseConnection();
+            return fileList;
+        }
+
+        public String SelectFile()
+        {
+            String path = "";
+            Stream myStream = null;
+            DatabaseFileHandler dfh = new DatabaseFileHandler();
+
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+
+            openFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+            openFileDialog1.Filter = "All files (*.*)|*.*";
+            openFileDialog1.FilterIndex = 1;
+            openFileDialog1.RestoreDirectory = true;
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+                try
+                {
+                    if ((myStream = openFileDialog1.OpenFile()) != null)
+                    {
+                        using (myStream)
+                        {
+                            path = openFileDialog1.FileName;
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    //MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+                    MessageBox.Show("Could not read file from disk", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-        }*/
+            return path;
+        }
     }
 }
