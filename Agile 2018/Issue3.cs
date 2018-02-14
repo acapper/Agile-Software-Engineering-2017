@@ -12,31 +12,39 @@ namespace Agile_2018
         //make a connection string
         
         
-        public string SubmitDB(string name)
+        public bool SubmitDB(string title,int researcherSign, int status)
         {
-            string ConnectString = "Server = silva.computing.dundee.ac.uk;Database=17agileteam5db;Uid=17agileteam5;Pwd=7485.at5.5847";
-            Debug.WriteLine("Here");
-            MySqlConnection connection = new MySqlConnection(ConnectString);
+           
             MySqlCommand cmd;
-            connection.Open();
+            ConnectionClass.OpenConnection();
             try
             {
-                cmd = connection.CreateCommand();
-                cmd.CommandText = "INSERT INTO projects(Title)VALUES('"+name+"')";
+                cmd = ConnectionClass.con.CreateCommand();
+                cmd.CommandText = "INSERT INTO projects(Title, ResearcherSigned)VALUES(@title,@researcherSign)"; 
+                cmd.Parameters.AddWithValue("@title", title);
+                cmd.Parameters.AddWithValue("@researcherSign", researcherSign);
+                Debug.WriteLine("Entered1");
+               // cmd.Parameters.AddWithValue("@status", status); //Fails test, possible issue: foreign key constraints.
+                cmd.ExecuteNonQuery();
                 Debug.WriteLine("Entered");
-                return name;
+                ConnectionClass.CloseConnection();
+                return true;
             }
             catch(Exception)
             {
                 Debug.WriteLine("Exception");
+                ConnectionClass.CloseConnection();
+                return false;
                 throw;
             }
             finally
             {
-                if(connection.State == System.Data.ConnectionState.Open)
+               /* if(connection.State == System.Data.ConnectionState.Open)
                 {
-                    connection.Close();
-                }
+
+                    ConnectionClass.closeConnection();
+                    
+                }*/
             }
         }
     }
