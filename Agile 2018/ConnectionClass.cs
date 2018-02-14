@@ -12,19 +12,19 @@ namespace Agile_2018
     public static class DBConnection
     {
         //variable holds database information
-        string ConnectionString = "Server=silva.computing.dundee.ac.uk;Database=17agileteam5db;uid=17agileteam5;password=7485.at5.5847";
+        static string ConnectionString = "Server=silva.computing.dundee.ac.uk;Database=17agileteam5db;uid=17agileteam5;password=7485.at5.5847";
         //variable holds the SQL connection
-        SqlConnection con;
+        static SqlConnection con;
 
         //function that connects to the database
-        public void OpenConnection()
+        public static void OpenConnection()
         {
             con = new SqlConnection(ConnectionString);
             con.Open();
         }
 
         //function that disconnects to the database
-        public void CloseConnection()
+        public static void CloseConnection()
         {
             con.Close();
         }
