@@ -25,7 +25,7 @@ namespace Agile_2018.Tests
 
             //Runs viewProject method passing in 1 as the ProjectID.
       
-            pm.viewProject(1);
+          
             String whatsExpected = "1 Dylan 0 11 0 0 0";
             DataTable dt = pm.viewProject(1);
             string rowRead = "";

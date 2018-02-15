@@ -29,9 +29,17 @@ namespace Agile_2018
             DataTable dt = new DataTable();
             MySqlDataAdapter da = new MySqlDataAdapter(cmd);
             da.Fill(dt);
-            
+            //if the datatable is empty, ie the project row does not exist in the database, then return null.
+            if (dt == null)
+            {
+                return null;
+            }
+            //else if the project record does exist, return it. 
+            else
+            {
+                return dt;
+            }
             //return filled datatable
-            return dt;
            
 
             //1. take in project id
