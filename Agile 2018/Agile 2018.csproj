@@ -188,6 +188,7 @@
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Researcher.cs" />
     <Compile Include="procedureClass.cs" />
     <Compile Include="LoginClass.cs" />
     <Compile Include="ConnectionClass.cs" />

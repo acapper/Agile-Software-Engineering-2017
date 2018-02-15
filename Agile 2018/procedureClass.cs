@@ -16,7 +16,7 @@ namespace Agile_2018
         public void loginCreate(string staffID, string forename, string surname, string pwd, int position, string email)
         {
             //create reader - reader will be what executes the procedure
-            MySqlDataReader rdr = null;;
+            MySqlDataReader rdr = null;
             //define stored procedure to run
             string storedProc = "loginCreate;";
 
