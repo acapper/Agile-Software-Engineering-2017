@@ -40,5 +40,34 @@ namespace Agile_2018
                 throw;
             }
         }
+
+        public bool UpdateProject(string title)
+        {
+            MySqlCommand cmd;
+            ConnectionClass.OpenConnection();
+            cmd = ConnectionClass.con.CreateCommand(); //New Connection object
+
+            try
+            {
+                //SQL Query
+                cmd.CommandText = "INSERT INTO projects(Title)VALUES(@title)";
+
+                // Populate SQl query values
+                cmd.Parameters.AddWithValue("@title", title);
+
+                // Execute Query
+                cmd.ExecuteNonQuery();
+
+                // Close Connection
+                ConnectionClass.CloseConnection();
+                return true;
+            }
+            catch (Exception)
+            {
+                ConnectionClass.CloseConnection();
+                return false;
+                throw;
+            }
+        }
     }
 }
