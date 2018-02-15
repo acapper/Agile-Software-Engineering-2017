@@ -8,14 +8,15 @@ namespace Agile_2018.Tests
     public class Issue9Test
     {
         [TestMethod]
-        public void UpdateProjectTest(int projectID, int userID, string title)
+        public void UpdateProjectTest()
         {
             Project newProject = new Project();
 
             //Name of new project to be added
-            string teststring = "AnotherTest";
+            string teststring = "ANEWNAMEFORAOLDRECORD";
+            int projID = 80;
 
-            Assert.IsTrue(newProject.CreateProject(teststring));
+            Assert.IsTrue(newProject.UpdateProject(projID, teststring));
         }
     }
 }

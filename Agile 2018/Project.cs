@@ -41,7 +41,7 @@ namespace Agile_2018
             }
         }
 
-        public bool UpdateProject(string title)
+        public bool UpdateProject(int projectID, string title)
         {
             MySqlCommand cmd;
             ConnectionClass.OpenConnection();
@@ -50,10 +50,11 @@ namespace Agile_2018
             try
             {
                 //SQL Query
-                cmd.CommandText = "INSERT INTO projects(Title)VALUES(@title)";
+                cmd.CommandText = "Update projects SET Title = @title WHERE ProjectID = @projectID ";
 
                 // Populate SQl query values
                 cmd.Parameters.AddWithValue("@title", title);
+                cmd.Parameters.AddWithValue("@projectID",projectID);
 
                 // Execute Query
                 cmd.ExecuteNonQuery();
