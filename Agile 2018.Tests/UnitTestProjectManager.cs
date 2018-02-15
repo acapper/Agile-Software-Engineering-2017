@@ -1,10 +1,5 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-//using System.Collections.Generic;
-//using System.Data;
-//using System.Linq;
-//using System.Web;
-//using MySql.Data.MySqlClient;
 using Agile_2018;
 using System.Data;
 
@@ -16,7 +11,7 @@ namespace Agile_2018.Tests
         //Method which tests if the search function works correctly by calling the searchProject() method and comparing
         //its returned results to what the results should be.
         [TestMethod]
-        public void searchProject()
+        public void viewProject()
         {
             
             ConnectionClass.OpenConnection();
@@ -45,8 +40,7 @@ namespace Agile_2018.Tests
             //4. make a fake result which is what we expect the real results to be. 
             //5. eg: Check if this example has the same number of files returned as the fake test. 
 
-
-
+            
         }
     }
 }
