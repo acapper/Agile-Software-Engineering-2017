@@ -41,6 +41,7 @@ namespace Agile_2018
             }
         }
 
+        //method to update project title.
         public bool UpdateProject(int projectID, string title)
         {
             MySqlCommand cmd;
