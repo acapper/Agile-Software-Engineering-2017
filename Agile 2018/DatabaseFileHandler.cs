@@ -12,7 +12,7 @@ namespace Agile_2018
     public class DatabaseFileHandler
     {
         /// <summary>
-        /// Uploads the file at the path location to the database. 
+        /// Deletes any existing files in the project with the same name then uploads the file at the path location to the database. 
         /// </summary>
         /// <param name="id">Project ID that the file belongs to</param>
         /// <param name="path">Path to the file that you are uploading</param>
@@ -29,11 +29,16 @@ namespace Agile_2018
                     file = reader.ReadBytes((int)stream.Length);
                 }
             }
-            //Check for empty file
 
-            //Insert bytes into the storedfiles table
             ConnectionClass.OpenConnection();
             MySqlCommand comm = ConnectionClass.con.CreateCommand();
+            comm.CommandText = "DELETE FROM storedfiles WHERE ProjectID = @id AND FileName = @filename";
+            comm.Parameters.AddWithValue("@id", id);
+            comm.Parameters.AddWithValue("@fileName", fileName);
+            comm.ExecuteNonQuery();
+
+            //Insert bytes into the storedfiles table
+            comm = ConnectionClass.con.CreateCommand();
             comm.CommandText = "INSERT INTO storedfiles(ProjectID, FileName, FileData) VALUES(@id, @fileName, @fileData)";
             comm.Parameters.AddWithValue("@id", id);
             comm.Parameters.AddWithValue("@fileName", fileName);
@@ -68,7 +73,7 @@ namespace Agile_2018
         /// <param name="id">Project ID to fetch files from</param>
         /// <param name="path">Path to download folder</param>
         /// <returns>List of paths to the files downloaded</returns>
-        public List<String> DownloadFile(int id, string path)
+        public List<String> DownloadAllFiles(int id, string path)
         {
             List<String> fileList = new List<string>();
             ConnectionClass.OpenConnection();
@@ -85,6 +90,52 @@ namespace Agile_2018
                         byte[] blob = new Byte[(sqlQueryResult.GetBytes(sqlQueryResult.GetOrdinal("FileData"), 0, null, 0, int.MaxValue))];
                         sqlQueryResult.GetBytes(sqlQueryResult.GetOrdinal("FileData"), 0, blob, 0, blob.Length);
                         
+                        //Manage file name duplication filename(count).filetype
+                        String fileName = sqlQueryResult["FileName"].ToString();
+                        String fullPath = System.IO.Path.Combine(path, fileName);
+                        int count = 1;
+                        while (File.Exists(fullPath))
+                        {
+                            string[] split = fileName.Split('.');
+                            fullPath = System.IO.Path.Combine(path, split[0] + "(" + count + ")." + split[1]);
+                            count++;
+                        }
+
+                        using (FileStream fs = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
+                        {
+                            fs.Write(blob, 0, blob.Length);
+                            fileList.Add(fullPath);
+                        }
+                    }
+                }
+            }
+            ConnectionClass.CloseConnection();
+            return fileList;
+        }
+
+        /// <summary>
+        /// Downloads file with given file ID
+        /// </summary>
+        /// <param name="id">File ID to fetch files from</param>
+        /// <param name="path">Path to download folder</param>
+        /// <returns>List of paths to the file downloaded</returns>
+        public List<String> DownloadFile(int id, string path)
+        {
+            List<String> fileList = new List<string>();
+            ConnectionClass.OpenConnection();
+            MySqlCommand comm = ConnectionClass.con.CreateCommand();
+            comm.CommandText = "SELECT FileData, FileName FROM storedfiles WHERE FileID = @id";
+            comm.Parameters.AddWithValue("@id", id);
+            using (MySqlDataReader sqlQueryResult = comm.ExecuteReader())
+            {
+                if (sqlQueryResult.HasRows)
+                {
+                    //Loop for all files
+                    while (sqlQueryResult != null && sqlQueryResult.Read())
+                    {
+                        byte[] blob = new Byte[(sqlQueryResult.GetBytes(sqlQueryResult.GetOrdinal("FileData"), 0, null, 0, int.MaxValue))];
+                        sqlQueryResult.GetBytes(sqlQueryResult.GetOrdinal("FileData"), 0, blob, 0, blob.Length);
+
                         //Manage file name duplication filename(count).filetype
                         String fileName = sqlQueryResult["FileName"].ToString();
                         String fullPath = System.IO.Path.Combine(path, fileName);
