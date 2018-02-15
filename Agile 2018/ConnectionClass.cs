@@ -13,7 +13,7 @@ namespace Agile_2018
     public static class ConnectionClass
     {
         //variable holds database information
-        static string ConnectionString = "Server=silva.computing.dundee.ac.uk;Uid=17agileteam5;Pwd=7485.at5.5847;Database=17agileteam5db;";
+        static public string ConnectionString = "Server=silva.computing.dundee.ac.uk;Uid=17agileteam5;Pwd=7485.at5.5847;Database=17agileteam5db;";
         //variable holds the SQL connection
         static public MySqlConnection con;
 
