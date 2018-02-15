@@ -36,8 +36,10 @@ namespace Agile_2018
             //returnedRow = dt.Select("ProjectID = '" + userInput + "'");
         }
 
-            public void viewProject(int input)
+            public String viewProject(int input)
         {
+            String rowRead = "";
+
             ConnectionClass.OpenConnection();
             int userInput = input;
             MySqlCommand cmd = ConnectionClass.con.CreateCommand();
@@ -47,6 +49,15 @@ namespace Agile_2018
             DataTable dt = new DataTable();
             MySqlDataAdapter da = new MySqlDataAdapter(cmd);
             da.Fill(dt);
+            //Prints the selected data row to the console as one line
+            foreach (DataRow dr in dt.Rows)
+            {
+                rowRead = dr["ProjectID"].ToString() + " " + dr["Title"].ToString() + " " + dr["AssocDeanSigned"].ToString() + " " + dr["ResearcherSigned"].ToString() + " " + dr["RISSigned"].ToString() + " " + dr["CompletionProgress"].ToString() + " " + dr["StatusCode"].ToString();
+                Console.WriteLine(rowRead);
+            }
+
+            return rowRead;
+            //
 
             /*
             MySqlCommand cmd = new MySqlCommand();

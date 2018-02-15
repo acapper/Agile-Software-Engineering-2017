@@ -54,11 +54,14 @@ namespace Agile_2018.Tests
 
 
 
-            //ProjectManager testProject = new ProjectManager();
+
 
             //Runs viewProject method passing in 1 as the ProjectID.
             //This should return Dylan, 0, 0, 0, 0, 0, null.
-            //testProject.viewProject(1);
+            pm.viewProject(1);
+            String whatsExpected = "1 Dylan 0 0 0 0 "; //last entry (StatusCode is NULL, therefore not in string after last space
+            String whatsReturned = pm.viewProject(1);
+            Assert.AreEqual(whatsExpected, whatsReturned, false, "There was an error with the view for your project.");
 
 
             //The test should do 
