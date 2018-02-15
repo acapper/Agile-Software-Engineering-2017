@@ -31,18 +31,18 @@ namespace Agile_2018
             }
 
             ConnectionClass.OpenConnection();
-            MySqlCommand comm = ConnectionClass.con.CreateCommand();
-            comm.CommandText = "DELETE FROM storedfiles WHERE ProjectID = @id AND FileName = @filename";
-            comm.Parameters.AddWithValue("@id", id);
-            comm.Parameters.AddWithValue("@fileName", fileName);
+            MySqlCommand comm = new MySqlCommand("deleteFileWhereProjectIDAndFileName", ConnectionClass.con);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
+            comm.Parameters.Add(new MySqlParameter("?id", id));
+            comm.Parameters.Add(new MySqlParameter("?fileName", fileName));
             comm.ExecuteNonQuery();
 
             //Insert bytes into the storedfiles table
-            comm = ConnectionClass.con.CreateCommand();
-            comm.CommandText = "INSERT INTO storedfiles(ProjectID, FileName, FileData) VALUES(@id, @fileName, @fileData)";
-            comm.Parameters.AddWithValue("@id", id);
-            comm.Parameters.AddWithValue("@fileName", fileName);
-            comm.Parameters.Add("@fileData", MySqlDbType.LongBlob, file.Length).Value = file;
+            comm = new MySqlCommand("createNewFile", ConnectionClass.con);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
+            comm.Parameters.AddWithValue("?id", id);
+            comm.Parameters.AddWithValue("?fileName", fileName);
+            comm.Parameters.Add("?fileData", MySqlDbType.LongBlob, file.Length).Value = file;
             int i = comm.ExecuteNonQuery();
             ConnectionClass.CloseConnection();
 
