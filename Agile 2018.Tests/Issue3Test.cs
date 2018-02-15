@@ -8,12 +8,12 @@ namespace Agile_2018.Tests
     public class Issue3Test
     {
         [TestMethod]
-        public void Test()
+        public void CreateProjectTest()
         {
             Project newProject = new Project();
 
             //Name of new project to be added
-            string teststring = "ISSUE3TESTRECORD";
+            string teststring = "AnotherTest";
 
             Assert.IsTrue(newProject.CreateProject(teststring));
         }
