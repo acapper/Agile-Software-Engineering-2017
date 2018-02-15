@@ -15,7 +15,7 @@ namespace Agile_2018
         //only for stored procedure example reference, should not be used in system
         public void loginCreate(string staffID, string forename, string surname, string pwd, int position, string email)
         {
-            //create reader
+            //create reader - reader will be what executes the procedure
             MySqlDataReader rdr = null;;
             //define stored procedure to run
             string storedProc = "loginCreate;";
@@ -24,11 +24,13 @@ namespace Agile_2018
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
             connection.Open();
 
-            //create command
+            //create command and assign stored procedure type
             MySqlCommand cmd = new MySqlCommand(storedProc, connection);
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
             //assign parameters
+            //parameters are assigned with ? followed by their name within the stored procedure
+            //i.e a procedure in MySQL with the parameter sID (short for staffID), is denoted as ?sID in C#
             cmd.Parameters.Add(new MySqlParameter("?sID", staffID));
             cmd.Parameters.Add(new MySqlParameter("?fName", forename));
             cmd.Parameters.Add(new MySqlParameter("?sName", surname));
