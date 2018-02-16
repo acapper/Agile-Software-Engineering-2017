@@ -12,7 +12,7 @@ namespace Agile_2018
     public class DatabaseFileHandler
     {
         /// <summary>
-        /// Uploads the file at the path location to the database. 
+        /// Deletes any existing files in the project with the same name then uploads the file at the path location to the database. 
         /// </summary>
         /// <param name="id">Project ID that the file belongs to</param>
         /// <param name="path">Path to the file that you are uploading</param>
@@ -29,15 +29,20 @@ namespace Agile_2018
                     file = reader.ReadBytes((int)stream.Length);
                 }
             }
-            //Check for empty file
+
+            ConnectionClass.OpenConnection();
+            MySqlCommand comm = new MySqlCommand("deleteFileWhereProjectIDAndFileName", ConnectionClass.con);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
+            comm.Parameters.Add(new MySqlParameter("?id", id));
+            comm.Parameters.Add(new MySqlParameter("?fileName", fileName));
+            comm.ExecuteNonQuery();
 
             //Insert bytes into the storedfiles table
-            ConnectionClass.OpenConnection();
-            MySqlCommand comm = ConnectionClass.con.CreateCommand();
-            comm.CommandText = "INSERT INTO storedfiles(ProjectID, FileName, FileData) VALUES(@id, @fileName, @fileData)";
-            comm.Parameters.AddWithValue("@id", id);
-            comm.Parameters.AddWithValue("@fileName", fileName);
-            comm.Parameters.Add("@fileData", MySqlDbType.LongBlob, file.Length).Value = file;
+            comm = new MySqlCommand("createNewFile", ConnectionClass.con);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
+            comm.Parameters.AddWithValue("?id", id);
+            comm.Parameters.AddWithValue("?fileName", fileName);
+            comm.Parameters.Add("?fileData", MySqlDbType.LongBlob, file.Length).Value = file;
             int i = comm.ExecuteNonQuery();
             ConnectionClass.CloseConnection();
 
@@ -53,9 +58,9 @@ namespace Agile_2018
         {
             //Deletes all rows with primary key = fileID
             ConnectionClass.OpenConnection();
-            MySqlCommand comm = ConnectionClass.con.CreateCommand();
-            comm.CommandText = "DELETE FROM storedfiles WHERE FileID = @id";
-            comm.Parameters.AddWithValue("@id", fileID);
+            MySqlCommand comm = new MySqlCommand("deleteFile", ConnectionClass.con);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
+            comm.Parameters.Add(new MySqlParameter("?id", fileID));
             int i = comm.ExecuteNonQuery();
             ConnectionClass.CloseConnection();
 
@@ -68,12 +73,12 @@ namespace Agile_2018
         /// <param name="id">Project ID to fetch files from</param>
         /// <param name="path">Path to download folder</param>
         /// <returns>List of paths to the files downloaded</returns>
-        public List<String> DownloadFile(int id, string path)
+        public List<String> DownloadAllFiles(int id, string path)
         {
             List<String> fileList = new List<string>();
             ConnectionClass.OpenConnection();
-            MySqlCommand comm = ConnectionClass.con.CreateCommand();
-            comm.CommandText = "SELECT FileData, FileName FROM storedfiles WHERE ProjectID = @id";
+            MySqlCommand comm = new MySqlCommand("selectAllFilesWithProjectID", ConnectionClass.con);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
             comm.Parameters.AddWithValue("@id", id);
             using (MySqlDataReader sqlQueryResult = comm.ExecuteReader())
             {
@@ -108,6 +113,56 @@ namespace Agile_2018
             return fileList;
         }
 
+        /// <summary>
+        /// Downloads file with given file ID
+        /// </summary>
+        /// <param name="id">File ID to fetch files from</param>
+        /// <param name="path">Path to download folder</param>
+        /// <returns>List of paths to the file downloaded</returns>
+        public List<String> DownloadFile(int id, string path)
+        {
+            List<String> fileList = new List<string>();
+            ConnectionClass.OpenConnection();
+            MySqlCommand comm = new MySqlCommand("selectFileWithFileID", ConnectionClass.con);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
+            comm.Parameters.AddWithValue("@id", id);
+            using (MySqlDataReader sqlQueryResult = comm.ExecuteReader())
+            {
+                if (sqlQueryResult.HasRows)
+                {
+                    //Loop for all files
+                    while (sqlQueryResult != null && sqlQueryResult.Read())
+                    {
+                        byte[] blob = new Byte[(sqlQueryResult.GetBytes(sqlQueryResult.GetOrdinal("FileData"), 0, null, 0, int.MaxValue))];
+                        sqlQueryResult.GetBytes(sqlQueryResult.GetOrdinal("FileData"), 0, blob, 0, blob.Length);
+
+                        //Manage file name duplication filename(count).filetype
+                        String fileName = sqlQueryResult["FileName"].ToString();
+                        String fullPath = System.IO.Path.Combine(path, fileName);
+                        int count = 1;
+                        while (File.Exists(fullPath))
+                        {
+                            string[] split = fileName.Split('.');
+                            fullPath = System.IO.Path.Combine(path, split[0] + "(" + count + ")." + split[1]);
+                            count++;
+                        }
+
+                        using (FileStream fs = new FileStream(fullPath, FileMode.Create, FileAccess.Write))
+                        {
+                            fs.Write(blob, 0, blob.Length);
+                            fileList.Add(fullPath);
+                        }
+                    }
+                }
+            }
+            ConnectionClass.CloseConnection();
+            return fileList;
+        }
+
+        /// <summary>
+        /// Opens a file dialog allowing the user to select a file.
+        /// </summary>
+        /// <returns>Path to selected file</returns>
         public String SelectFile()
         {
             String path = "";

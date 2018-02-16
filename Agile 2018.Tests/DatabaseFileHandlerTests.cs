@@ -40,12 +40,32 @@ namespace Agile_2018.Tests
         }
 
         [TestMethod]
-        public void DownloadFile()
+        public void DownloadAllFiles()
         {
             DatabaseFileHandler dfh = new DatabaseFileHandler();
 
             String path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             int id = 50;
+
+            List<String> fileList = dfh.DownloadAllFiles(id, path);
+
+            foreach (String f in fileList)
+            {
+                if (File.Exists(f))
+                {
+                    Assert.IsTrue(true);
+                    File.Delete(f);
+                }
+            }
+        }
+
+        [TestMethod]
+        public void DownloadFile()
+        {
+            DatabaseFileHandler dfh = new DatabaseFileHandler();
+
+            String path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            int id = 21;
 
             List<String> fileList = dfh.DownloadFile(id, path);
 
