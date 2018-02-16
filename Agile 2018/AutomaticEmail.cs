@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using MySql.Data.MySqlClient;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
@@ -55,6 +56,32 @@ namespace Agile_2018
             m.Body = body;
 
             return SendConfirmationEmail(m);
+        }
+
+        /// <summary>
+        /// Gets the email of a user with the passed id
+        /// </summary>
+        /// <param name="id">The database user primary key</param>
+        /// <returns>The email that matches with the userID</returns>
+        public String getUserEmail(int id)
+        {
+            String email = "";
+            ConnectionClass.OpenConnection();
+            MySqlCommand comm = new MySqlCommand("getEmailOfUser", ConnectionClass.con);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
+            comm.Parameters.AddWithValue("@id", id);
+            using (MySqlDataReader sqlQueryResult = comm.ExecuteReader())
+            {
+                if (sqlQueryResult.HasRows)
+                {
+                    while (sqlQueryResult != null && sqlQueryResult.Read())
+                    {
+                        email = sqlQueryResult["Email"].ToString();
+                    }
+                }
+            }
+            ConnectionClass.CloseConnection();
+            return email;
         }
     }
 }
