@@ -209,6 +209,7 @@
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="AutomaticEmail.cs" />
     <Compile Include="Researcher.cs" />
     <Compile Include="procedureClass.cs" />
     <Compile Include="LoginClass.cs" />
@@ -262,6 +263,9 @@
   <ItemGroup>
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <EmbeddedResource Include="SECRETS.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
