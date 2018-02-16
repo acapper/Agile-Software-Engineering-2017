@@ -11,8 +11,8 @@ namespace Agile_2018.Tests
         public void SendConfirmationEmail()
         {
             AutomaticEmail ae = new AutomaticEmail();
-            ae.SendConfirmationEmail();
-            Assert.IsTrue(true);
+            bool r = ae.SendConfirmationEmail("acapper56@gmail.com", "Test", "This is an automated test");
+            Assert.IsTrue(r);
         }
     }
 }

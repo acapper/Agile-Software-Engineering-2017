@@ -1,40 +1,60 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Reflection;
 using System.Web;
 
 namespace Agile_2018
 {
     public class AutomaticEmail
     {
-
-        public void SendConfirmationEmail()
+        /// <summary>
+        /// Sends the passed mailmessage using no-reply@acapper.tk email account
+        /// </summary>
+        /// <param name="m">Mailmessage that you wish to send. From gets overwritten with no-reply@acapper.tk</param>
+        /// <returns>True on send success. False on fail.</returns>
+        public bool SendConfirmationEmail(MailMessage m)
         {
-            System.Net.Mail.MailMessage m = new System.Net.Mail.MailMessage();
-            m.To.Add("acapper56@gmail.com");
-            m.Subject = "This is the Subject line";
-            m.From = new MailAddress("no-reply@acapper.tk");
-            m.Body = "This is the message body";
+            JObject secrets = JObject.Parse(File.ReadAllText("SECRETS.json"));
+            m.From = new MailAddress(secrets["email"]["address"].ToString());
 
             SmtpClient sc = new SmtpClient();
-            sc.Host = "mail.acapper.tk ";
+            sc.UseDefaultCredentials = false;
+            sc.Host = "cp3.tserverhq.com";
             sc.Port = 587;
-            sc.Credentials = new NetworkCredential("no-reply@acapper.tk", "v{Cg{sh?FBEJ");
-            sc.EnableSsl = false; // runtime encrypt the SMTP communications using SSL
-            sc.Send(m);
+            sc.Credentials = new NetworkCredential(secrets["email"]["address"].ToString(), secrets["email"]["pass"].ToString());
+            sc.EnableSsl = true; // runtime encrypt the SMTP communications using SSL
+            try
+            {
+                sc.Send(m);
+                return true;
+            }
+            catch (SmtpException)
+            {
+                return false;
+            }
+        }
 
-            /*MailMessage mail = new MailMessage("no-reply@acapper.tk", "acapper56@gmail.com");
-            SmtpClient client = new SmtpClient();
-            client.Port = 465;
-            client.Credentials = new NetworkCredential("no-reply@acapper.tk", "v{Cg{sh?FBEJ");
-            client.DeliveryMethod = SmtpDeliveryMethod.Network;
-            client.UseDefaultCredentials = false;
-            client.Host = "cp3.tserverhq.com";
-            mail.Subject = "this is a test email.";
-            mail.Body = "this is my test email body";
-            client.Send(mail);*/
+        /// <summary>
+        /// Sends the passed body to the passed email with the passed subject as the subject
+        /// </summary>
+        /// <param name="email">The email address of the recipent</param>
+        /// <param name="subject">The email subject</param>
+        /// <param name="body">The email body text</param>
+        /// <returns>True on send success. False on fail.</returns>
+        public bool SendConfirmationEmail(String email, String subject, String body)
+        {
+            MailMessage m = new MailMessage();
+            m.To.Add(email);
+            m.Subject = subject;
+            m.Body = body;
+
+            return SendConfirmationEmail(m);
         }
     }
 }
