@@ -11,7 +11,7 @@ namespace Agile_2018.Tests
         public void TestSign()
         {
             Researcher testResearcher = new Researcher();
-            int i = testResearcher.Sign(1, "11");
+            int i = testResearcher.Sign(50, "11");
             Assert.AreEqual(1, i);
         }
     }
