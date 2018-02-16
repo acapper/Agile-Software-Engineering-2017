@@ -58,9 +58,9 @@ namespace Agile_2018
         {
             //Deletes all rows with primary key = fileID
             ConnectionClass.OpenConnection();
-            MySqlCommand comm = ConnectionClass.con.CreateCommand();
-            comm.CommandText = "DELETE FROM storedfiles WHERE FileID = @id";
-            comm.Parameters.AddWithValue("@id", fileID);
+            MySqlCommand comm = new MySqlCommand("deleteFile", ConnectionClass.con);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
+            comm.Parameters.Add(new MySqlParameter("?id", fileID));
             int i = comm.ExecuteNonQuery();
             ConnectionClass.CloseConnection();
 
@@ -77,8 +77,8 @@ namespace Agile_2018
         {
             List<String> fileList = new List<string>();
             ConnectionClass.OpenConnection();
-            MySqlCommand comm = ConnectionClass.con.CreateCommand();
-            comm.CommandText = "SELECT FileData, FileName FROM storedfiles WHERE ProjectID = @id";
+            MySqlCommand comm = new MySqlCommand("selectAllFilesWithProjectID", ConnectionClass.con);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
             comm.Parameters.AddWithValue("@id", id);
             using (MySqlDataReader sqlQueryResult = comm.ExecuteReader())
             {
@@ -123,8 +123,8 @@ namespace Agile_2018
         {
             List<String> fileList = new List<string>();
             ConnectionClass.OpenConnection();
-            MySqlCommand comm = ConnectionClass.con.CreateCommand();
-            comm.CommandText = "SELECT FileData, FileName FROM storedfiles WHERE FileID = @id";
+            MySqlCommand comm = new MySqlCommand("selectFileWithFileID", ConnectionClass.con);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
             comm.Parameters.AddWithValue("@id", id);
             using (MySqlDataReader sqlQueryResult = comm.ExecuteReader())
             {
@@ -159,6 +159,10 @@ namespace Agile_2018
             return fileList;
         }
 
+        /// <summary>
+        /// Opens a file dialog allowing the user to select a file.
+        /// </summary>
+        /// <returns>Path to selected file</returns>
         public String SelectFile()
         {
             String path = "";
