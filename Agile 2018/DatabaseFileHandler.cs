@@ -188,7 +188,7 @@ namespace Agile_2018
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     //MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
                     MessageBox.Show("Could not read file from disk", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

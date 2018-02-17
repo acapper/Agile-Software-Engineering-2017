@@ -26,7 +26,7 @@ namespace Agile_2018
 
         protected void ViewProject_Click(object sender, EventArgs e)
         {
-            Response.Redirect("Project.aspx/" + ((LinkButton)sender).CommandArgument.ToString());
+            Response.Redirect("Project.aspx?Title=" + ((LinkButton)sender).CommandArgument.ToString());
         }
     }
 }

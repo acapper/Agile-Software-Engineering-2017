@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Agile_2018.WebForm1" %>
+﻿<%@ Page Title="Login" Language="C#" AutoEventWireup="true" CodeBehind="Login.aspx.cs" Inherits="Agile_2018.WebForm1" %>
 
 <!DOCTYPE html>
 
@@ -6,7 +6,7 @@
 <head runat="server">
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> - My ASP.NET Application</title>
+    <title><%: Page.Title %></title>
 
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
@@ -31,15 +31,18 @@
                         </div>
                         <div class="form-group input-group">
                             <span class="input-group-addon text-black"><i class="glyphicon glyphicon-lock"></i></span>
-                            <input runat="server" id="password" class="form-control input-lg" type="password" name='password' placeholder="Password" required/>
+                            <input runat="server" id="password" class="form-control input-lg" name='password' placeholder="Password" required/>
                         </div>
                         <div class="form-group input-group h-center">
                             <div class="checkbox">
                                 <label>
-                                    <input type="checkbox" class="custom-checkbox">
+                                    <input runat="server" type="checkbox" id="checkbox" name="checkbox" class="custom-checkbox">
                                     Remember Me
                                 </label>
                             </div>
+                        </div>
+                        <div class="form-group input-group h-center" style="color:red">
+                            <asp:Label runat="server" ID="errorLabel"></asp:Label>
                         </div>
                         <div class="form-group pt-10 text-align-end">
                             <asp:LinkButton runat="server" OnClick="LoginControl_Authenticate" type="submit" class="btn btn-default">Login</asp:LinkButton>

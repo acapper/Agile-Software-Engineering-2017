@@ -58,9 +58,6 @@ input:required:focus {
     outline: none;
 }
 
-input:focus {
-}
-
 .site-colour {
     background-color: #333333;
     color: white;

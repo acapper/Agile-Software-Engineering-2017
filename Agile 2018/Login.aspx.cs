@@ -13,7 +13,17 @@ namespace Agile_2018
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                if (Request.Cookies["UserName"] != null && Request.Cookies["Password"] != null)
+                {
+                    username.Value = Request.Cookies["UserName"].Value;
+                    password.Value = Request.Cookies["Password"].Value;
+                    checkbox.Checked = true;
+                }
+            }
 
+            password.Attributes["type"] = "password";
         }
 
         protected void LoginControl_Authenticate(object sender, EventArgs e)
@@ -24,10 +34,24 @@ namespace Agile_2018
             {
                 Session["User"] = username;
                 FormsAuthentication.RedirectFromLoginPage(username.Value.ToString(), false);
-                String returnUrl1 = Request.QueryString["ReturnUrl"];
+
+                if (checkbox.Checked)
+                {
+                    Response.Cookies["UserName"].Expires = DateTime.Now.AddDays(30);
+                    Response.Cookies["Password"].Expires = DateTime.Now.AddDays(30);
+                }
+                else
+                {
+                    Response.Cookies["UserName"].Expires = DateTime.Now.AddDays(-1);
+                    Response.Cookies["Password"].Expires = DateTime.Now.AddDays(-1);
+
+                }
+                Response.Cookies["UserName"].Value = username.Value.ToString();
+                Response.Cookies["Password"].Value = password.Value.ToString();
+
                 Response.Redirect("Pages/AllProjects.aspx");
             }
-            Response.Redirect("Login.aspx");
+            errorLabel.Text = "Invalid username or password.";
         }
 
         public bool IsAlphaNumeric(string text)
