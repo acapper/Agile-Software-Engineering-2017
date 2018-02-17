@@ -31,11 +31,9 @@ textarea {
 }
 
 body {
-    background: url('/assets/example/bg_suburb.jpg') no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+    min-height: 400px;
+    margin-bottom: 100px;
+    clear: both;
 }
 
 .Absolute-Center {
@@ -61,4 +59,83 @@ input:required:focus {
 }
 
 input:focus {
+}
+
+.site-colour {
+    background-color: #333333;
+    color: white;
+}
+
+.text-align-center {
+    text-align:center;
+}
+
+.text-align-end {
+    text-align: end;
+}
+
+.p-15{
+    padding:15px;
+}
+
+.text-black {
+    color:black;
+}
+
+.pt-10 {
+    padding-top: 10px;
+}
+
+.h-center {
+    margin: 0 auto;
+}
+
+.bg-nav {
+    background-color: #0d0d0d;
+}
+
+footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 50px;
+    color: white;
+    text-align: center;
+    line-height: 50px;
+    border-top: 1px solid black;
+    margin-top: 20px;
+}
+
+.project {
+    display: block;
+}
+
+.project:hover {
+    background-color: #bfbfbf;
+    border: 1px solid black;
+}
+
+.dropdown-menu {
+    padding: 0;
+}
+
+.dropdown-menu li a {
+    color: #999999;
+}
+
+.dropdown-menu li a:hover {
+    color: white;
+}
+
+.rounded {
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.rounded:last-child {
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
 }

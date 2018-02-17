@@ -11,7 +11,7 @@ namespace Agile_2018
 {
 
 
-    public partial class _Default
+    public partial class Project1
     {
     }
 }

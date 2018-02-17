@@ -16,7 +16,7 @@
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
 </head>
-<body style="background-color: #242424; color: white;">
+<body class="site-colour">
     <form runat="server">
         <asp:ScriptManager runat="server">
             <Scripts>
@@ -42,20 +42,20 @@
     <div class="container v-center">
         <div class="row">
             <div class="Absolute-Center is-Responsive">
-                <div class="col-sm-12 col-md-10 col-md-offset-1" style="padding: 15px;">
-                    <form role="form">
-                        <div class="form-group" style="text-align:center;">
+                <div class="col-sm-12 col-sm-10 text-align-center p-15">
+                    <form role="form" action="AllProjects.aspx">
+                        <div class="form-group text-align-center">
                             <h3>Login</h3>
                         </div>
                         <div class="form-group input-group">
-                            <span class="input-group-addon" style="color: black"><i class="glyphicon glyphicon-user"></i></span>
+                            <span class="input-group-addon text-black"><i class="glyphicon glyphicon-user"></i></span>
                             <input class="form-control input-lg" type="text" name='username' placeholder="Username" required/>
                         </div>
                         <div class="form-group input-group">
-                            <span class="input-group-addon" style="color: black"><i class="glyphicon glyphicon-lock"></i></span>
+                            <span class="input-group-addon text-black"><i class="glyphicon glyphicon-lock"></i></span>
                             <input class="form-control input-lg" type="password" name='password' placeholder="Password" required/>
                         </div>
-                        <div class="form-group input-group" style="margin: 0 auto;">
+                        <div class="form-group input-group h-center">
                             <div class="checkbox">
                                 <label>
                                     <input type="checkbox" class="custom-checkbox">
@@ -63,7 +63,7 @@
                                 </label>
                             </div>
                         </div>
-                        <div class="form-group" style="text-align:end; padding-top: 10px;">
+                        <div class="form-group pt-10 text-align-end">
                             <button type="submit" class="btn btn-default">Login</button>
                         </div>
                     </form>

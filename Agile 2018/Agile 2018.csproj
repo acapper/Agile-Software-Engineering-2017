@@ -143,7 +143,7 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
-    <Content Include="Default.aspx" />
+    <Content Include="AllProjects.aspx" />
     <Content Include="docs\MySqlCommand.xml" />
     <Content Include="docs\MySqlCommandBuilder.xml" />
     <Content Include="docs\MySqlConnection.xml" />
@@ -166,6 +166,7 @@
     </Content>
     <Content Include="Login.aspx" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Project.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -211,6 +212,13 @@
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="AutomaticEmail.cs" />
+    <Compile Include="Project.aspx.cs">
+      <DependentUpon>Project.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Project.aspx.designer.cs">
+      <DependentUpon>Project.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Researcher.cs" />
     <Compile Include="procedureClass.cs" />
     <Compile Include="LoginClass.cs" />
@@ -223,12 +231,12 @@
       <DependentUpon>Contact.aspx</DependentUpon>
     </Compile>
     <Compile Include="DatabaseFileHandler.cs" />
-    <Compile Include="Default.aspx.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
+    <Compile Include="AllProjects.aspx.cs">
+      <DependentUpon>AllProjects.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Default.aspx.designer.cs">
-      <DependentUpon>Default.aspx</DependentUpon>
+    <Compile Include="AllProjects.aspx.designer.cs">
+      <DependentUpon>AllProjects.aspx</DependentUpon>
     </Compile>
     <Compile Include="Project.cs" />
     <Compile Include="Global.asax.cs">
