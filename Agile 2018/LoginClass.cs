@@ -10,9 +10,8 @@ namespace Agile_2018
 {
     public class LoginClass
     {
-        public Boolean MyMethod(string StaffID, string Password)
+        public Boolean ValidUserAndPass(string StaffID, string Password)
         {
-           
             //open connection
             ConnectionClass.OpenConnection();
             MySqlDataAdapter sda = new MySqlDataAdapter("SELECT COUNT(*) FROM logindetails WHERE staffID ='" + StaffID + "' AND password='" + Password + "'", ConnectionClass.con);

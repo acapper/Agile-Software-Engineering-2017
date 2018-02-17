@@ -60,7 +60,7 @@
                             </a>
                             <ul class="dropdown-menu bg-nav">
                                 <li><a href="#">Profile</a></li>
-                                <li><a href="Login.aspx">Logout</a></li>
+                                <li><a><asp:LinkButton runat="server" OnClick="SignOut_Click" Text="Logout"></asp:LinkButton></a></li>
                             </ul>
                         </li>
                     </ul>
