@@ -170,7 +170,7 @@
     <Content Include="Pages\Web.config">
       <SubType>Designer</SubType>
     </Content>
-    <Content Include="Pages\Project.aspx" />
+    <Content Include="Pages\ViewProject.aspx" />
     <Content Include="fonts\roboto\Roboto-Thin.woff2" />
     <Content Include="fonts\roboto\Roboto-Thin.woff" />
     <Content Include="fonts\roboto\Roboto-Thin.ttf" />
@@ -245,12 +245,12 @@
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="AutomaticEmail.cs" />
-    <Compile Include="Pages\Project.aspx.cs">
-      <DependentUpon>Project.aspx</DependentUpon>
+    <Compile Include="Pages\ViewProject.aspx.cs">
+      <DependentUpon>ViewProject.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Pages\Project.aspx.designer.cs">
-      <DependentUpon>Project.aspx</DependentUpon>
+    <Compile Include="Pages\ViewProject.aspx.designer.cs">
+      <DependentUpon>ViewProject.aspx</DependentUpon>
     </Compile>
     <Compile Include="Time.cs" />
     <Compile Include="Researcher.cs" />
