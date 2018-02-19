@@ -16,10 +16,29 @@ namespace Agile_2018
         /// <param name="projectID"></param>
         /// <param name="staffID"></param>
         /// <returns></returns>
-        public int Reject(int projectID)
+        public int DeanReject(int projectID)
         {
             //assign stored procedure
             string storedProc = "`deanRejectProject`;";
+            //open connection
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            connection.Open();
+            //define stored procedure
+            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //assign parameters
+            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+            //execute procedure
+            int i = cmd.ExecuteNonQuery();
+            //close connection and return number of rows affected (should be 1)
+            connection.Close();
+            return i;
+        }
+
+        public int AssocDeanReject(int projectID)
+        {
+            //assign stored procedure
+            string storedProc = "``assocDeanRejectProject``;";
             //open connection
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
             connection.Open();
