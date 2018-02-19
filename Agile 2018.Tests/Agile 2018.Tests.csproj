@@ -60,7 +60,6 @@
     <Compile Include="UnitTestLoginDatabase.cs" />
     <Compile Include="UnitTestDatabase.cs" />
     <Compile Include="Issue3Test.cs" />
-    <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
