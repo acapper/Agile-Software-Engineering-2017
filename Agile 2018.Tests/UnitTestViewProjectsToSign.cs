@@ -8,16 +8,16 @@ using System.Data;
 namespace Agile_2018.Tests
 {
     [TestClass]
-    public class UnitTestViewResearcherProjects
+    public class UnitTestViewProjectsToSign
     {
         [TestMethod]
-        public void TestViewResearcherProjects()
+        public void TestViewProjectsToSign()
         {
             DataTable table = new DataTable();
 
-            //string staffID = "smacgregor";
+            int status = 0;
             ViewProjects testView = new ViewProjects();
-            table = testView.ViewResearcherProjects(38);
+            table = testView.ViewProjectsToSign(status);
             int i = table.Rows.Count;
             MessageBox.Show(i.ToString() + " records returned");
             
