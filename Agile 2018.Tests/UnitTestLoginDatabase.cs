@@ -12,8 +12,8 @@ namespace Agile_2018.Tests
         {
             ConnectionClass.OpenConnection();
             LoginClass test = new LoginClass();
-            //Boolean result = test.MyMethod("11", "11");
-            //Assert.IsTrue(result);
+            Boolean result = test.MyMethod("20", "33");
+            Assert.IsTrue(result);
             ConnectionClass.CloseConnection();
         }
     }
