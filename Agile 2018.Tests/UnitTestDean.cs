@@ -11,7 +11,7 @@ namespace Agile_2018.Tests
         public void TestRejectDean()
         {
             Dean testDean = new Dean();
-            int i = testDean.Reject(50);
+            int i = testDean.DeanReject(50);
             Assert.AreEqual(1, i);
         }
     }
