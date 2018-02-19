@@ -2,7 +2,6 @@
 
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container" style="margin-top: 30px">
-
         <ul class="collection">
             <asp:Repeater ID="Projects" runat="server">
                 <ItemTemplate>
@@ -13,7 +12,7 @@
                             <%# Eval("TimeAgo") %>
                             <br>
                             <div class="right-align">
-                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small blue darken-1 button-icon" OnClick="ViewProject_Click" CommandArgument='<%# Eval("Title") %>'>
+                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small blue darken-1 button-icon" OnClick="ViewProject_Click" CommandArgument='<%# Eval("ProjectID") +" "+ Eval("Title") %>'>
                             <i class="material-icons">visibility</i>
                                     View
                                 </asp:LinkButton>

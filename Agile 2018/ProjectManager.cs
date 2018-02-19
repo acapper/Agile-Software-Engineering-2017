@@ -32,16 +32,13 @@ namespace Agile_2018
             ConnectionClass.OpenConnection();
 
             //Declare new mysql command using connection to return project info relevent to this projectID
-            MySqlCommand cmd = ConnectionClass.con.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT * FROM projects WHERE ProjectID = '" + input + "'";
-            cmd.ExecuteNonQuery();
+            String query = "SELECT * FROM projects WHERE ProjectID = '" + input + "'";
 
             //Create datatable for results to be read into
             DataTable dt = new DataTable();
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+            MySqlDataAdapter sda = new MySqlDataAdapter(query, ConnectionClass.con);
             //Fill the datatable with the results from the MYSQL command using data adapter
-            da.Fill(dt);
+            sda.Fill(dt);
 
             //If the datatable is empty, ie the project row does not exist in the database, then return null.
             if (dt == null)
@@ -64,27 +61,15 @@ namespace Agile_2018
             ConnectionClass.OpenConnection();
 
             //Declare new mysql command using connection to return files from storedfiles table relevent to this projectID
-            MySqlCommand cmd = ConnectionClass.con.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT * FROM storedfiles WHERE ProjectID = '" + input + "'";
-            cmd.ExecuteNonQuery();
+            String query = "SELECT * FROM storedfiles WHERE ProjectID = '" + input + "'";
 
             //Create datatable for results to be read into
             DataTable dt = new DataTable();
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+            MySqlDataAdapter sda = new MySqlDataAdapter(query, ConnectionClass.con);
             //Fill the datatable with the results from the MYSQL command using data adapter
-            da.Fill(dt);
-
-            //If the datatable is empty, ie there are no files for this projectID in the database, then return null.
-            if (dt == null)
-            {
-                return null;
-            }
-            //else if files for this project do exist, return this datatable. 
-            else
-            {
-                return dt;
-            }
+            sda.Fill(dt);
+            ConnectionClass.CloseConnection();
+            return dt;
         }
 
         //Method which returns all project records which have a status code of 0, ie need to be confirmed by a researcher. 

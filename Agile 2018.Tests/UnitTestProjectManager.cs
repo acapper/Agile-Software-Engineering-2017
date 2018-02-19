@@ -37,10 +37,10 @@ namespace Agile_2018.Tests
             {
                 rowRead = dr["ProjectID"].ToString() + " " + dr["Title"].ToString() + " " + dr["AssocDeanSigned"].ToString() + " " + dr["ResearcherSigned"].ToString() + " " + dr["RISSigned"].ToString() + " " + dr["CompletionProgress"].ToString() + " " + dr["StatusCode"].ToString();
                 Console.WriteLine(rowRead);
-            }    
+            }
 
             //Testing if strings are equal
-            Assert.AreEqual(whatsExpected, rowRead, false, "There was an error with the view for your project.");    
+            Assert.AreEqual(whatsExpected, rowRead, false, "There was an error with the view for your project.");
         }
 
         //Method which tests if the correct number of storedfiles results are returned for a specific ProjectID by calling viewProjectInfo() and passing in 51 which 
@@ -48,18 +48,16 @@ namespace Agile_2018.Tests
         [TestMethod]
         public void viewProjectFiles()
         {
-            ConnectionClass.OpenConnection();
             ProjectManager pm = new ProjectManager();
 
             //Expected number of files returned
             int expected = 1;
 
             //Actual number of files returned
-            DataTable dt = pm.viewProjectInfo(51);
+            DataTable dt = pm.viewProjectFiles(1);
             int actual = dt.Rows.Count;
 
-            //Testing if variables are equal
-            Assert.AreEqual(expected, actual);
+            Assert.AreEqual("test.txt", dt.Rows[0]["FileName"]);
         }
 
         //Method wich tests whether the correct number of records are returned which are unconfirmed by a researcher. There should be 31 records with a status code of 0
@@ -122,4 +120,5 @@ namespace Agile_2018.Tests
 
         }
         */
+    }
 }  
