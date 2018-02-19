@@ -13,42 +13,52 @@
     </asp:PlaceHolder>
 
     <webopt:BundleReference runat="server" Path="~/Content/css" />
+    <!--Import Google Icon Font-->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
+    <link rel="stylesheet" runat="server" media="screen" href="~/Content/css/Site.css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
 
+    <!--Import jQuery before materialize.js-->
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/js/materialize.min.js"></script>
+
 </head>
-<body class="site-colour">
-    <div class="container v-center">
-        <div class="row">
-            <div class="Absolute-Center is-Responsive">
-                <div class="col-sm-12 col-sm-10 text-align-center p-15">
-                    <form role="form" runat="server">
-                        <div class="form-group text-align-center">
-                            <h3>Login</h3>
-                        </div>
-                        <div class="form-group input-group">
-                            <span class="input-group-addon text-black"><i class="glyphicon glyphicon-user"></i></span>
-                            <input runat="server" id="username" class="form-control input-lg" type="text" name='username' placeholder="Username" required/>
-                        </div>
-                        <div class="form-group input-group">
-                            <span class="input-group-addon text-black"><i class="glyphicon glyphicon-lock"></i></span>
-                            <input runat="server" id="password" class="form-control input-lg" name='password' placeholder="Password" required/>
-                        </div>
-                        <div class="form-group input-group h-center">
-                            <div class="checkbox">
-                                <label>
-                                    <input runat="server" type="checkbox" id="checkbox" name="checkbox" class="custom-checkbox">
-                                    Remember Me
-                                </label>
+<body class="blue-grey darken-4">
+    <div class="container ilike-blue-container">
+        <div class="valign-wrapper row">
+            <div class="col card s10 pull-s1 m6 pull-m3 l4 pull-l4 login-box">
+                <form role="form" runat="server">
+                    <div class="card-content">
+                        <span class="card-title">Login</span>
+                        <div class="row login-hightlight">
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix green-text">account_circle</i>
+                                <input runat="server" id="username" class="validate" type="text" />
+                                <label for="username">Username</label>
+                            </div>
+                            <div class="input-field col s12">
+                                <i class="material-icons prefix green-text">lock</i>
+                                <input runat="server" id="password" class="validate" type="password" />
+                                <label for="password">Password</label>
                             </div>
                         </div>
-                        <div class="form-group input-group h-center" style="color:red">
-                            <asp:Label runat="server" ID="errorLabel"></asp:Label>
+                        <div class="row center-align">
+                            <div class="input-field col s12" style="color: red">
+                                <asp:Label runat="server" ID="errorLabel"></asp:Label>
+                            </div>
                         </div>
-                        <div class="form-group pt-10 text-align-end">
-                            <asp:LinkButton runat="server" OnClick="LoginControl_Authenticate" type="submit" class="btn btn-default">Login</asp:LinkButton>
+                    </div>
+                    <div class="card-action right-align">
+                        <div class="left">
+                            <input runat="server" id="checkbox" class="filled-in checkbox-green" type="checkbox">
+                            <label for="checkbox">Remember Me</label>
                         </div>
-                    </form>
-                </div>
+                        <asp:LinkButton runat="server" OnClick="LoginControl_Authenticate" type="submit" class="btn green waves-effect waves-light">
+                            Login
+                        </asp:LinkButton>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

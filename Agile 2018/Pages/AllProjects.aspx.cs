@@ -17,10 +17,15 @@ namespace Agile_2018
             String query = "SELECT * FROM 17agileteam5db.projects;";
             ConnectionClass.OpenConnection();
             MySqlDataAdapter sda = new MySqlDataAdapter(query, ConnectionClass.con);
-            DataSet ds = new DataSet();
-            sda.Fill(ds);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
             ConnectionClass.CloseConnection();
-            Projects.DataSource = ds;
+            dt.Columns.Add("TimeAgo", typeof(string));
+            foreach (DataRow dr in dt.Rows)
+            {
+                dr["TimeAgo"] = Agile_2018.Time.TimeAgo(DateTime.Parse(dr["DateCreated"].ToString()));
+            }
+            Projects.DataSource = dt;
             Projects.DataBind();
         }
 
