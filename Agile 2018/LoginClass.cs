@@ -10,35 +10,38 @@ namespace Agile_2018
 {
     public class LoginClass
     {
-        public Boolean MyMethod(string StaffID, string pwd)
+        public string MyMethod(string StaffID, string pwd)
         {
             //assign stored procedure
             string storedProc = "checkLogin;";
+            DataTable dt = new DataTable(); //this is creating a virtual table
+
             //open connection
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
-            connection.Open();
-            //define stored procedure
-            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            MySqlDataAdapter sda = new MySqlDataAdapter(storedProc,connection);
+            //MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+            //cmd.CommandType = System.Data.CommandType.StoredProcedure;
             //assign parameters
-            cmd.Parameters.Add(new MySqlParameter("?pID", StaffID));
-            cmd.Parameters.Add(new MySqlParameter("?sID", pwd));
+            sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+            sda.SelectCommand.Parameters.AddWithValue("?sID", StaffID);
+            sda.SelectCommand.Parameters.AddWithValue("?pwd", pwd);
+            
             // in above line the program is selecting the whole data from table and the matching it with the user name and password provided by user. 
-            DataTable dt = new DataTable(); //this is creating a virtual table  
-            dt.Load(cmd.ExecuteReader());
-                //Fill(result);
-            if (dt.Rows[0][0].ToString() == "1")        //when login matches
+            
+            sda.Fill(dt);
+            if (dt != null)        //when login matches
             {
                 //...........
-                Console.Write("found!");
+                Console.WriteLine("found!");
                 ConnectionClass.CloseConnection();
-                return true;                
+                string uid = dt.Rows[0][0].ToString();
+                return uid;                
             }
             else
             {
-                Console.Write("Invalid username or password");
+                Console.WriteLine("Invalid username or password");
                 ConnectionClass.CloseConnection();
-                return false;
+                return null;
             }
             
             
