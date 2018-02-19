@@ -38,7 +38,7 @@
                     <li class="collection-item avatar">
                         <span class="title truncate"><%# Eval("FileName") %></span>
                         <div class="right-align">
-                            <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small blue darken-1 button-icon" OnClick="Download_Click" CommandArgument='<%# Eval("FileID") + " " + Eval("FileName") %>'>
+                            <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small blue darken-1 button-icon" OnClick="Download_Click" CommandArgument='<%# Eval("FileID") + "|" + Eval("FileName") %>'>
                             <i class="material-icons">file_download</i>
                             </asp:LinkButton>
                             <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small red darken-1 button-icon">

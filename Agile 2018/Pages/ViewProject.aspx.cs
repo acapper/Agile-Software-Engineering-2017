@@ -46,16 +46,22 @@ namespace Agile_2018
         }
         protected void Download_Click(object sender, EventArgs e)
         {
-            string[] args = ((LinkButton)sender).CommandArgument.ToString().Split(null);
+            string[] args = ((LinkButton)sender).CommandArgument.ToString().Split('|');
             DatabaseFileHandler dfh = new DatabaseFileHandler();
             byte[] blob = dfh.GetFile(Int32.Parse(args[0]));
             try
             {
-                Response.ContentType = "application/octet-stream";
-                Response.AddHeader("Content-Disposition", "attachment; filename=" + args[1]);
+                if (args[1].EndsWith(".xlxs") || args[1].EndsWith(".xls"))
+                {
+                    Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                }
+                else
+                {
+                    Response.ContentType = "application/octet-stream";
+                }
+                Response.AddHeader("Content-Disposition", "attachment; filename=\"" + args[1] + "\"");
                 Response.OutputStream.Write(blob, 0, blob.Length);
                 Response.Flush();
-                Response.Redirect(Request.RawUrl);
             }
             catch (Exception){}
         }
