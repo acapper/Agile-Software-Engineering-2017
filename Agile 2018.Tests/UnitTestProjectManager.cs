@@ -75,6 +75,7 @@ namespace Agile_2018.Tests
             //Actual number of rows returned
             DataTable dt = pm.getResearcherUnconfirmedProjects();
             int actual = dt.Rows.Count;
+            Console.WriteLine(actual);
 
             //Testing if variables are equal
             Assert.AreEqual(expected, actual);

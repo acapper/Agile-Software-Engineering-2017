@@ -79,17 +79,20 @@ namespace Agile_2018
             ConnectionClass.OpenConnection();
 
             //Declare new mysql command using connection to returns all projects which need
-            MySqlCommand cmd = ConnectionClass.con.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT * FROM projects WHERE StatusCode = '0'";
-            cmd.ExecuteNonQuery();
+
+            //MySqlCommand cmd = ConnectionClass.con.CreateCommand();
+            //cmd.CommandType = CommandType.Text;
+            //cmd.CommandText = "SELECT * FROM projects WHERE StatusCode = '0'";
+            //cmd.ExecuteNonQuery();
+
+            String query = "SELECT * FROM projects WHERE StatusCode = '0'";
 
             //Create datatable for results to be read into
             DataTable dt = new DataTable();
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+            MySqlDataAdapter da = new MySqlDataAdapter(query, ConnectionClass.con);
             //Fill the datatable with the results from the MYSQL command using data adapter
             da.Fill(dt);
-
+            ConnectionClass.CloseConnection();
             //If the datatable is empty, ie there are no Projects which require a researcher to confirm
             if (dt == null)
             {
@@ -103,17 +106,23 @@ namespace Agile_2018
         }
 
 
-        //Function which takes in a ProjectID for the project to be confirmed, changing its status code to 1 and its Researcher signed value to 1
-        public void researcherConfirmation(int input)
+        //Function which takes in a ProjectID for the project to be confirmed, changing its status code to 1 and its Researcher signed value to the researchers ID
+        public void researcherConfirmation(int Rid, int input)
         {
             //Connects to database
             ConnectionClass.OpenConnection();
 
             //Declare new mysql command using connection which sets user specified project's ResearcherSigned and StatusCode values to 1
-            MySqlCommand cmd = ConnectionClass.con.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "UPDATE projects SET ResearcherSigned = '1', StatusCode = '1' WHERE ProjectID = '" + input + "'";
-            cmd.ExecuteNonQuery();
+
+            //MySqlCommand cmd = ConnectionClass.con.CreateCommand();
+            //cmd.CommandType = CommandType.Text;
+            //cmd.CommandText = "UPDATE projects SET ResearcherSigned = '1', StatusCode = '1' WHERE ProjectID = '" + input + "'";
+            //cmd.ExecuteNonQuery();
+
+            string query = "UPDATE projects SET ResearcherSigned = '" + Rid + "', StatusCode = '1' WHERE ProjectID = '" + input + "'";
+
+            ConnectionClass.CloseConnection();
+
         }
 
 
