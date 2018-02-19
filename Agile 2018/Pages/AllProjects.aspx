@@ -13,14 +13,17 @@
                             <%# Eval("TimeAgo") %>
                             <br>
                             <div class="right-align">
-                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small blue darken-1" OnClick="ViewProject_Click" CommandArgument='<%# Eval("Title") %>'>
+                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small blue darken-1 button-icon" OnClick="ViewProject_Click" CommandArgument='<%# Eval("Title") %>'>
                             <i class="material-icons">visibility</i>
+                                    View
                                 </asp:LinkButton>
-                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small amber darken-1">
+                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small amber darken-1 button-icon">
                             <i class="material-icons">create</i>
+                                    Sign
                                 </asp:LinkButton>
-                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small red darken-1">
+                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small red darken-1 button-icon">
                             <i class="material-icons">delete_forever</i>
+                                    Delete
                                 </asp:LinkButton>
                             </div>
                         </p>

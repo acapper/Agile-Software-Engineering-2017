@@ -25,10 +25,9 @@
 
 </head>
 <body class="blue-grey darken-4">
-    <div class="container ilike-blue-container">
-        <div class="valign-wrapper row">
-            <div class="col card s10 pull-s1 m6 pull-m3 l4 pull-l4 login-box">
-                <form role="form" runat="server">
+        <div class="valign-wrapper row login-box">
+            <div class="col card s10 pull-s1 m10 pull-m1 l10 pull-l1">
+                <form role="form" runat="server" defaultbutton="login">
                     <div class="card-content">
                         <span class="card-title">Login</span>
                         <div class="row login-hightlight">
@@ -54,13 +53,12 @@
                             <input runat="server" id="checkbox" class="filled-in checkbox-green" type="checkbox">
                             <label for="checkbox">Remember Me</label>
                         </div>
-                        <asp:LinkButton runat="server" OnClick="LoginControl_Authenticate" type="submit" class="btn green waves-effect waves-light">
+                        <asp:LinkButton runat="server" id="login" OnClick="LoginControl_Authenticate" type="submit" class="btn green waves-effect waves-light">
                             Login
                         </asp:LinkButton>
                     </div>
                 </form>
             </div>
         </div>
-    </div>
 </body>
 </html>

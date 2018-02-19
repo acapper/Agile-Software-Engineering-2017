@@ -108,6 +108,7 @@ body,
 }
 
 .btn-small {
+    font-size: 0.7rem;
     height: 32px;
     line-height: 32px;
     padding: 0 0.5rem;

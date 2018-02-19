@@ -7,6 +7,7 @@ namespace Agile_2018
 {
     public static class Time
     {
+        //https://dotnetthoughts.net/time-ago-function-for-c/
         public static string TimeAgo(this DateTime dateTime)
         {
             string result = string.Empty;

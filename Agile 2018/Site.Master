@@ -61,9 +61,8 @@
                 <asp:LinkButton runat="server" OnClick="SignOut_Click" Text="Logout"></asp:LinkButton>
             </li>
         </ul>
-
         <div class="navbar-fixed">
-            <nav class="green">
+            <nav class="cyan darken-3">
                 <div class="nav-wrapper nav-margin">
                     <a href="#" class="brand-logo">Research Grants</a>
                     <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -78,7 +77,7 @@
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
         </div>
-        <footer class="page-footer green">
+        <footer class="page-footer cyan darken-3">
             <div class="container">
                 <div class="row">
                     <div class="col l6 s12">
