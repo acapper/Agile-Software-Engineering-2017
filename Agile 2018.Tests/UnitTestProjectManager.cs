@@ -29,7 +29,7 @@ namespace Agile_2018.Tests
             String whatsExpected = "1 Dylan 0 11 0 0 0";
 
             //Actual
-            DataTable dt = pm.viewProjectInfo(1);
+            DataTable dt = pm.viewProjectInfo(114);
 
             //Making actual result comparable by converting into string format
             string rowRead = "";
