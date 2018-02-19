@@ -10,6 +10,9 @@ namespace Agile_2018
 {
     public partial class Project1 : System.Web.UI.Page
     {
+        private int numOfFiles;
+        public int NumOfFiles { get { return numOfFiles; } }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             this.Title = Session["Title"].ToString();
@@ -19,6 +22,8 @@ namespace Agile_2018
 
             Files.DataSource = pf;
             Files.DataBind();
+
+            numOfFiles = pf.Rows.Count;
 
             ProjectName.DataSource = pn;
             ProjectName.DataBind();

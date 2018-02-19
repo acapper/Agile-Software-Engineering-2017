@@ -11,11 +11,11 @@
                         <p class="truncate">
                             <br />
                             <div class="right-align">
-                                 Select File &nbsp;<asp:FileUpload ID="FileUploader" runat="server" class="waves-effect waves-light btn btn-small blue darken-1 button-icon" /><br />
-                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small blue darken-1 button-icon" OnClick="Upload_Click">
-                            <i class="material-icons">add</i>
+                                <input type="file" name="file" id="file" class="fileuploader" />
+                                <label for="file" class=" waves-effect waves-light btn btn-small blue darken-1 button-icon ">
+                                    <i class="material-icons">add</i>
                                     Upload
-                                </asp:LinkButton>
+                                </label>
                                 <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small amber darken-1 button-icon">
                             <i class="material-icons">create</i>
                                     Sign
@@ -35,10 +35,10 @@
                     <li class="collection-item avatar">
                         <span class="title truncate"><%# Eval("FileName") %></span>
                         <div class="right-align">
-                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small red darken-1 button-icon">
+                            <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small red darken-1 button-icon">
                             <i class="material-icons">delete_forever</i>
-                                </asp:LinkButton>
-                            </div>
+                            </asp:LinkButton>
+                        </div>
                     </li>
                 </ItemTemplate>
             </asp:Repeater>
