@@ -20,6 +20,7 @@ namespace Agile_2018.Tests
         public void TestSignDean()
         {
             Dean testDean = new Dean();
+            testDean.ClearValuesForTesting(1);
             int i = testDean.deanSign(1, "11");
             Assert.AreEqual(1, i);
         }
@@ -29,8 +30,11 @@ namespace Agile_2018.Tests
         public void TestAssocSignDean()
         {
             Dean testDean = new Dean();
+            testDean.ClearValuesForTesting(1);
             int i = testDean.assocDeanSign(1, "11");
             Assert.AreEqual(1, i);
         }
+
+        
     }
 }

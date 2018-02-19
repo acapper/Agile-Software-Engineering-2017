@@ -93,5 +93,25 @@ namespace Agile_2018
             connection.Close();
             return i;
         }
+
+        //clears the values of signings for testing purposes
+        public int ClearValuesForTesting (int projectID)
+        {
+            //assign stored procedure
+            string storedProc = "ClearValuesForTesting;";
+            //open connection
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            connection.Open();
+            //define stored procedure
+            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //assign parameters
+            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+            //execute procedure
+            int i = cmd.ExecuteNonQuery();
+            //close connection and return number of rows affected (should be 1)
+            connection.Close();
+            return i;
+        }
     }
 }
