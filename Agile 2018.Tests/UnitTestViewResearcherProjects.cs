@@ -1,6 +1,9 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using MySql.Data.MySqlClient;
+using System.Windows.Forms;
 using Agile_2018;
+using System.Data;
 
 namespace Agile_2018.Tests
 {
@@ -10,10 +13,15 @@ namespace Agile_2018.Tests
         [TestMethod]
         public void TestViewResearcherProjects()
         {
-            string staffID = "sweeb";
+            DataTable table = new DataTable();
+
+            //string staffID = "smacgregor";
             ViewProjects testView = new ViewProjects();
-            int i = testView.ViewResearcherProjects(staffID);
-            Assert.IsNotNull(i);
+            table = testView.ViewResearcherProjects("smacgregor");
+            int i = table.Rows.Count;
+            MessageBox.Show(i.ToString());
+            
+            Assert.AreNotEqual(0,i);
         }
     }
 }
