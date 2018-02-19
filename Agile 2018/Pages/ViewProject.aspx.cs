@@ -40,6 +40,7 @@ namespace Agile_2018
                     String fileName = Path.GetFileName(file.FileName);
                     DatabaseFileHandler dfh = new DatabaseFileHandler();
                     dfh.UploadFile(Int32.Parse(Session["projectID"].ToString()), file.InputStream, fileName);
+                    Response.Redirect(Request.RawUrl);
                 }
             }
         }
@@ -54,6 +55,7 @@ namespace Agile_2018
                 Response.AddHeader("Content-Disposition", "attachment; filename=" + args[1]);
                 Response.OutputStream.Write(blob, 0, blob.Length);
                 Response.Flush();
+                Response.Redirect(Request.RawUrl);
             }
             catch (Exception){}
         }
