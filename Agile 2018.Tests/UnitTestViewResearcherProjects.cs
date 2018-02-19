@@ -17,7 +17,7 @@ namespace Agile_2018.Tests
 
             //string staffID = "smacgregor";
             ViewProjects testView = new ViewProjects();
-            table = testView.ViewResearcherProjects("smacgregor");
+            table = testView.ViewResearcherProjects(38);
             int i = table.Rows.Count;
             MessageBox.Show(i.ToString());
             

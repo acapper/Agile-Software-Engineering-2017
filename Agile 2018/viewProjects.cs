@@ -17,7 +17,7 @@ namespace Agile_2018
         /// </summary>
         /// <param name="staffID"></param>
         /// <returns></returns>
-        public DataTable ViewResearcherProjects(string staffID)
+        public DataTable ViewResearcherProjects(int userID)
         {
             DataTable dataTable = new DataTable();
 
@@ -33,13 +33,13 @@ namespace Agile_2018
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
 
             //assign parameters
-            cmd.Parameters.Add(new MySqlParameter("?sID", staffID));
+            cmd.Parameters.Add(new MySqlParameter("?uID", userID));
 
             //execute procedure
             MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
             adapter.Fill(dataTable);
 
-            //close connection and return number of rows affected (should be 1)
+            //close connection
             connection.Close();
             adapter.Dispose();
 
