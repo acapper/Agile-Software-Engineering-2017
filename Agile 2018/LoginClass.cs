@@ -10,26 +10,37 @@ namespace Agile_2018
 {
     public class LoginClass
     {
-        public Boolean MyMethod(string StaffID, string Password)
+        public Boolean MyMethod(string StaffID, string pwd)
         {
-           
+            //assign stored procedure
+            string storedProc = "checkLogin;";
             //open connection
-            ConnectionClass.OpenConnection();
-            MySqlDataAdapter sda = new MySqlDataAdapter("SELECT COUNT(*) FROM logindetails WHERE staffID ='" + StaffID + "' AND password='" + Password + "'", ConnectionClass.con);
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            connection.Open();
+            //define stored procedure
+            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //assign parameters
+            cmd.Parameters.Add(new MySqlParameter("?pID", StaffID));
+            cmd.Parameters.Add(new MySqlParameter("?sID", pwd));
             // in above line the program is selecting the whole data from table and the matching it with the user name and password provided by user. 
-            DataTable result = new DataTable(); //this is creating a virtual table  
-            sda.Fill(result);
-            if (result.Rows[0][0].ToString() == "1")        //when login matches
+            DataTable dt = new DataTable(); //this is creating a virtual table  
+            dt.Load(cmd.ExecuteReader());
+                //Fill(result);
+            if (dt.Rows[0][0].ToString() == "1")        //when login matches
             {
                 //...........
-                return true;
+                Console.Write("found!");
+                ConnectionClass.CloseConnection();
+                return true;                
             }
             else
             {
                 Console.Write("Invalid username or password");
+                ConnectionClass.CloseConnection();
                 return false;
             }
-            ConnectionClass.CloseConnection();
+            
             
         }
     }
