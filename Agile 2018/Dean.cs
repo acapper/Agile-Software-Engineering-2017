@@ -53,5 +53,45 @@ namespace Agile_2018
             connection.Close();
             return i;
         }
+
+        public int deanSign(int projectID, string staffID)
+        {
+            //assign stored procedure
+            string storedProc = "deanSign;";
+            //open connection
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            connection.Open();
+            //define stored procedure
+            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //assign parameters
+            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+            cmd.Parameters.Add(new MySqlParameter("?sID", staffID));
+            //execute procedure
+            int i = cmd.ExecuteNonQuery();
+            //close connection and return number of rows affected (should be 1)
+            connection.Close();
+            return i;
+        }
+
+        public int assocDeanSign(int projectID, string staffID)
+        {
+            //assign stored procedure
+            string storedProc = "assocDeanSign;";
+            //open connection
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            connection.Open();
+            //define stored procedure
+            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //assign parameters
+            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+            cmd.Parameters.Add(new MySqlParameter("?sID", staffID));
+            //execute procedure
+            int i = cmd.ExecuteNonQuery();
+            //close connection and return number of rows affected (should be 1)
+            connection.Close();
+            return i;
+        }
     }
 }
