@@ -28,7 +28,7 @@ namespace Agile_2018 {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputPassword password;
+        protected global::System.Web.UI.HtmlControls.HtmlInputText password;
         
         /// <summary>
         /// errorLabel control.

@@ -19,6 +19,7 @@ namespace Agile_2018
                 {
                     username.Value = Request.Cookies["UserName"].Value;
                     password.Value = Request.Cookies["Password"].Value;
+                    this.Title = Request.Cookies["Password"].Value;
                     checkbox.Checked = true;
                 }
             }
@@ -28,11 +29,16 @@ namespace Agile_2018
 
         protected void LoginControl_Authenticate(object sender, EventArgs e)
         {
-            bool authenticated = this.ValidateCredentials(username.Value.ToString(), password.Value.ToString());
+            bool authenticated = false;
+            string uID = this.ValidateCredentials(username.Value.ToString(), password.Value.ToString());
+            if (uID != null)
+            {
+                authenticated = true;
+            }
 
             if (authenticated)
             {
-                Session["User"] = username;
+                Session["uID"] = uID;
                 FormsAuthentication.RedirectFromLoginPage(username.Value.ToString(), false);
 
                 if (checkbox.Checked)
@@ -59,16 +65,16 @@ namespace Agile_2018
             return Regex.IsMatch(text, "^[a-zA-Z0-9]+$");
         }
 
-        private bool ValidateCredentials(string userName, string password)
+        private string ValidateCredentials(string userName, string password)
         {
             if (this.IsAlphaNumeric(userName) && userName.Length <= 50 && password.Length <= 50)
             {
                 LoginClass lc = new LoginClass();
-                return lc.ValidUserAndPass(userName, password);
+                return lc.ValidateLoginDetails(userName, password);
             }
             else
             {
-                return false;
+                return null;
             }
         }
     }

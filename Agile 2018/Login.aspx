@@ -38,7 +38,7 @@
                             </div>
                             <div class="input-field col s12">
                                 <i class="material-icons prefix green-text">lock</i>
-                                <input runat="server" id="password" class="validate" type="password" />
+                                <input runat="server" id="password" class="validate" type="text" />
                                 <label for="password">Password</label>
                             </div>
                         </div>

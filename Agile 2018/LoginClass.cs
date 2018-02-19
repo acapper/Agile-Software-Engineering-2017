@@ -10,7 +10,7 @@ namespace Agile_2018
 {
     public class LoginClass
     {
-        public string MyMethod(string StaffID, string pwd)
+        public string ValidateLoginDetails(string StaffID, string pwd)
         {
             //assign stored procedure
             string storedProc = "checkLogin;";
@@ -25,26 +25,20 @@ namespace Agile_2018
             sda.SelectCommand.CommandType = CommandType.StoredProcedure;
             sda.SelectCommand.Parameters.AddWithValue("?sID", StaffID);
             sda.SelectCommand.Parameters.AddWithValue("?pwd", pwd);
-            
+
             // in above line the program is selecting the whole data from table and the matching it with the user name and password provided by user. 
-            
+
             sda.Fill(dt);
-            if (dt != null)        //when login matches
+            try
             {
-                //...........
                 Console.WriteLine("found!");
-                ConnectionClass.CloseConnection();
                 string uid = dt.Rows[0][0].ToString();
-                return uid;                
+                return uid;
             }
-            else
+            catch (Exception)
             {
-                Console.WriteLine("Invalid username or password");
-                ConnectionClass.CloseConnection();
                 return null;
             }
-            
-            
         }
     }
 }

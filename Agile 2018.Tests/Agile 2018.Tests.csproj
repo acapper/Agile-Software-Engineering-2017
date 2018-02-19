@@ -71,7 +71,6 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="UnitTestDean.cs" />
     <Compile Include="UnitTestResearcher.cs" />
     <Compile Include="UnitTestProcedure.cs" />
     <Compile Include="UnitTestLoginDatabase.cs" />

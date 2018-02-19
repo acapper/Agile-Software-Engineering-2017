@@ -14,12 +14,13 @@ namespace Agile_2018
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            String query = "SELECT * FROM 17agileteam5db.projects;";
             ConnectionClass.OpenConnection();
-            MySqlDataAdapter sda = new MySqlDataAdapter(query, ConnectionClass.con);
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            MySqlDataAdapter sda = new MySqlDataAdapter("viewProjects", connection);
+            sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+            sda.SelectCommand.Parameters.AddWithValue("?uID", Session["uID"]);
             DataTable dt = new DataTable();
             sda.Fill(dt);
-            ConnectionClass.CloseConnection();
             dt.Columns.Add("TimeAgo", typeof(string));
             foreach (DataRow dr in dt.Rows)
             {

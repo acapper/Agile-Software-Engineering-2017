@@ -115,12 +115,16 @@ body,
 }
 
 body {
+    margin-bottom: 0;
+}
+
+body > form  {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
 }
 
-main {
+body > form > main {
     flex: 1 0 auto;
 }
 
