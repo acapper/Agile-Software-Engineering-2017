@@ -19,8 +19,6 @@ namespace Agile_2018
             //open connection
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
             MySqlDataAdapter sda = new MySqlDataAdapter(storedProc,connection);
-            //MySqlCommand cmd = new MySqlCommand(storedProc, connection);
-            //cmd.CommandType = System.Data.CommandType.StoredProcedure;
             //assign parameters
             sda.SelectCommand.CommandType = CommandType.StoredProcedure;
             sda.SelectCommand.Parameters.AddWithValue("?sID", StaffID);
@@ -29,15 +27,15 @@ namespace Agile_2018
             // in above line the program is selecting the whole data from table and the matching it with the user name and password provided by user. 
             
             sda.Fill(dt);
-            if (dt != null)        //when login matches
+            if (dt != null)        //when data table has something in it
             {
                 //...........
                 Console.WriteLine("found!");
                 ConnectionClass.CloseConnection();
-                string uid = dt.Rows[0][0].ToString();
-                return uid;                
+                string uid = dt.Rows[0][0].ToString();      //store the user id as a string
+                return uid;                //return string
             }
-            else
+            else                   //when data table is empty
             {
                 Console.WriteLine("Invalid username or password");
                 ConnectionClass.CloseConnection();
