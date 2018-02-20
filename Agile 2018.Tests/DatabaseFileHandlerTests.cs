@@ -130,7 +130,7 @@ namespace Agile_2018.Tests
             }
             int id = 50;
 
-            dfh.UploadFile(id, fullPath, fileName);
+            dfh.UploadFile(id, File.Open(fullPath, FileMode.Open), fileName);
 
             int fileID = 0;
 

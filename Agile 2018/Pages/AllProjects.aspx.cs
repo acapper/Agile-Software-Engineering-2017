@@ -41,7 +41,8 @@ namespace Agile_2018
 
         protected void NewProject_Click(object sender, EventArgs e)
         {
-            if (projectName.Value.ToString() != "" && projectName.Value.ToString() != null && Request.Files.Count > 0) {
+            if (projectName.Value.ToString() != "" && projectName.Value.ToString() != null && Request.Files.Count > 0)
+            {
                 Project p = new Project();
                 String pID = p.CreateProject(projectName.Value.ToString(), Int32.Parse(Session["uID"].ToString()));
                 if (Request.Files.Count > 0)
@@ -58,6 +59,11 @@ namespace Agile_2018
                     }
                 }
             }
+        }
+
+        protected void DeleteProject_Click(object sender, EventArgs e)
+        {
+            Response.Redirect(Request.RawUrl);
         }
     }
 }
