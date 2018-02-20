@@ -57,7 +57,7 @@ namespace Agile_2018.Tests
             DataTable dt = pm.viewProjectFiles(1);
             int actual = dt.Rows.Count;
 
-            Assert.AreEqual("test.txt", dt.Rows[0]["FileName"]);
+            Assert.AreEqual(expected, actual);
         }
 
         //Method wich tests whether the correct number of records are returned which are unconfirmed by a researcher. There should be 31 records with a status code of 0
