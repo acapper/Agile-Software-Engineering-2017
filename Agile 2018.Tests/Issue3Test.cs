@@ -13,9 +13,10 @@ namespace Agile_2018.Tests
             Project newProject = new Project();
 
             //Name of new project to be added
-            string teststring = "AnotherTest";
+            string teststring = "AnotherTest"; //random teststring
+            int userID = 15; //just a random userID
 
-            Assert.IsTrue(newProject.CreateProject(teststring));
+            Assert.IsTrue(newProject.CreateProject(teststring,userID));
         }
     }
 }
