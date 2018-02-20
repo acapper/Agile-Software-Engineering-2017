@@ -26,16 +26,16 @@ namespace Agile_2018.Tests
             ProjectManager pm = new ProjectManager();
 
             //Expected
-            String whatsExpected = "1 Dylan 0 11 0 0 0";
+            String whatsExpected = "3 DontTouch 0 0 11 0 0 5";
 
             //Actual
-            DataTable dt = pm.viewProjectInfo(114);
+            DataTable dt = pm.viewProjectInfo(3);
 
             //Making actual result comparable by converting into string format
             string rowRead = "";
             foreach (DataRow dr in dt.Rows)
             {
-                rowRead = dr["ProjectID"].ToString() + " " + dr["Title"].ToString() + " " + dr["AssocDeanSigned"].ToString() + " " + dr["ResearcherSigned"].ToString() + " " + dr["RISSigned"].ToString() + " " + dr["CompletionProgress"].ToString() + " " + dr["StatusCode"].ToString();
+                rowRead = dr["ProjectID"].ToString() + " " + dr["Title"].ToString() + " " + dr["AssocDeanSigned"].ToString() + " " + dr["AssocDeanSigned"].ToString() + " " + dr["ResearcherSigned"].ToString() + " " + dr["RISSigned"].ToString() + " " + dr["CompletionProgress"].ToString() + " " + dr["StatusCode"].ToString();
                 Console.WriteLine(rowRead);
             }
 
@@ -69,8 +69,8 @@ namespace Agile_2018.Tests
             ConnectionClass.OpenConnection();
             ProjectManager pm = new ProjectManager();
 
-            //Expected number of rows returned
-            int expected = 31;
+            //Expected number of rows returned (THIS IS CONSTANTLY CHANGING SO EXPECT TEST TO FAIL)
+            int expected = 67;
 
             //Actual number of rows returned
             DataTable dt = pm.getResearcherUnconfirmedProjects();
