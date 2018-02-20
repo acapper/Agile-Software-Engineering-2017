@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
@@ -36,6 +37,27 @@ namespace Agile_2018
             Session["ProjectID"] = args[0];
             Session["Title"] = args[1];
             Response.Redirect("ViewProject.aspx");
+        }
+
+        protected void NewProject_Click(object sender, EventArgs e)
+        {
+            if (projectName.Value.ToString() != "" && projectName.Value.ToString() != null && Request.Files.Count > 0) {
+                Project p = new Project();
+                String pID = p.CreateProject(projectName.Value.ToString(), Int32.Parse(Session["uID"].ToString()));
+                if (Request.Files.Count > 0)
+                {
+                    var file = Request.Files[0];
+                    if (file != null && file.ContentLength > 0)
+                    {
+                        String fileName = Path.GetFileName(file.FileName);
+                        DatabaseFileHandler dfh = new DatabaseFileHandler();
+                        int i = dfh.UploadFile(Int32.Parse(pID), file.InputStream, fileName);
+                        ProjectManager pm = new ProjectManager();
+                        pm.researcherConfirmation(Int32.Parse(pID), Session["uID"].ToString());
+                        Response.Redirect(Request.RawUrl);
+                    }
+                }
+            }
         }
     }
 }

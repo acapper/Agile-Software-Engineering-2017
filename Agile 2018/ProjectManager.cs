@@ -32,7 +32,7 @@ namespace Agile_2018
             ConnectionClass.OpenConnection();
 
             //Declare new mysql command using connection to return project info relevent to this projectID
-            String query = "SELECT * FROM projects WHERE ProjectID = '" + input + "'";
+            String query = "SELECT * FROM projects p JOIN statusstore s ON p.StatusCode = s.StatusCode WHERE ProjectID = '" + input + "'";
 
             //Create datatable for results to be read into
             DataTable dt = new DataTable();
@@ -103,16 +103,16 @@ namespace Agile_2018
         }
 
 
-        //Function which takes in a ProjectID for the project to be confirmed, changing its status code to 1 and its Researcher signed value to 1
-        public void researcherConfirmation(int input)
+        //Function which takes in a ProjectID for the project to be confirmed, changing its status code to 1 and its Researcher signed value to userID
+        public void researcherConfirmation(int input, string userID)
         {
             //Connects to database
             ConnectionClass.OpenConnection();
 
-            //Declare new mysql command using connection which sets user specified project's ResearcherSigned and StatusCode values to 1
+            //Declare new mysql command using connection which sets user specified project's ResearcherSigned and StatusCode values to userID
             MySqlCommand cmd = ConnectionClass.con.CreateCommand();
             cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "UPDATE projects SET ResearcherSigned = '1', StatusCode = '1' WHERE ProjectID = '" + input + "'";
+            cmd.CommandText = "UPDATE projects SET ResearcherSigned = '"+ userID + "', StatusCode = '1' WHERE ProjectID = '" + input + "'";
             cmd.ExecuteNonQuery();
         }
 

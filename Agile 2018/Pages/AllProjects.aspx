@@ -3,6 +3,28 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container" style="margin-top: 30px">
         <ul class="collection">
+            <% if (Int32.Parse(Session["pID"].ToString()) == 0) { %>
+            <li class="collection-item avatar">
+                <form enctype="multipart/form-data">
+                    <i class="material-icons circle">folder</i>
+                    <span class="title truncate"><%# Eval("Title") %></span>
+                    <div class="truncate">
+                        <div class="input-field">
+                            <input runat="server" id="projectName" class="validate" type="text" required />
+                            <label for="projectName">Project Name</label>
+                        </div>
+                        <br />
+                        <div class="input-field right-align">
+                            <input runat="server" id="UploadFile" name="myFile" type="file" class="waves-effect waves-light btn btn-small darken-1 button-icon " />
+                            <asp:LinkButton runat="server" ID="submit" type="Submit" OnClick="NewProject_Click" class="waves-effect waves-light btn btn-small blue darken-1 button-icon">
+                            <i class="material-icons">add</i>
+                                    Submit & Sign
+                            </asp:LinkButton>
+                        </div>
+                    </div>
+                </form>
+            </li>
+            <% } %>
             <asp:Repeater ID="Projects" runat="server">
                 <ItemTemplate>
                     <li class="collection-item avatar">
@@ -26,7 +48,7 @@
                                 </asp:LinkButton>
                             </div>
                         </p>
-                        <div class="secondary-content"><span class="new badge" data-badge-caption="Files">4</span></div>
+                        <!--<div class="secondary-content"><span class="new badge" data-badge-caption="Files">4</span></div>-->
                     </li>
                 </ItemTemplate>
             </asp:Repeater>

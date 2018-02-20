@@ -10,6 +10,7 @@
                         <i class="material-icons circle">folder</i>
                         <span class="title truncate"><%# Eval("Title") %></span>
                         <p class="truncate">
+                            <%# Eval("StatusDesc") %>
                             <br />
                             <div class="right-align">
                                 <form enctype="multipart/form-data" id="form1">
@@ -19,7 +20,7 @@
                                     Upload
                                     </asp:LinkButton>
                                 </form>
-                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small amber darken-1 button-icon">
+                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small amber darken-1 button-icon" OnClick="Sign_Click" CommandArgument='<%# Eval("ProjectID") %>'>
                             <i class="material-icons">create</i>
                                     Sign
                                 </asp:LinkButton>

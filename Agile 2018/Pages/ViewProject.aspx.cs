@@ -44,6 +44,7 @@ namespace Agile_2018
                 }
             }
         }
+
         protected void Download_Click(object sender, EventArgs e)
         {
             string[] args = ((LinkButton)sender).CommandArgument.ToString().Split('|');
@@ -64,6 +65,28 @@ namespace Agile_2018
                 Response.Flush();
             }
             catch (Exception){}
+        }
+
+        protected void Sign_Click(object sender, EventArgs e)
+        {
+            ProjectManager pm = new ProjectManager();
+            int id = Int32.Parse(Session["pID"].ToString());
+            int projectID = Int32.Parse(((LinkButton)sender).CommandArgument.ToString());
+            switch (id)
+            {
+                case 0:
+                    pm.researcherConfirmation(projectID, Session["uID"].ToString());
+                    break;
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    break;
+                default:
+                    break;
+            }
+            Response.Redirect(Request.RawUrl);
         }
     }
 }

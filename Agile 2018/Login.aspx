@@ -53,7 +53,7 @@
                         <input runat="server" id="checkbox" class="filled-in checkbox-green" type="checkbox">
                         <label for="checkbox">Remember Me</label>
                     </div>
-                    <asp:LinkButton runat="server" id="login" OnClick="LoginControl_Authenticate" type="submit" class="btn green waves-effect waves-light">
+                    <asp:LinkButton runat="server" ID="login" OnClick="LoginControl_Authenticate" type="submit" class="btn green waves-effect waves-light">
                         Login
                     </asp:LinkButton>
                 </div>

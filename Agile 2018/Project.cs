@@ -13,7 +13,7 @@ namespace Agile_2018
         //make a connection string
 
 
-        public bool CreateProject(string title, int userID)
+        public String CreateProject(string title, int userID)
         {
             MySqlCommand cmd;
             ConnectionClass.OpenConnection();
@@ -23,24 +23,17 @@ namespace Agile_2018
             {
                 //FIRST INSERT THE NEW PROJECT INTO THE PROJECTS TABLE
                 //SQL Query
-                cmd.CommandText = "INSERT INTO projects(Title)VALUES(@title)";
+                cmd.CommandText = "INSERT INTO projects(Title)VALUES(@title);SELECT LAST_INSERT_ID();";
 
                 // Populate SQl query values
                 cmd.Parameters.AddWithValue("@title", title);
 
                 // Execute Query
-                cmd.ExecuteNonQuery();
-
-                //query server to find out what ID that record got
-                cmd.CommandText = "SELECT ProjectID From projects Where Title = @newtitle";
-                cmd.Parameters.AddWithValue("@newtitle", title);
-                //Read the return and grab the HIGHEST project ID. This allows multiple of the same named records
-                string projID = "";
                 MySqlDataReader reader = cmd.ExecuteReader();
+                String pID = "";
                 while (reader.Read())
                 {
-                    projID = reader["ProjectID"].ToString();
-                  
+                    pID = reader.GetString("LAST_INSERT_ID()");
                 }
                 reader.Close();
 
@@ -50,7 +43,7 @@ namespace Agile_2018
 
                 // Populate SQl query values
                 cmd.Parameters.AddWithValue("@userID", userID);
-                cmd.Parameters.AddWithValue("@projID", projID);
+                cmd.Parameters.AddWithValue("@projID", pID);
                
 
                 // Execute Query
@@ -58,12 +51,12 @@ namespace Agile_2018
 
                 // Close Connection
                 ConnectionClass.CloseConnection();
-                return true;
+                return pID;
             }
             catch(Exception)
             {
                 ConnectionClass.CloseConnection();
-                return false;
+                return null;
                 throw;
             }
         }

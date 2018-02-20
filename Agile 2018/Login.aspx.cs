@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -38,7 +39,23 @@ namespace Agile_2018
 
             if (authenticated)
             {
+                MySqlCommand cmd;
+                ConnectionClass.OpenConnection();
+                cmd = ConnectionClass.con.CreateCommand(); //New Connection object
+                cmd.CommandText = "SELECT Position FROM logindetails WHERE UserID = @uID";
+                // Populate SQl query values
+                cmd.Parameters.AddWithValue("@uID", uID);
+                // Execute Query
+                MySqlDataReader reader = cmd.ExecuteReader();
+                String pID = "";
+                while (reader.Read())
+                {
+                    pID = reader.GetString("Position");
+                }
+                reader.Close();
+
                 Session["uID"] = uID;
+                Session["pID"] = pID;
                 FormsAuthentication.RedirectFromLoginPage(username.Value.ToString(), false);
 
                 if (checkbox.Checked)
