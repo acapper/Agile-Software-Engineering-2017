@@ -75,12 +75,10 @@
     <Compile Include="UnitTestViewProjectsToSign.cs" />
     <Compile Include="UnitTestViewResearcherProjects.cs" />
     <Compile Include="UnitTestResearcher.cs" />
-    <Compile Include="UnitTestProcedure.cs" />
     <Compile Include="UnitTestLoginDatabase.cs" />
     <Compile Include="UnitTestDatabase.cs" />
     <Compile Include="Issue3Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitTestProjectManager.cs" />
     <Compile Include="DatabaseFileHandlerTests.cs" />
   </ItemGroup>
   <ItemGroup>
