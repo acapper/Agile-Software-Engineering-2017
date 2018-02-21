@@ -79,17 +79,20 @@ namespace Agile_2018
             ConnectionClass.OpenConnection();
 
             //Declare new mysql command using connection to returns all projects which need
-            MySqlCommand cmd = ConnectionClass.con.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT * FROM projects WHERE StatusCode = '0'";
-            cmd.ExecuteNonQuery();
+
+            //MySqlCommand cmd = ConnectionClass.con.CreateCommand();
+            //cmd.CommandType = CommandType.Text;
+            //cmd.CommandText = "SELECT * FROM projects WHERE StatusCode = '0'";
+            //cmd.ExecuteNonQuery();
+
+            String query = "SELECT * FROM projects WHERE StatusCode = '0'";
 
             //Create datatable for results to be read into
             DataTable dt = new DataTable();
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+            MySqlDataAdapter da = new MySqlDataAdapter(query, ConnectionClass.con);
             //Fill the datatable with the results from the MYSQL command using data adapter
             da.Fill(dt);
-
+            ConnectionClass.CloseConnection();
             //If the datatable is empty, ie there are no Projects which require a researcher to confirm
             if (dt == null)
             {
