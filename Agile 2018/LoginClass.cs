@@ -15,6 +15,7 @@ namespace Agile_2018
             //assign stored procedure
             string storedProc = "checkLogin;";
             DataTable dt = new DataTable(); //this is creating a virtual table
+            ConnectionClass.OpenConnection();
 
             //open connection
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);

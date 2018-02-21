@@ -63,6 +63,9 @@ namespace Agile_2018
 
         protected void DeleteProject_Click(object sender, EventArgs e)
         {
+            int projectID = Int32.Parse(((LinkButton)sender).CommandArgument.ToString());
+            Project p = new Project();
+            p.DeleteProject(projectID);
             Response.Redirect(Request.RawUrl);
         }
 

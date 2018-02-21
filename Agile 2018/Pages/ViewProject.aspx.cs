@@ -16,18 +16,22 @@ namespace Agile_2018
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            this.Title = Session["Title"].ToString();
-            ProjectManager pm = new ProjectManager();
-            DataTable pn = pm.viewProjectInfo(Int32.Parse(Session["projectID"].ToString()));
-            DataTable pf = pm.viewProjectFiles(Int32.Parse(Session["projectID"].ToString()));
+            try
+            {
+                this.Title = Session["Title"].ToString();
+                ProjectManager pm = new ProjectManager();
+                DataTable pn = pm.viewProjectInfo(Int32.Parse(Session["projectID"].ToString()));
+                DataTable pf = pm.viewProjectFiles(Int32.Parse(Session["projectID"].ToString()));
 
-            Files.DataSource = pf;
-            Files.DataBind();
+                Files.DataSource = pf;
+                Files.DataBind();
 
-            numOfFiles = pf.Rows.Count;
+                numOfFiles = pf.Rows.Count;
 
-            ProjectName.DataSource = pn;
-            ProjectName.DataBind();
+                ProjectName.DataSource = pn;
+                ProjectName.DataBind();
+            }
+            catch (Exception) { Response.Redirect("~/Login.aspx"); }
         }
 
         protected void Upload_Click(object sender, EventArgs e)
@@ -70,6 +74,7 @@ namespace Agile_2018
         protected void Sign_Click(object sender, EventArgs e)
         {
             ProjectManager pm = new ProjectManager();
+            Dean d = new Dean();
             int id = Int32.Parse(Session["pID"].ToString());
             int projectID = Int32.Parse(((LinkButton)sender).CommandArgument.ToString());
             switch (id)
@@ -80,12 +85,22 @@ namespace Agile_2018
                 case 1:
                     break;
                 case 2:
+                    d.AssocDeanSign(projectID, Session["uID"].ToString());
                     break;
                 case 3:
+                    d.DeanSign(projectID, Session["uID"].ToString());
                     break;
                 default:
                     break;
             }
+            Response.Redirect(Request.RawUrl);
+        }
+
+        protected void DeleteProject_Click(object sender, EventArgs e)
+        {
+            int projectID = Int32.Parse(((LinkButton)sender).CommandArgument.ToString());
+            Project p = new Project();
+            p.DeleteProject(projectID);
             Response.Redirect(Request.RawUrl);
         }
     }

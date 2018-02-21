@@ -19,7 +19,7 @@ namespace Agile_2018.Tests
             ViewProjects testView = new ViewProjects();
             table = testView.ViewResearcherProjects(38);
             int i = table.Rows.Count;
-            MessageBox.Show(i.ToString() + " records returned");
+            //MessageBox.Show(i.ToString() + " records returned");
             
             Assert.AreNotEqual(0,i);
         }

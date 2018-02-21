@@ -41,7 +41,7 @@ namespace Agile_2018.Tests
             }
             reader.Close();
             ConnectionClass.CloseConnection();
-            System.Windows.Forms.MessageBox.Show("The following number has been added and will be deleted : " +projectID);
+            //System.Windows.Forms.MessageBox.Show("The following number has been added and will be deleted : " +projectID);
 
             //PROJECT ID SHOULD NOW CONTAIN THE RESULT OF THE SELECT. THE SELECT LOOPS TO THE BOTTOM AND MAKES THE VARIABLE THE LOWEST VALUE. THIS ENSURES ONE RETURN, THE LATEST ADDITION OF THAT NAME.
             //now we have the project id

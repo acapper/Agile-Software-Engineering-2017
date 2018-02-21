@@ -26,7 +26,7 @@
                             <i class="material-icons">create</i>
                                     Sign
                                 </asp:LinkButton>
-                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small red darken-1 button-icon">
+                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small red darken-1 button-icon" OnClick="DeleteProject_Click" CommandArgument='<%# Eval("ProjectID") %>'>
                             <i class="material-icons">delete_forever</i>
                                     Delete
                                 </asp:LinkButton>
