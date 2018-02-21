@@ -44,7 +44,7 @@
                             <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small blue darken-1 button-icon" OnClick="Download_Click" CommandArgument='<%# Eval("FileID") + "|" + Eval("FileName") %>'>
                             <i class="material-icons">file_download</i>
                             </asp:LinkButton>
-                            <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small red darken-1 button-icon">
+                            <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small red darken-1 button-icon" OnClick="DeleteFile_Click" CommandArgument='<%# Eval("FileID")%>'>
                             <i class="material-icons">delete_forever</i>
                             </asp:LinkButton>
                         </div>

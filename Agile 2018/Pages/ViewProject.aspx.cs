@@ -73,22 +73,22 @@ namespace Agile_2018
 
         protected void Sign_Click(object sender, EventArgs e)
         {
-            ProjectManager pm = new ProjectManager();
-            Dean d = new Dean();
+            Project p = new Project();
             int id = Int32.Parse(Session["pID"].ToString());
             int projectID = Int32.Parse(((LinkButton)sender).CommandArgument.ToString());
             switch (id)
             {
                 case 0:
-                    pm.researcherConfirmation(projectID, Session["uID"].ToString());
+                    p.ResearcherSign(projectID, Session["uID"].ToString());
                     break;
                 case 1:
+                    p.RISSign(projectID, Session["uID"].ToString());
                     break;
                 case 2:
-                    d.AssocDeanSign(projectID, Session["uID"].ToString());
+                    p.AssocDeanSign(projectID, Session["uID"].ToString());
                     break;
                 case 3:
-                    d.DeanSign(projectID, Session["uID"].ToString());
+                    p.DeanSign(projectID, Session["uID"].ToString());
                     break;
                 default:
                     break;
@@ -101,6 +101,14 @@ namespace Agile_2018
             int projectID = Int32.Parse(((LinkButton)sender).CommandArgument.ToString());
             Project p = new Project();
             p.DeleteProject(projectID);
+            Response.Redirect(Request.RawUrl);
+        }
+
+        protected void DeleteFile_Click(object sender, EventArgs e)
+        {
+            int fileID = Int32.Parse(((LinkButton)sender).CommandArgument.ToString());
+            DatabaseFileHandler dfh = new DatabaseFileHandler();
+            dfh.DeleteFile(fileID);
             Response.Redirect(Request.RawUrl);
         }
     }

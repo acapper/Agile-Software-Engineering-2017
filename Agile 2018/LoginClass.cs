@@ -28,14 +28,14 @@ namespace Agile_2018
             // in above line the program is selecting the whole data from table and the matching it with the user name and password provided by user. 
 
             sda.Fill(dt);
-            if (dt != null)        //when data table has something in it
+            try      //when data table has something in it
             {
                 Console.WriteLine("found!");
                 ConnectionClass.CloseConnection();
                 string uid = dt.Rows[0][0].ToString();      //store the user id as a string
                 return uid;                //return string
             }
-            else                   //when data table is empty
+            catch(Exception)                   //when data table is empty
             {
                 return null;
             }

@@ -16,7 +16,7 @@ namespace Agile_2018
         /// <param name="title"></param>
         /// <param name="userID"></param>
         /// <returns></returns>
-        public bool CreateProject(string title, int userID)
+        public String CreateProject(string title, int userID)
         {
             MySqlCommand cmd;
             ConnectionClass.OpenConnection();
