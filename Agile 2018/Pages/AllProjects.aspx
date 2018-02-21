@@ -3,7 +3,7 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
     <div class="container" style="margin-top: 30px">
         <ul class="collection">
-            <% if (Int32.Parse(Session["pID"].ToString()) == 0) { %>
+            <% if (Session["pID"] != null && Int32.Parse(Session["pID"].ToString()) == 0) { %>
             <li class="collection-item avatar">
                 <form enctype="multipart/form-data">
                     <i class="material-icons circle">folder</i>
@@ -38,7 +38,9 @@
                             <i class="material-icons">visibility</i>
                                     View
                                 </asp:LinkButton>
-                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small amber darken-1 button-icon">
+                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small amber darken-1 button-icon" 
+                                    OnClick="Sign_Click" CommandArgument='<%# Eval("ProjectID") %>' 
+                                    Visible='<%# Int32.Parse(Session["pID"].ToString()) == Int32.Parse(Eval("StatusCode").ToString()) %>'>
                             <i class="material-icons">create</i>
                                     Sign
                                 </asp:LinkButton>

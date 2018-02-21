@@ -20,7 +20,6 @@ namespace Agile_2018
                 {
                     username.Value = Request.Cookies["UserName"].Value;
                     password.Value = Request.Cookies["Password"].Value;
-                    this.Title = Request.Cookies["Password"].Value;
                     checkbox.Checked = true;
                 }
             }

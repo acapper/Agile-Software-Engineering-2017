@@ -71,6 +71,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UnitTestDeleteProject.cs" />
     <Compile Include="Issue9Test.cs" />
     <Compile Include="UnitTestProjectManager.cs" />
     <Compile Include="UnitTestViewProjectsToSign.cs" />

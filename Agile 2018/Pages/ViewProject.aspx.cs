@@ -16,18 +16,22 @@ namespace Agile_2018
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            this.Title = Session["Title"].ToString();
-            ProjectManager pm = new ProjectManager();
-            DataTable pn = pm.viewProjectInfo(Int32.Parse(Session["projectID"].ToString()));
-            DataTable pf = pm.viewProjectFiles(Int32.Parse(Session["projectID"].ToString()));
+            try
+            {
+                this.Title = Session["Title"].ToString();
+                ProjectManager pm = new ProjectManager();
+                DataTable pn = pm.viewProjectInfo(Int32.Parse(Session["projectID"].ToString()));
+                DataTable pf = pm.viewProjectFiles(Int32.Parse(Session["projectID"].ToString()));
 
-            Files.DataSource = pf;
-            Files.DataBind();
+                Files.DataSource = pf;
+                Files.DataBind();
 
-            numOfFiles = pf.Rows.Count;
+                numOfFiles = pf.Rows.Count;
 
-            ProjectName.DataSource = pn;
-            ProjectName.DataBind();
+                ProjectName.DataSource = pn;
+                ProjectName.DataBind();
+            }
+            catch (Exception) { Response.Redirect("~/Login.aspx"); }
         }
 
         protected void Upload_Click(object sender, EventArgs e)
@@ -69,23 +73,42 @@ namespace Agile_2018
 
         protected void Sign_Click(object sender, EventArgs e)
         {
-            ProjectManager pm = new ProjectManager();
+            Project p = new Project();
             int id = Int32.Parse(Session["pID"].ToString());
             int projectID = Int32.Parse(((LinkButton)sender).CommandArgument.ToString());
             switch (id)
             {
                 case 0:
-                    pm.researcherConfirmation(projectID, Session["uID"].ToString());
+                    p.ResearcherSign(projectID, Session["uID"].ToString());
                     break;
                 case 1:
+                    p.RISSign(projectID, Session["uID"].ToString());
                     break;
                 case 2:
+                    p.AssocDeanSign(projectID, Session["uID"].ToString());
                     break;
                 case 3:
+                    p.DeanSign(projectID, Session["uID"].ToString());
                     break;
                 default:
                     break;
             }
+            Response.Redirect(Request.RawUrl);
+        }
+
+        protected void DeleteProject_Click(object sender, EventArgs e)
+        {
+            int projectID = Int32.Parse(((LinkButton)sender).CommandArgument.ToString());
+            Project p = new Project();
+            p.DeleteProject(projectID);
+            Response.Redirect(Request.RawUrl);
+        }
+
+        protected void DeleteFile_Click(object sender, EventArgs e)
+        {
+            int fileID = Int32.Parse(((LinkButton)sender).CommandArgument.ToString());
+            DatabaseFileHandler dfh = new DatabaseFileHandler();
+            dfh.DeleteFile(fileID);
             Response.Redirect(Request.RawUrl);
         }
     }

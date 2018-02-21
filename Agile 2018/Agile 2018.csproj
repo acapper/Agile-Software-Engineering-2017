@@ -254,6 +254,8 @@
       <DependentUpon>ViewProject.aspx</DependentUpon>
     </Compile>
     <Compile Include="Time.cs" />
+    <Compile Include="RIS.cs" />
+    <Compile Include="Dean.cs" />
     <Compile Include="Researcher.cs" />
     <Compile Include="procedureClass.cs" />
     <Compile Include="LoginClass.cs" />

@@ -10,9 +10,12 @@ namespace Agile_2018
 {
     public class Project
     {
-        //make a connection string
-
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="userID"></param>
+        /// <returns></returns>
         public String CreateProject(string title, int userID)
         {
             MySqlCommand cmd;
@@ -60,29 +63,325 @@ namespace Agile_2018
                 throw;
             }
         }
-
-        //method to update project title.
-        public bool UpdateProject(int projectID, string title)
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <param name="title"></param>
+        /// <returns></returns>
+        public bool UpdateTitle(int projectID, string title)
         {
-            MySqlCommand cmd;
-            ConnectionClass.OpenConnection();
-            cmd = ConnectionClass.con.CreateCommand(); //New Connection object
+            //assign stored procedure
+            string storedProc = "updateTitle;";
+            //open connection
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            connection.Open();
+            //define stored procedure
+            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //assign parameters
+            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+            cmd.Parameters.Add(new MySqlParameter("?title", title));
+            //execute procedure
+            cmd.ExecuteNonQuery();
+            //close connection and return number of rows affected (should be 1)
+            connection.Close();
+            return true;
+        }
 
+        /*
+         * Potential generic sign/reject methods
+         * 
+        public int Sign(int projectID, string staffID, string proc)
+        {
+            //assign stored procedure
+            string storedProc = proc;
+            //open connection
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            connection.Open();
+            //define stored procedure
+            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //assign parameters
+            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+            cmd.Parameters.Add(new MySqlParameter("?sID", staffID));
+            //execute procedure
+            int i = cmd.ExecuteNonQuery();
+            //close connection and return number of rows affected (should be 1)
+            connection.Close();
+            return i;
+        }
+
+        public int ResearcherReject(int projectID, string proc)
+        {
+            //assign stored procedure
+            string storedProc = proc";
+            //open connection
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            connection.Open();
+            //define stored procedure
+            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //assign parameters
+            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+            //execute procedure
+            int i = cmd.ExecuteNonQuery();
+            //close connection and return number of rows affected (should be 1)
+            connection.Close();
+            return i;
+        }
+        */
+
+        /// <summary>
+        /// Sets project record researcherSigned field = staffID. 
+        /// Increments project record statusCode 1.
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
+        /// 
+        public int ResearcherSign(int projectID, string staffID)
+        {
+            //assign stored procedure
+            string storedProc = "researcherSignProject;";
+            //open connection
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            connection.Open();
+            //define stored procedure
+            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //assign parameters
+            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+            cmd.Parameters.Add(new MySqlParameter("?sID", staffID));
+            //execute procedure
+            int i = cmd.ExecuteNonQuery();
+            //close connection and return number of rows affected (should be 1)
+            connection.Close();
+            return i;
+        }
+
+        /// <summary>
+        /// Sets project record RISSigned field = staffID. 
+        /// Increments project record statusCode 1.
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <param name="staffID"></param>
+        /// <returns></returns>
+        public int RISSign(int projectID, string staffID)
+        {
+            //assign stored procedure
+            string storedProc = "RISSign;";
+            //open connection
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            connection.Open();
+            //define stored procedure
+            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //assign parameters
+            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+            cmd.Parameters.Add(new MySqlParameter("?sID", staffID));
+            //execute procedure
+            int i = cmd.ExecuteNonQuery();
+            //close connection and return number of rows affected (should be 1)
+            connection.Close();
+            return i;
+        }
+
+        /// <summary>
+        /// Sets project record AssocDeanSigned field = staffID. 
+        /// Increments project record statusCode 1.
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <param name="staffID"></param>
+        /// <returns></returns>
+        public int AssocDeanSign(int projectID, string staffID)
+        {
+            //assign stored procedure
+            string storedProc = "assocDeanSign;";
+            //open connection
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            connection.Open();
+            //define stored procedure
+            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //assign parameters
+            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+            cmd.Parameters.Add(new MySqlParameter("?sID", staffID));
+            //execute procedure
+            int i = cmd.ExecuteNonQuery();
+            //close connection and return number of rows affected (should be 1)
+            connection.Close();
+            return i;
+        }
+
+        /// <summary>
+        /// Sets project record DeanSigned field = staffID. 
+        /// Increments project record statusCode 1.
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <param name="staffID"></param>
+        /// <returns></returns>
+        public int DeanSign(int projectID, string staffID)
+        {
+            //assign stored procedure
+            string storedProc = "deanSign;";
+            //open connection
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            connection.Open();
+            //define stored procedure
+            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //assign parameters
+            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+            cmd.Parameters.Add(new MySqlParameter("?sID", staffID));
+            //execute procedure
+            int i = cmd.ExecuteNonQuery();
+            //close connection and return number of rows affected (should be 1)
+            connection.Close();
+            return i;
+        }
+
+        /// <summary>
+        /// Update project record statusCode to 5(rejected).
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
+        public int ResearcherReject(int projectID)
+        {
+            //assign stored procedure
+            string storedProc = "``ResearcherRejectProject``;";
+            //open connection
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            connection.Open();
+            //define stored procedure
+            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //assign parameters
+            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+            //execute procedure
+            int i = cmd.ExecuteNonQuery();
+            //close connection and return number of rows affected (should be 1)
+            connection.Close();
+            return i;
+        }
+
+        /// <summary>
+        /// Update project record statusCode to 5(rejected).
+        /// Sets researcherSigned field to 0. 
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
+        public int RISReject(int projectID)
+        {
+            //assign stored procedure
+            string storedProc = "``RISRejectProject``;";
+            //open connection
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            connection.Open();
+            //define stored procedure
+            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //assign parameters
+            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+            //execute procedure
+            int i = cmd.ExecuteNonQuery();
+            //close connection and return number of rows affected (should be 1)
+            connection.Close();
+            return i;
+        }
+
+        /// <summary>
+        /// Update project record statusCode to 5(rejected).
+        /// Sets researcherSigned & RISSigned fields to 0. 
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
+        public int AssocDeanReject(int projectID)
+        {
+            //assign stored procedure
+            string storedProc = "``assocDeanRejectProject``;";
+            //open connection
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            connection.Open();
+            //define stored procedure
+            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //assign parameters
+            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+            //execute procedure
+            int i = cmd.ExecuteNonQuery();
+            //close connection and return number of rows affected (should be 1)
+            connection.Close();
+            return i;
+        }
+
+        /// <summary>
+        /// Update project record statusCode to 5(rejected).
+        /// Sets AssocDeanSigned, researcherSigned & RISSigned fields to 0. 
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <returns></returns>
+        public int DeanReject(int projectID)
+        {
+            //assign stored procedure
+            string storedProc = "`deanRejectProject`;";
+            //open connection
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            connection.Open();
+            //define stored procedure
+            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //assign parameters
+            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+            //execute procedure
+            int i = cmd.ExecuteNonQuery();
+            //close connection and return number of rows affected (should be 1)
+            connection.Close();
+            return i;
+        }
+
+        //clears the values of signings for testing purposes
+        public int ClearValuesForTesting(int projectID)
+        {
+            //assign stored procedure
+            string storedProc = "ClearValuesForTesting;";
+            //open connection
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            connection.Open();
+            //define stored procedure
+            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //assign parameters
+            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+            //execute procedure
+            int i = cmd.ExecuteNonQuery();
+            //close connection and return number of rows affected (should be 1)
+            connection.Close();
+            return i;
+        }
+        public bool DeleteProject(int projectID)
+        {
             try
             {
-                //SQL Query
-                cmd.CommandText = "Update projects SET Title = @title WHERE ProjectID = @projectID ";
+                //assign stored procedure
+                string storedProc = "DeletePairingAndProject;";
 
-                // Populate SQl query values
-                cmd.Parameters.AddWithValue("@title", title);
-                cmd.Parameters.AddWithValue("@projectID",projectID);
+                //open connection
+                MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+                connection.Open();
 
-                // Execute Query
+                //define stored procedure
+                MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                //assign parameters
+                cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+
+                //execute procedure
                 cmd.ExecuteNonQuery();
-
-                // Close Connection
                 ConnectionClass.CloseConnection();
-                return true;
+
+                return true;//file deleted
             }
             catch (Exception)
             {

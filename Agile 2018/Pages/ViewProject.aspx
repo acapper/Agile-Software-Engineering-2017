@@ -20,11 +20,13 @@
                                     Upload
                                     </asp:LinkButton>
                                 </form>
-                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small amber darken-1 button-icon" OnClick="Sign_Click" CommandArgument='<%# Eval("ProjectID") %>'>
+                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small amber darken-1 button-icon" 
+                                    OnClick="Sign_Click" CommandArgument='<%# Eval("ProjectID") %>'
+                                    Visible='<%# Int32.Parse(Session["pID"].ToString()) == Int32.Parse(Eval("StatusCode").ToString()) %>'>
                             <i class="material-icons">create</i>
                                     Sign
                                 </asp:LinkButton>
-                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small red darken-1 button-icon">
+                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small red darken-1 button-icon" OnClick="DeleteProject_Click" CommandArgument='<%# Eval("ProjectID") %>'>
                             <i class="material-icons">delete_forever</i>
                                     Delete
                                 </asp:LinkButton>
@@ -42,7 +44,7 @@
                             <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small blue darken-1 button-icon" OnClick="Download_Click" CommandArgument='<%# Eval("FileID") + "|" + Eval("FileName") %>'>
                             <i class="material-icons">file_download</i>
                             </asp:LinkButton>
-                            <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small red darken-1 button-icon">
+                            <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small red darken-1 button-icon" OnClick="DeleteFile_Click" CommandArgument='<%# Eval("FileID")%>'>
                             <i class="material-icons">delete_forever</i>
                             </asp:LinkButton>
                         </div>
