@@ -72,6 +72,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Issue9Test.cs" />
+    <Compile Include="UnitTestProjectManager.cs" />
     <Compile Include="UnitTestViewProjectsToSign.cs" />
     <Compile Include="UnitTestViewResearcherProjects.cs" />
     <Compile Include="AutomaticEmailTests.cs" />
