@@ -20,7 +20,9 @@
                                     Upload
                                     </asp:LinkButton>
                                 </form>
-                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small amber darken-1 button-icon" OnClick="Sign_Click" CommandArgument='<%# Eval("ProjectID") %>'>
+                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small amber darken-1 button-icon" 
+                                    OnClick="Sign_Click" CommandArgument='<%# Eval("ProjectID") %>'
+                                    Visible='<%# Int32.Parse(Session["pID"].ToString()) == Int32.Parse(Eval("StatusCode").ToString()) %>'>
                             <i class="material-icons">create</i>
                                     Sign
                                 </asp:LinkButton>
