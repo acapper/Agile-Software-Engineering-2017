@@ -68,7 +68,7 @@ namespace Agile_2018
             }
         }
 
-        //method to update project title.
+        //method to update project title. passs through the Project ID that is to be updated along with the new title.
         public bool UpdateProject(int projectID, string title)
         {
             MySqlCommand cmd;
@@ -97,6 +97,35 @@ namespace Agile_2018
                 return false;
                 throw;
             }
+        }
+        public bool DeleteProject(string projectID)
+        {
+            MySqlCommand cmd;
+            ConnectionClass.OpenConnection();
+            cmd = ConnectionClass.con.CreateCommand(); //New Connection object
+            try
+            {
+                //DELETE THE PAIRING FIRST
+                cmd.CommandText = "DELETE FROM userprojectpairing WHERE Projects_ProjectID =@projectID2";
+                cmd.Parameters.AddWithValue("projectID2", projectID);
+                cmd.ExecuteNonQuery();
+
+                //DELETE THE PROJECT FROM PROJECT TABLE
+                cmd.CommandText = "DELETE FROM projects WHERE ProjectID = @projectID ";
+                cmd.Parameters.AddWithValue("projectID", projectID);
+                cmd.ExecuteNonQuery();
+
+                //cmd.ExecuteNonQuery();
+                ConnectionClass.CloseConnection();
+                return true;//file deleted
+            }
+            catch (Exception)
+            {
+                ConnectionClass.CloseConnection();
+                return false;
+                throw;
+            }
+            
         }
     }
 }
