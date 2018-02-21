@@ -21,7 +21,7 @@ namespace Agile_2018.Tests
         {
             Dean testDean = new Dean();
             testDean.ClearValuesForTesting(1);
-            int i = testDean.deanSign(1, "11");
+            int i = testDean.DeanSign(1, "11");
             Assert.AreEqual(1, i);
         }
 
@@ -31,7 +31,7 @@ namespace Agile_2018.Tests
         {
             Dean testDean = new Dean();
             testDean.ClearValuesForTesting(1);
-            int i = testDean.assocDeanSign(1, "11");
+            int i = testDean.AssocDeanSign(1, "11");
             Assert.AreEqual(1, i);
         }
 
