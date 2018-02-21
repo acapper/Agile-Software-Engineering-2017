@@ -10,35 +10,30 @@ namespace Agile_2018
 {
     public class ProjectManager
     {
-        //1. take in project id
-        //2. query projects in database for the row with this id
-        //3. query stored files for all files with this id in the database. 
-        //4. you should have 2 arrays at this point. one with the first query and one with the second query, 
-        //5. Combine these in some way, such as with a json
-        //6. return the combined results from the json file. 
-
-
         //DB INFO:
         //Hostname: silva.computing.dundee.ac.uk    
         //Port: 3306
         //Username: 17agileteam5
         //Password: 7485.at5.5847
 
-
+        //DONE
         //Method which returns a datatable containing all the information returned for a project based on the projectID passed to it. 
         public DataTable viewProjectInfo(int input)
         {
             //Connects to database
             ConnectionClass.OpenConnection();
 
-            //Declare new mysql command using connection to return project info relevent to this projectID
-            String query = "SELECT * FROM projects p JOIN statusstore s ON p.StatusCode = s.StatusCode WHERE ProjectID = '" + input + "'";
+            //Declare new mysql command using stored procedure.
+            MySqlCommand command = new MySqlCommand("viewProjectInfo", ConnectionClass.con);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new MySqlParameter("@id", input));
 
             //Create datatable for results to be read into
             DataTable dt = new DataTable();
-            MySqlDataAdapter sda = new MySqlDataAdapter(query, ConnectionClass.con);
-            //Fill the datatable with the results from the MYSQL command using data adapter
-            sda.Fill(dt);
+
+            //Adaptor to read results into the datatable
+            MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+            adapter.Fill(dt);
 
             //If the datatable is empty, ie the project row does not exist in the database, then return null.
             if (dt == null)
@@ -51,6 +46,8 @@ namespace Agile_2018
                 return dt;
             }
         }
+
+
 
         //Method which returns a datatable containing all the related files returned based on the projectID passed to it. 
         public DataTable viewProjectFiles(int input)
@@ -72,6 +69,7 @@ namespace Agile_2018
             return dt;
         }
 
+        /* //THIS MAY NOT BE NEEDED 
         //Method which returns all project records which have a status code of 0, ie need to be confirmed by a researcher. 
         public DataTable getResearcherUnconfirmedProjects()
         {
@@ -104,21 +102,46 @@ namespace Agile_2018
                 return dt;
             }
         }
+        */
+
+            /*
+             * 1. Using ProjectID researcher wants to sign, check the database to see if it has been confirmed or not already. 
+             * 2. If it has not been signed yet, sign it
+             * */
+
 
 
         //Function which takes in a ProjectID for the project to be confirmed, changing its status code to 1 and its Researcher signed value to userID
-        public void researcherConfirmation(int input, string userID)
+        public void researcherConfirmation(int projectID, string userID)
         {
-            //Connects to database
             ConnectionClass.OpenConnection();
+            DataTable dt = viewProjectInfo(projectID);
 
-            //Declare new mysql command using connection which sets user specified project's ResearcherSigned and StatusCode values to userID
-            MySqlCommand cmd = ConnectionClass.con.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "UPDATE projects SET ResearcherSigned = '"+ userID + "', StatusCode = '1' WHERE ProjectID = '" + input + "'";
-            cmd.ExecuteNonQuery();
+            int researcherSigned = 0;
+            int statusCode = 0;
+            foreach (DataRow dr in dt.Rows)
+            {
+                researcherSigned = Convert.ToInt32(dr["ResearcherSigned"]);
+                statusCode = Convert.ToInt32(dr["StatusCode"]);
+                Console.WriteLine(researcherSigned + " " + statusCode);
+            }
+
+            if (researcherSigned == 0 && statusCode == 0)
+            {
+                //Declare new mysql command using connection which sets user specified project's ResearcherSigned and StatusCode values to userID
+                MySqlCommand cmd = ConnectionClass.con.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE projects SET ResearcherSigned = '" + userID + "', StatusCode = '1' WHERE ProjectID = '" + projectID + "'";
+                cmd.ExecuteNonQuery();
+            }
         }
 
+
+        //DYLAN
+        //1. Change all SQL statements to stored procedures. 
+        //2. Create the unit test for researcherConfirmation()
+        //  - Create a project which is unsigned, run the method, then check to see if it is signed by comparing it to what you think it should be.  then delete
+        //3. Get rid of all unnecessary comments, and comment anything which isn't yet. :3
 
     }
 }

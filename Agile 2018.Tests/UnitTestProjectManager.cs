@@ -2,71 +2,120 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Agile_2018;
 using System.Data;
+using MySql.Data.MySqlClient;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Web;
+using System.Windows.Forms;
+using System.Threading;
 
 namespace Agile_2018.Tests
 {
     [TestClass]
     public class UnitTestProjectManager
     {
-
-        //The test should do 
-        //1. take in an example id
-        //2. runs the method we created. 
-        //3. recieves the combined result. 
-        //4. make a fake result which is what we expect the real results to be. 
-        //5. eg: Check if this example has the same number of files returned as the fake test.
-
-
         //Method which tests if the search function works correctly by calling the searchProject() method and comparing
         //its returned results to what the results should be.
         [TestMethod]
         public void viewProjectInfo()
         {
             ConnectionClass.OpenConnection();
+
+            //Add the expected record to the database, which will have a title of "viewProjectInfoTest" and a user ID of "1".
             ProjectManager pm = new ProjectManager();
-
-            //Expected
-            //Create expected record in database
-            String whatsExpected = "1 Dylan 0 11 0 0 0";
-
+            Project expectedProject = new Project();
+            int expectedProjectID = Convert.ToInt32(expectedProject.CreateProject("viewProjectInfoTest", 1));   
+            
             //Actual
-            DataTable dt = pm.viewProjectInfo(3);
+            DataTable dt = pm.viewProjectInfo(expectedProjectID);
 
             //Making actual result comparable by converting into string format
             string rowRead = "";
             foreach (DataRow dr in dt.Rows)
             {
-                rowRead = dr["ProjectID"].ToString() + " " + dr["Title"].ToString() + " " + dr["AssocDeanSigned"].ToString() + " " + dr["AssocDeanSigned"].ToString() + " " + dr["ResearcherSigned"].ToString() + " " + dr["RISSigned"].ToString() + " " + dr["CompletionProgress"].ToString() + " " + dr["StatusCode"].ToString();
+                rowRead = dr["ProjectID"].ToString();
                 Console.WriteLine(rowRead);
             }
-
+            
             //Testing if strings are equal
-            Assert.AreEqual(whatsExpected, rowRead, false, "There was an error with the view for your project.");
-            //Delete record you added
+            Assert.AreEqual(expectedProjectID.ToString(), rowRead, false, "There was an error with the view for your project.");
+
+            //REMEMBER TO DELETE THE RECORDS - get Pete's delete project method
         }
+
 
         //Method which tests if the correct number of storedfiles results are returned for a specific ProjectID by calling viewProjectInfo() and passing in 51 which 
         //should return 1 file record. 
         [TestMethod]
         public void viewProjectFiles()
         {
-            //Create file, upload file, run method, check and see if it worked, delte file created
+            ConnectionClass.OpenConnection();
+
+            //Add the expected record to the database, which will have a title of "test" and a user ID of "1".
             ProjectManager pm = new ProjectManager();
+            Project expectedProject = new Project();
+            int expectedProjectID = Convert.ToInt32(expectedProject.CreateProject("viewProjectFileTest", 1));
 
-            //Expected number of files returned
-            int expected = 1;
 
-            //Actual number of files returned
-            DataTable dt = pm.viewProjectFiles(1);
-            int actual = dt.Rows.Count;
+            //Create and upload test file
+            DatabaseFileHandler dfh = new DatabaseFileHandler();
 
-            Assert.AreEqual(expected, actual);
+            String fileName = "viewProjectFilesTest.txt";
+            String path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            String fullPath = System.IO.Path.Combine(path, fileName);
+            if (!File.Exists(fullPath))
+            {
+                using (StreamWriter sw = File.CreateText(fullPath))
+                {
+                    sw.WriteLine("TEST FILE :3");
+                    sw.WriteLine("Maybe it needs lots of text????");
+                }
+                while (!File.Exists(fullPath))
+                {
+                    Thread.Sleep(1000);
+                }
+            }
+            int id = expectedProjectID;
+
+            int expectedRowCount = dfh.UploadFile(id, File.Open(fullPath, FileMode.Open), fileName);
+
+            //Actual
+            DataTable dt = pm.viewProjectFiles(expectedProjectID);
+            int actualRowCount = dt.Rows.Count;
+
+            Assert.AreEqual(expectedRowCount, actualRowCount);
+            File.Delete(fullPath);
+            DatabaseFileHandler dbfh = new DatabaseFileHandler();
+            ConnectionClass.OpenConnection();
+            MySqlCommand comm = ConnectionClass.con.CreateCommand();
+            comm.CommandText = "SELECT FileID FROM storedfiles sf WHERE sf.FileName = @fileName AND sf.ProjectID = @id";
+            comm.Parameters.AddWithValue("@fileName", fileName);
+            comm.Parameters.AddWithValue("@id", id);
+
+            int fileID = 0;
+
+            using (MySqlDataReader sqlQueryResult = comm.ExecuteReader())
+                if (sqlQueryResult != null)
+                {
+                    sqlQueryResult.Read();
+                    fileID = Int32.Parse(sqlQueryResult["FileID"].ToString());
+                }
+            ConnectionClass.CloseConnection();
+
+            int i = dfh.DeleteFile(fileID);
+
+
+
+
+            //REMEMBER TO DELETE THE PROJECT RECORDS with pete's method
+
+
         }
 
         //Method wich tests whether the correct number of records are returned which are unconfirmed by a researcher. There should be 31 records with a status code of 0
         //as of 16/02/2018 but this will change. 
 
-        /* DONT DELETE
         [TestMethod]
         public void getResearcherUnconfirmedProjects()
         {
@@ -85,7 +134,6 @@ namespace Agile_2018.Tests
             //Testing if variables are equal
             Assert.AreEqual(expected, actual);
         }
-        */ //PLEASE
 
         /*
         //Method wich tests whether the correct number of records are returned which are unconfirmed by a researcher. There should be 31 records with a status code of 0
