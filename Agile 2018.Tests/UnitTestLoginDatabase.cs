@@ -12,7 +12,7 @@ namespace Agile_2018.Tests
         {
             ConnectionClass.OpenConnection();
             LoginClass test = new LoginClass();
-            string result = test.MyMethod("11", "11");
+            string result = test.ValidateLoginDetails("11", "11");
             Assert.AreEqual("1",result);
             ConnectionClass.CloseConnection();
         }
