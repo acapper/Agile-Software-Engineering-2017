@@ -8,10 +8,10 @@ namespace Agile_2018.Tests
     public class UnitTestRIS
     {
         [TestMethod]
-        public void TestRejectDean()
+        public void TestRejectRIS()
         {
             RIS testRIS = new RIS();
-            int i = testRIS.RISReject(50);
+            int i = testRIS.RISReject(1);
             Assert.AreEqual(1, i);
         }
     }
