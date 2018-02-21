@@ -10,26 +10,33 @@ namespace Agile_2018
 {
     public class LoginClass
     {
-        public Boolean MyMethod(string StaffID, string Password)
+        public string ValidateLoginDetails(string StaffID, string pwd)
         {
-           
+            //assign stored procedure
+            string storedProc = "checkLogin;";
+            DataTable dt = new DataTable(); //this is creating a virtual table
+
             //open connection
-            ConnectionClass.OpenConnection();
-            MySqlDataAdapter sda = new MySqlDataAdapter("SELECT COUNT(*) FROM logindetails WHERE staffID ='" + StaffID + "' AND password='" + Password + "'", ConnectionClass.con);
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            MySqlDataAdapter sda = new MySqlDataAdapter(storedProc,connection);
+            //assign parameters
+            sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+            sda.SelectCommand.Parameters.AddWithValue("?sID", StaffID);
+            sda.SelectCommand.Parameters.AddWithValue("?pwd", pwd);
+
             // in above line the program is selecting the whole data from table and the matching it with the user name and password provided by user. 
-            DataTable result = new DataTable(); //this is creating a virtual table  
-            sda.Fill(result);
-            if (result.Rows[0][0].ToString() == "1")        //when login matches
+
+            sda.Fill(dt);
+            if (dt != null)        //when data table has something in it
             {
-                //...........
+                Console.WriteLine("found!");
                 ConnectionClass.CloseConnection();
-                return true;
+                string uid = dt.Rows[0][0].ToString();      //store the user id as a string
+                return uid;                //return string
             }
-            else
+            else                   //when data table is empty
             {
-                Console.Write("Invalid username or password");
-                ConnectionClass.CloseConnection();
-                return false;
+                return null;
             }
         }
     }

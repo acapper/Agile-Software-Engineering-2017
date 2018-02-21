@@ -33,7 +33,7 @@ namespace Agile_2018.Tests
             }
             int id = 50;
 
-            int i = dfh.UploadFile(id, fullPath, fileName);
+            int i = dfh.UploadFile(id, File.Open(fullPath, FileMode.Open), fileName);
 
             Assert.AreEqual(1, i);
             File.Delete(fullPath);
@@ -61,7 +61,7 @@ namespace Agile_2018.Tests
             }
             int id = 50;
 
-            int i = dfh.UploadFile(id, fullPath, fileName);
+            int i = dfh.UploadFile(id, File.Open(fullPath, FileMode.Open), fileName);
 
             path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
             id = 50;
@@ -130,7 +130,7 @@ namespace Agile_2018.Tests
             }
             int id = 50;
 
-            dfh.UploadFile(id, fullPath, fileName);
+            dfh.UploadFile(id, File.Open(fullPath, FileMode.Open), fileName);
 
             int fileID = 0;
 

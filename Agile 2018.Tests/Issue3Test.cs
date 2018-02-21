@@ -16,7 +16,7 @@ namespace Agile_2018.Tests
             string teststring = "AnotherTest"; //random teststring
             int userID = 15; //just a random userID
 
-            Assert.IsTrue(newProject.CreateProject(teststring,userID));
+            Assert.IsNotNull(newProject.CreateProject(teststring,userID));
         }
     }
 }
