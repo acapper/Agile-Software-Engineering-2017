@@ -10,8 +10,7 @@ namespace Agile_2018
 {
     public class Project
     {
-        //make a connection string
-
+       
 
         public bool CreateProject(string title, int userID)
         {
@@ -98,25 +97,28 @@ namespace Agile_2018
                 throw;
             }
         }
-        public bool DeleteProject(string projectID)
+        public bool DeleteProject(int projectID)
         {
-            MySqlCommand cmd;
-            ConnectionClass.OpenConnection();
-            cmd = ConnectionClass.con.CreateCommand(); //New Connection object
             try
             {
-                //DELETE THE PAIRING FIRST
-                cmd.CommandText = "DELETE FROM userprojectpairing WHERE Projects_ProjectID =@projectID2";
-                cmd.Parameters.AddWithValue("projectID2", projectID);
-                cmd.ExecuteNonQuery();
+                //assign stored procedure
+                string storedProc = "DeletePairingAndProject;";
 
-                //DELETE THE PROJECT FROM PROJECT TABLE
-                cmd.CommandText = "DELETE FROM projects WHERE ProjectID = @projectID ";
-                cmd.Parameters.AddWithValue("projectID", projectID);
-                cmd.ExecuteNonQuery();
+                //open connection
+                MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+                connection.Open();
 
-                //cmd.ExecuteNonQuery();
+                //define stored procedure
+                MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                //assign parameters
+                cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+
+                //execute procedure
+                cmd.ExecuteNonQuery();
                 ConnectionClass.CloseConnection();
+
                 return true;//file deleted
             }
             catch (Exception)
@@ -125,7 +127,6 @@ namespace Agile_2018
                 return false;
                 throw;
             }
-            
         }
     }
 }

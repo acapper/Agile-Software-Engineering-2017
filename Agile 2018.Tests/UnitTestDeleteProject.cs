@@ -31,8 +31,8 @@ namespace Agile_2018.Tests
             cmd = ConnectionClass.con.CreateCommand(); //New Connection object
             cmd.CommandText = "SELECT ProjectID From projects Where Title = @newtitle";
             cmd.Parameters.AddWithValue("@newtitle", title);
-            //Read the return and grab the HIGHEST project ID. This allows multiple of the same named records
             
+            //Read the return and grab the HIGHEST project ID. This allows multiple of the same named records
             MySqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -41,15 +41,19 @@ namespace Agile_2018.Tests
             }
             reader.Close();
             ConnectionClass.CloseConnection();
-            System.Windows.Forms.MessageBox.Show(projectID);
+            System.Windows.Forms.MessageBox.Show("The following number has been added and will be deleted : " +projectID);
+
             //PROJECT ID SHOULD NOW CONTAIN THE RESULT OF THE SELECT. THE SELECT LOOPS TO THE BOTTOM AND MAKES THE VARIABLE THE LOWEST VALUE. THIS ENSURES ONE RETURN, THE LATEST ADDITION OF THAT NAME.
             //now we have the project id
             //use the ProjID to Delete
 
-            //Delete
-            Assert.IsTrue(newProject.DeleteProject(projectID));
+            //parse the return
+            int projID = Int32.Parse(projectID);
 
-            //Assert.IsTrue(newProject.CreateProject(teststring,userID));
+            //Delete
+            Assert.IsTrue(newProject.DeleteProject(projID));
+
+           
         }
     }
 }
