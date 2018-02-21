@@ -26,6 +26,7 @@ namespace Agile_2018.Tests
             ProjectManager pm = new ProjectManager();
 
             //Expected
+            //Create expected record in database
             String whatsExpected = "1 Dylan 0 11 0 0 0";
 
             //Actual
@@ -41,6 +42,7 @@ namespace Agile_2018.Tests
 
             //Testing if strings are equal
             Assert.AreEqual(whatsExpected, rowRead, false, "There was an error with the view for your project.");
+            //Delete record you added
         }
 
         //Method which tests if the correct number of storedfiles results are returned for a specific ProjectID by calling viewProjectInfo() and passing in 51 which 
@@ -48,6 +50,7 @@ namespace Agile_2018.Tests
         [TestMethod]
         public void viewProjectFiles()
         {
+            //Create file, upload file, run method, check and see if it worked, delte file created
             ProjectManager pm = new ProjectManager();
 
             //Expected number of files returned
@@ -62,6 +65,8 @@ namespace Agile_2018.Tests
 
         //Method wich tests whether the correct number of records are returned which are unconfirmed by a researcher. There should be 31 records with a status code of 0
         //as of 16/02/2018 but this will change. 
+
+        /* DONT DELETE
         [TestMethod]
         public void getResearcherUnconfirmedProjects()
         {
@@ -79,6 +84,7 @@ namespace Agile_2018.Tests
             //Testing if variables are equal
             Assert.AreEqual(expected, actual);
         }
+        */ //PLEASE
 
         /*
         //Method wich tests whether the correct number of records are returned which are unconfirmed by a researcher. There should be 31 records with a status code of 0
