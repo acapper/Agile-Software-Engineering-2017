@@ -13,10 +13,10 @@ namespace Agile_2018.Tests
             Project newProject = new Project();
 
             //Name of new project to be added
-            string teststring = "ANEWNAMEFORAOLDRECORD";
+            string teststring = "SuperChange";
             int projID = 80;
 
-            Assert.IsTrue(newProject.UpdateProject(projID, teststring));
+            Assert.IsTrue(newProject.UpdateTitle(projID, teststring));
         }
     }
 }
