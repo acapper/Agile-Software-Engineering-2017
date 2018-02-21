@@ -31,6 +31,7 @@ namespace Agile_2018
                 //query server to find out what ID that record got
                 cmd.CommandText = "SELECT ProjectID From projects Where Title = @newtitle";
                 cmd.Parameters.AddWithValue("@newtitle", title);
+
                 //Read the return and grab the HIGHEST project ID. This allows multiple of the same named records
                 string projID = "";
                 MySqlDataReader reader = cmd.ExecuteReader();
@@ -48,7 +49,6 @@ namespace Agile_2018
                 // Populate SQl query values
                 cmd.Parameters.AddWithValue("@userID", userID);
                 cmd.Parameters.AddWithValue("@projID", projID);
-               
 
                 // Execute Query
                 cmd.ExecuteNonQuery();
@@ -68,32 +68,22 @@ namespace Agile_2018
         //method to update project title.
         public bool UpdateTitle(int projectID, string title)
         {
-            MySqlCommand cmd;
-            ConnectionClass.OpenConnection();
-            cmd = ConnectionClass.con.CreateCommand(); //New Connection object
-
-            try
-            {
-                //SQL Query
-                cmd.CommandText = "Update projects SET Title = @title WHERE ProjectID = @projectID ";
-
-                // Populate SQl query values
-                cmd.Parameters.AddWithValue("@title", title);
-                cmd.Parameters.AddWithValue("@projectID",projectID);
-
-                // Execute Query
-                cmd.ExecuteNonQuery();
-
-                // Close Connection
-                ConnectionClass.CloseConnection();
-                return true;
-            }
-            catch (Exception)
-            {
-                ConnectionClass.CloseConnection();
-                return false;
-                throw;
-            }
+            //assign stored procedure
+            string storedProc = "updateTitle;";
+            //open connection
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            connection.Open();
+            //define stored procedure
+            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //assign parameters
+            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+            cmd.Parameters.Add(new MySqlParameter("?title", title));
+            //execute procedure
+            cmd.ExecuteNonQuery();
+            //close connection and return number of rows affected (should be 1)
+            connection.Close();
+            return true;
         }
 
         /// <summary>
