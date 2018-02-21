@@ -74,6 +74,7 @@
     <Compile Include="Issue9Test.cs" />
     <Compile Include="UnitTestViewProjectsToSign.cs" />
     <Compile Include="UnitTestViewResearcherProjects.cs" />
+    <Compile Include="AutomaticEmailTests.cs" />
     <Compile Include="UnitTestResearcher.cs" />
     <Compile Include="UnitTestLoginDatabase.cs" />
     <Compile Include="UnitTestDatabase.cs" />
