@@ -16,7 +16,7 @@ namespace Agile_2018.Tests
             string teststring = "ANEWNAMEFORAOLDRECORD";
             int projID = 80;
 
-            Assert.IsTrue(newProject.UpdateProject(projID, teststring));
+            Assert.IsTrue(newProject.UpdateTitle(projID, teststring));
         }
     }
 }
