@@ -54,7 +54,7 @@ namespace Agile_2018
             return i;
         }
 
-        public int deanSign(int projectID, string staffID)
+        public int DeanSign(int projectID, string staffID)
         {
             //assign stored procedure
             string storedProc = "deanSign;";
@@ -74,7 +74,7 @@ namespace Agile_2018
             return i;
         }
 
-        public int assocDeanSign(int projectID, string staffID)
+        public int AssocDeanSign(int projectID, string staffID)
         {
             //assign stored procedure
             string storedProc = "assocDeanSign;";
