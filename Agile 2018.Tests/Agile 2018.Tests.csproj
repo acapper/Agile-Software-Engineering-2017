@@ -35,9 +35,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="EntityFramework">
-      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.VisualStudio.TestPlatform.TestFramework">
       <HintPath>..\packages\MSTest.TestFramework.1.1.17\lib\net45\Microsoft.VisualStudio.TestPlatform.TestFramework.dll</HintPath>
@@ -74,10 +71,9 @@
     <Compile Include="UnitTestDeleteProject.cs" />
     <Compile Include="Issue9Test.cs" />
     <Compile Include="UnitTestProjectManager.cs" />
-    <Compile Include="UnitTestViewProjectsToSign.cs" />
-    <Compile Include="UnitTestViewResearcherProjects.cs" />
+    <Compile Include="UnitTestSign.cs" />
+    <Compile Include="UnitTestViewProjects.cs" />
     <Compile Include="AutomaticEmailTests.cs" />
-    <Compile Include="UnitTestResearcher.cs" />
     <Compile Include="UnitTestLoginDatabase.cs" />
     <Compile Include="UnitTestDatabase.cs" />
     <Compile Include="Issue3Test.cs" />

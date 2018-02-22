@@ -5,7 +5,6 @@ using System.Web;
 using MySql.Data.MySqlClient;
 using System.Diagnostics;
 
-
 namespace Agile_2018
 {
     public class Project
@@ -47,7 +46,7 @@ namespace Agile_2018
                 // Populate SQl query values
                 cmd.Parameters.AddWithValue("@userID", userID);
                 cmd.Parameters.AddWithValue("@projID", pID);
-               
+
 
                 // Execute Query
                 cmd.ExecuteNonQuery();
@@ -56,14 +55,14 @@ namespace Agile_2018
                 ConnectionClass.CloseConnection();
                 return pID;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 ConnectionClass.CloseConnection();
                 return null;
                 throw;
             }
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -90,49 +89,6 @@ namespace Agile_2018
             return true;
         }
 
-        /*
-         * Potential generic sign/reject methods
-         * 
-        public int Sign(int projectID, string staffID, string proc)
-        {
-            //assign stored procedure
-            string storedProc = proc;
-            //open connection
-            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
-            connection.Open();
-            //define stored procedure
-            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            //assign parameters
-            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
-            cmd.Parameters.Add(new MySqlParameter("?sID", staffID));
-            //execute procedure
-            int i = cmd.ExecuteNonQuery();
-            //close connection and return number of rows affected (should be 1)
-            connection.Close();
-            return i;
-        }
-
-        public int ResearcherReject(int projectID, string proc)
-        {
-            //assign stored procedure
-            string storedProc = proc";
-            //open connection
-            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
-            connection.Open();
-            //define stored procedure
-            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-            //assign parameters
-            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
-            //execute procedure
-            int i = cmd.ExecuteNonQuery();
-            //close connection and return number of rows affected (should be 1)
-            connection.Close();
-            return i;
-        }
-        */
-
         /// <summary>
         /// Sets project record researcherSigned field = staffID. 
         /// Increments project record statusCode 1.
@@ -143,7 +99,7 @@ namespace Agile_2018
         public int ResearcherSign(int projectID, string staffID)
         {
             //assign stored procedure
-            string storedProc = "researcherSignProject;";
+            string storedProc = "researcherSignProject";
             //open connection
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
             connection.Open();
@@ -178,8 +134,8 @@ namespace Agile_2018
             MySqlCommand cmd = new MySqlCommand(storedProc, connection);
             cmd.CommandType = System.Data.CommandType.StoredProcedure;
             //assign parameters
-            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
             cmd.Parameters.Add(new MySqlParameter("?sID", staffID));
+            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
             //execute procedure
             int i = cmd.ExecuteNonQuery();
             //close connection and return number of rows affected (should be 1)
@@ -249,7 +205,7 @@ namespace Agile_2018
         public int ResearcherReject(int projectID)
         {
             //assign stored procedure
-            string storedProc = "``ResearcherRejectProject``;";
+            string storedProc = "ResearcherRejectProject";
             //open connection
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
             connection.Open();
@@ -274,7 +230,7 @@ namespace Agile_2018
         public int RISReject(int projectID)
         {
             //assign stored procedure
-            string storedProc = "``RISRejectProject``;";
+            string storedProc = "RISRejectProject";
             //open connection
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
             connection.Open();
@@ -299,7 +255,7 @@ namespace Agile_2018
         public int AssocDeanReject(int projectID)
         {
             //assign stored procedure
-            string storedProc = "``assocDeanRejectProject``;";
+            string storedProc = "assocDeanRejectProject";
             //open connection
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
             connection.Open();
@@ -324,7 +280,7 @@ namespace Agile_2018
         public int DeanReject(int projectID)
         {
             //assign stored procedure
-            string storedProc = "`deanRejectProject`;";
+            string storedProc = "deanRejectProject";
             //open connection
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
             connection.Open();
@@ -340,11 +296,74 @@ namespace Agile_2018
             return i;
         }
 
-        //clears the values of signings for testing purposes
-        public int ClearValuesForTesting(int projectID)
+        /*      
+         * Below is potential sign/reject methods refactored. Reject doesn't require switch statement as it
+         * doesn't matter who rejects it, all signed fields are reset to 0/default.
+         * All reject stored procedures should simply use 'deanRejectProject'.
+         *
+        
+        /// <summary>
+        /// Sign project switch statement to run correct signing stored procedure.
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <param name="staffID"></param>
+        /// <param name="position"></param>
+        public void SignChoice(int projectID, string staffID, int position)
+        {
+            switch (position)
+            {
+                case 0:
+                    Sign(projectID, staffID, "researcherSignProject;");
+                    break;
+                case 1:
+                    Sign(projectID, staffID, "RISSign;");
+                    break;
+                case 2:
+                    Sign(projectID, staffID, "AssocDeanSign;");
+                    break;
+                case 3:
+                    Sign(projectID, staffID, "DeanSign;");
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Sign selected project with staffID based on user's job position.
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <param name="staffID"></param>
+        /// <param name="proc"></param>
+        /// <returns>Number of records affected</returns>
+        private int Sign(int projectID, string staffID, string proc)
         {
             //assign stored procedure
-            string storedProc = "ClearValuesForTesting;";
+            string storedProc = proc;
+            //open connection
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            connection.Open();
+            //define stored procedure
+            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            //assign parameters
+            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+            cmd.Parameters.Add(new MySqlParameter("?sID", staffID));
+            //execute procedure
+            int i = cmd.ExecuteNonQuery();
+            //close connection and return number of rows affected (should be 1)
+            connection.Close();
+            return i;
+        }
+
+        /// <summary>
+        /// Rejects selected project.
+        /// </summary>
+        /// <param name="projectID"></param>
+        /// <param name="proc"></param>
+        /// <returns>Number of records affected</returns>
+        private int Reject(int projectID)
+        {
+            //assign stored procedure
+            string storedProc = "rejectProject;";
             //open connection
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
             connection.Open();
@@ -358,7 +377,7 @@ namespace Agile_2018
             //close connection and return number of rows affected (should be 1)
             connection.Close();
             return i;
-        }
+        }*/
         public bool DeleteProject(int projectID)
         {
             try

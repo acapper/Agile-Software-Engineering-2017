@@ -47,34 +47,18 @@ namespace Agile_2018
             return dataTable;
         }
 
-        public DataTable ViewProjectsToSign(int status)
-        {
-            DataTable dataTable = new DataTable();
-
-            //assign stored procedure
-            string storedProc = "viewProjectsToSign;";
-
-            //open connection
+        public DataTable ViewAllProjects(string id)
+        { 
+            ConnectionClass.OpenConnection();
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
-            connection.Open();
+            MySqlDataAdapter sda = new MySqlDataAdapter("viewProjects", connection);
+            sda.SelectCommand.CommandType = CommandType.StoredProcedure;
+            sda.SelectCommand.Parameters.AddWithValue("?uID", id);
+            DataTable dt = new DataTable();
+            sda.Fill(dt);
+            ConnectionClass.CloseConnection();
 
-            //define stored procedure
-            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
-            cmd.CommandType = System.Data.CommandType.StoredProcedure;
-
-            //assign parameters
-            cmd.Parameters.Add(new MySqlParameter("?p", status));
-
-            //execute procedure
-            MySqlDataAdapter adapter = new MySqlDataAdapter(cmd);
-            adapter.Fill(dataTable);
-
-            //close connection
-            connection.Close();
-            adapter.Dispose();
-
-            //return table data
-            return dataTable;
+            return dt;
         }
     }
 }

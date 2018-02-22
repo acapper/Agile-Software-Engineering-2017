@@ -53,8 +53,8 @@ namespace Agile_2018
                         String fileName = Path.GetFileName(file.FileName);
                         DatabaseFileHandler dfh = new DatabaseFileHandler();
                         int i = dfh.UploadFile(Int32.Parse(pID), file.InputStream, fileName);
-                        ProjectManager pm = new ProjectManager();
-                        pm.researcherConfirmation(Int32.Parse(pID), Session["uID"].ToString());
+                        Project p1 = new Project();
+                        p1.ResearcherSign(Int32.Parse(pID), Session["uID"].ToString());
                         Response.Redirect(Request.RawUrl);
                     }
                 }
