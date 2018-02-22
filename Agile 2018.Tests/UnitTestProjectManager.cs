@@ -116,7 +116,7 @@ namespace Agile_2018.Tests
         //Method wich tests whether the correct number of records are returned which are unconfirmed by a researcher. There should be 31 records with a status code of 0
         //as of 16/02/2018 but this will change. 
 
-        [TestMethod]
+        /*[TestMethod]
         public void getResearcherUnconfirmedProjects()
         {
             //should return 31 values
@@ -133,7 +133,7 @@ namespace Agile_2018.Tests
 
             //Testing if variables are equal
             Assert.AreEqual(expected, actual);
-        }
+        }*/
 
         /*
         //Method wich tests whether the correct number of records are returned which are unconfirmed by a researcher. There should be 31 records with a status code of 0

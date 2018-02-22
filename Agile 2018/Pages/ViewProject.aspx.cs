@@ -111,5 +111,30 @@ namespace Agile_2018
             dfh.DeleteFile(fileID);
             Response.Redirect(Request.RawUrl);
         }
+
+        protected void Reject_Click(object sender, EventArgs e)
+        {
+            Project p = new Project();
+            int id = Int32.Parse(Session["pID"].ToString());
+            int projectID = Int32.Parse(((LinkButton)sender).CommandArgument.ToString());
+            switch (id)
+            {
+                case 0:
+                    p.ResearcherReject(projectID);
+                    break;
+                case 1:
+                    p.RISReject(projectID);
+                    break;
+                case 2:
+                    p.AssocDeanReject(projectID);
+                    break;
+                case 3:
+                    p.DeanReject(projectID);
+                    break;
+                default:
+                    break;
+            }
+            Response.Redirect(Request.RawUrl);
+        }
     }
 }

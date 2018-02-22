@@ -47,6 +47,7 @@
         <header>
             <!-- Dropdown Structure -->
             <ul id="nav-dropdown" class="dropdown-content">
+                <li><a href="/AllProjects">Home</a><li>
                 <li><a href="#">Profile</a></li>
                 <li class="divider"></li>
                 <li>
@@ -55,6 +56,8 @@
 
             <!-- Side Nav Structure -->
             <ul class="side-nav" id="mobile-demo">
+                <li><a href="/AllProjects">Home</a><li>
+                <li class="divider"></li>
                 <li><a href="#!" class="panel-heading"><i class="material-icons prefix">person</i>Profile</a></li>
                 <li class="divider"></li>
                 <li>
@@ -80,8 +83,8 @@
                 <asp:ContentPlaceHolder ID="MainContent" runat="server">
                 </asp:ContentPlaceHolder>
             </div>
-            <footer class="page-footer light-green darken-3">
-                <div class="container">
+            <footer class="page-footer light-green darken-3" style="position: absolute; bottom: 0; padding-bottom: 10px; width: 100%; z-index: 1;">
+                <!--<div class="container">
                     <div class="row">
                         <!--<div class="col l6 s12">
                             <h5 class="white-text">Footer Content</h5>
@@ -95,20 +98,20 @@
                                 <li><a class="grey-text text-lighten-3" href="#!">Link 3</a></li>
                                 <li><a class="grey-text text-lighten-3" href="#!">Link 4</a></li>
                             </ul>
-                        </div>-->
-                    </div>
-                </div>
-                <div class="footer-copyright">
-                    <div class="container">
-                        <div class="row footer-name">
-                            <a class="grey-text text-lighten-4" href="#!">Agile Software Development</a>
-                            <br />
-                            <a class="grey-text text-lighten-4" href="#!">University of Dundee</a>
-                            <br />
-                            <a class="grey-text text-lighten-4">&copy; <%: DateTime.Now.Year %> Team 5</a>
                         </div>
                     </div>
+                </div>-->
+                <!--<div class="footer-copyright">-->
+                <div class="container">
+                    <div class="row footer-name">
+                        <a class="grey-text text-lighten-4" href="#!">Agile Software Development</a>
+                        <br />
+                        <a class="grey-text text-lighten-4" href="#!">University of Dundee</a>
+                        <br />
+                        <a class="grey-text text-lighten-4">&copy; <%: DateTime.Now.Year %> Team 5</a>
+                    </div>
                 </div>
+                <!--</div>-->
             </footer>
         </main>
     </form>
