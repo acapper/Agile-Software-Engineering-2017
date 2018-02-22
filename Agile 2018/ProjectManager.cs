@@ -79,7 +79,14 @@ namespace Agile_2018
             return dt;
         }
 
-        /* //THIS MAY NOT BE NEEDED 
+
+
+        //////////////////////////////////////////////////
+        //  IGNORE BEYOND THIS POINT BUT DO NOT DELETE  //
+        //////////////////////////////////////////////////
+
+
+        /* //DO NOT DELETE
         //Method which returns all project records which have a status code of 0, ie need to be confirmed by a researcher. 
         public DataTable getResearcherUnconfirmedProjects()
         {
@@ -114,13 +121,13 @@ namespace Agile_2018
         }
         */
 
-            /*
-             * 1. Using ProjectID researcher wants to sign, check the database to see if it has been confirmed or not already. 
-             * 2. If it has not been signed yet, sign it
-             * */
+        /*
+         * 1. Using ProjectID researcher wants to sign, check the database to see if it has been confirmed or not already. 
+         * 2. If it has not been signed yet, sign it
+         * */
 
 
-
+         //DO NOT DELETE
         //Function which takes in a ProjectID for the project to be confirmed, changing its status code to 1 and its Researcher signed value to userID
         public void researcherConfirmation(int projectID, int userID)
         {
@@ -148,21 +155,13 @@ namespace Agile_2018
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "UPDATE projects SET ResearcherSigned = '" + userID + "', StatusCode = '1' WHERE ProjectID = '" + projectID + "'";
                 cmd.ExecuteNonQuery();
-                
-
-
+           
             }
-
+       
             ConnectionClass.CloseConnection();
 
         }
-
-
-        //DYLAN
-        //1. Change all SQL statements to stored procedures. 
-        //2. Create the unit test for researcherConfirmation()
-        //  - Create a project which is unsigned, run the method, then check to see if it is signed by comparing it to what you think it should be.  then delete
-        //3. Get rid of all unnecessary comments, and comment anything which isn't yet. :3
+        
 
     }
 }

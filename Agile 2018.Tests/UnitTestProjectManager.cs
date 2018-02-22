@@ -150,6 +150,10 @@ namespace Agile_2018.Tests
         }
 
 
+         //////////////////////////////////////////////////
+        //  IGNORE BEYOND THIS POINT BUT DO NOT DELETE  //
+       //////////////////////////////////////////////////
+
         /*
        //Create a project which is unsigned, run the method, then check to see if it is signed by comparing it to what you think it should be.  then delete
        [TestMethod]
@@ -180,10 +184,6 @@ namespace Agile_2018.Tests
 
             }
             
-            //Testing if strings are equal
-            Assert.AreEqual(expectedProjectID.ToString(), rowRead, false, "There was an error with the view for your project.");
-            //Testing if variables are equal
-            Assert.AreEqual(expected, actual);
         }*/
 
         /*
@@ -218,21 +218,11 @@ namespace Agile_2018.Tests
                Console.WriteLine(rowRead);
            }
 
-
-
-
-
            //Expected before method is run
            String oldExpected = "1 Dylan 0 11 0 0 0";
 
-
        }
        */
-
-
-
-
-
 
         //Method wich tests whether the correct number of records are returned which are unconfirmed by a researcher. There should be 31 records with a status code of 0
         //as of 16/02/2018 but this will change. 
