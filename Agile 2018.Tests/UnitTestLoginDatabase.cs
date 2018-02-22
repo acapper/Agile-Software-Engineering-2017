@@ -16,7 +16,7 @@ namespace Agile_2018.Tests
             MySqlCommand cmd;
             ConnectionClass.OpenConnection();
             cmd = ConnectionClass.con.CreateCommand(); //New Connection object
-            cmd.CommandText = "INSERT INTO `17agileteam5db`.`logindetails` (`StaffID`, `Forename`, `Surname`, `Pass`, `Position`, `Email`) VALUES ('1', '1', '1', '1', '1', '1');SELECT LAST_INSERT_ID();";
+            cmd.CommandText = "INSERT INTO logindetails(StaffID,Forename,Surname,Pass,Position,Email)VALUES('testlogin',1,1,'testlogin',1,1);SELECT LAST_INSERT_ID();";
             MySqlDataReader reader = cmd.ExecuteReader();
             while (reader.Read())
             {
@@ -30,12 +30,12 @@ namespace Agile_2018.Tests
         public void Login()
         {            
             LoginClass test = new LoginClass();
-            string result = test.ValidateLoginDetails("1", "1");
+            string result = test.ValidateLoginDetails("testlogin", "testlogin");
             Assert.AreEqual(userID,result);
             ConnectionClass.CloseConnection();
         }
         [TestCleanup]
-        public void CLeanUp()
+        public void CleanUp()
         {
             MySqlCommand cmd;
             ConnectionClass.OpenConnection();
