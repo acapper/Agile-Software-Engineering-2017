@@ -46,7 +46,7 @@ namespace Agile_2018
                 // Populate SQl query values
                 cmd.Parameters.AddWithValue("@userID", userID);
                 cmd.Parameters.AddWithValue("@projID", pID);
-               
+
 
                 // Execute Query
                 cmd.ExecuteNonQuery();
@@ -55,14 +55,14 @@ namespace Agile_2018
                 ConnectionClass.CloseConnection();
                 return pID;
             }
-            catch(Exception)
+            catch (Exception)
             {
                 ConnectionClass.CloseConnection();
                 return null;
                 throw;
             }
         }
-        
+
         /// <summary>
         /// 
         /// </summary>
@@ -296,8 +296,7 @@ namespace Agile_2018
             return i;
         }
 
-        ///////////////////////////////////////////////////////////////////////////
-        /*
+        /*      
          * Below is potential sign/reject methods refactored. Reject doesn't require switch statement as it
          * doesn't matter who rejects it, all signed fields are reset to 0/default.
          * All reject stored procedures should simply use 'deanRejectProject'.
@@ -378,7 +377,7 @@ namespace Agile_2018
             //close connection and return number of rows affected (should be 1)
             connection.Close();
             return i;
-        }
+        }*/
         public bool DeleteProject(int projectID)
         {
             try
