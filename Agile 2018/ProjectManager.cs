@@ -33,7 +33,11 @@ namespace Agile_2018
 
             //Adaptor to read results into the datatable
             MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+            //Fill the datatable with the results from the MYSQL command using data adapter
             adapter.Fill(dt);
+
+            //Close Connection
+            ConnectionClass.CloseConnection();
 
             //If the datatable is empty, ie the project row does not exist in the database, then return null.
             if (dt == null)
@@ -52,24 +56,37 @@ namespace Agile_2018
         //Method which returns a datatable containing all the related files returned based on the projectID passed to it. 
         public DataTable viewProjectFiles(int input)
         {
-
-
+            
             //Connects to database
             ConnectionClass.OpenConnection();
 
-            //Declare new mysql command using connection to return files from storedfiles table relevent to this projectID
-            String query = "SELECT * FROM storedfiles WHERE ProjectID = '" + input + "'";
+            //Declare new mysql command using stored procedure.
+            MySqlCommand command = new MySqlCommand("viewProjectFiles", ConnectionClass.con);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new MySqlParameter("@id", input));
 
             //Create datatable for results to be read into
             DataTable dt = new DataTable();
-            MySqlDataAdapter sda = new MySqlDataAdapter(query, ConnectionClass.con);
+
+            //Adaptor to read results into the datatable
+            MySqlDataAdapter sda = new MySqlDataAdapter(command);
             //Fill the datatable with the results from the MYSQL command using data adapter
             sda.Fill(dt);
+
+            //Close Connection
             ConnectionClass.CloseConnection();
+
             return dt;
         }
 
-        /* //THIS MAY NOT BE NEEDED 
+
+
+        //////////////////////////////////////////////////
+        //  IGNORE BEYOND THIS POINT BUT DO NOT DELETE  //
+        //////////////////////////////////////////////////
+
+
+        /* //DO NOT DELETE
         //Method which returns all project records which have a status code of 0, ie need to be confirmed by a researcher. 
         public DataTable getResearcherUnconfirmedProjects()
         {
@@ -104,17 +121,20 @@ namespace Agile_2018
         }
         */
 
-            /*
-             * 1. Using ProjectID researcher wants to sign, check the database to see if it has been confirmed or not already. 
-             * 2. If it has not been signed yet, sign it
-             * */
+        /*
+         * 1. Using ProjectID researcher wants to sign, check the database to see if it has been confirmed or not already. 
+         * 2. If it has not been signed yet, sign it
+         * */
 
 
-
+         //DO NOT DELETE
         //Function which takes in a ProjectID for the project to be confirmed, changing its status code to 1 and its Researcher signed value to userID
-        public void researcherConfirmation(int projectID, string userID)
+        public void researcherConfirmation(int projectID, int userID)
         {
+
+            //Connects to database
             ConnectionClass.OpenConnection();
+
             DataTable dt = viewProjectInfo(projectID);
 
             int researcherSigned = 0;
@@ -129,19 +149,19 @@ namespace Agile_2018
             if (researcherSigned == 0 && statusCode == 0)
             {
                 //Declare new mysql command using connection which sets user specified project's ResearcherSigned and StatusCode values to userID
+
+                
                 MySqlCommand cmd = ConnectionClass.con.CreateCommand();
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "UPDATE projects SET ResearcherSigned = '" + userID + "', StatusCode = '1' WHERE ProjectID = '" + projectID + "'";
                 cmd.ExecuteNonQuery();
+           
             }
+       
+            ConnectionClass.CloseConnection();
+
         }
-
-
-        //DYLAN
-        //1. Change all SQL statements to stored procedures. 
-        //2. Create the unit test for researcherConfirmation()
-        //  - Create a project which is unsigned, run the method, then check to see if it is signed by comparing it to what you think it should be.  then delete
-        //3. Get rid of all unnecessary comments, and comment anything which isn't yet. :3
+        
 
     }
 }

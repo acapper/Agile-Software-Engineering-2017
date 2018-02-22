@@ -92,6 +92,7 @@ namespace Agile_2018.Tests
         {
             ConnectionClass.OpenConnection();
 
+            //Add the expected record to the database, which will have a title of "test" and a user ID of "1".
             ProjectManager pm = new ProjectManager();
             //Create and upload test file
             DatabaseFileHandler dfh = new DatabaseFileHandler();
@@ -119,6 +120,7 @@ namespace Agile_2018.Tests
             int actualRowCount = dt.Rows.Count;
 
             Assert.AreEqual(expectedRowCount, actualRowCount);
+
             File.Delete(fullPath);
             DatabaseFileHandler dbfh = new DatabaseFileHandler();
             ConnectionClass.OpenConnection();
@@ -147,26 +149,41 @@ namespace Agile_2018.Tests
 
         }
 
-        //Method wich tests whether the correct number of records are returned which are unconfirmed by a researcher. There should be 31 records with a status code of 0
-        //as of 16/02/2018 but this will change. 
 
-        /*[TestMethod]
-        public void getResearcherUnconfirmedProjects()
-        {
-            //should return 31 values
-            ConnectionClass.OpenConnection();
-            ProjectManager pm = new ProjectManager();
+         //////////////////////////////////////////////////
+        //  IGNORE BEYOND THIS POINT BUT DO NOT DELETE  //
+       //////////////////////////////////////////////////
 
-            //Expected number of rows returned (THIS IS CONSTANTLY CHANGING SO EXPECT TEST TO FAIL)
-            int expected = 67;
+        /*
+       //Create a project which is unsigned, run the method, then check to see if it is signed by comparing it to what you think it should be.  then delete
+       [TestMethod]
+       public void researcherConfirmation()
+       {
 
-            //Actual number of rows returned
-            DataTable dt = pm.getResearcherUnconfirmedProjects();
-            int actual = dt.Rows.Count;
-            Console.WriteLine(actual);
+           ConnectionClass.OpenConnection();
 
-            //Testing if variables are equal
-            Assert.AreEqual(expected, actual);
+           //Add the expected record to the database, which will have a title of "test" and a user ID of "1".
+           ProjectManager pm = new ProjectManager();
+           Project expectedProject = new Project();
+           int expectedProjectID = Convert.ToInt32(expectedProject.CreateProject("researcherConfirmationTest", 1));
+
+           pm.researcherConfirmation(int expectedProjectID, 1);
+
+            //Actual
+            DataTable dt = pm.viewProjectInfo(expectedProjectID);
+
+            //Making actual result comparable by converting into int format
+            int rSign = 0;
+            int sCode = 0;
+            foreach (DataRow dr in dt.Rows)
+            {
+                rSign = Int32.Parse(dr["ResearcherSigned"].ToString());
+                sCode = Int32.Parse(dr["StatusCode"].ToString());
+                Console.WriteLine(rSign);
+                Console.WriteLine(sCode);
+
+            }
+            
         }*/
 
         /*
@@ -182,32 +199,55 @@ namespace Agile_2018.Tests
             //get new values of these two fields
             //compare these to old values. 
 
+            //REMEMBER TO DELETE THE RECORDS - get Pete's delete project method
+
+           //////////
+
+           ConnectionClass.OpenConnection();
+           ProjectManager pm = new ProjectManager();
+
+           //this is a datatable of all the rows which are unconfirmed
+           DataTable dt = pm.getResearcherUnconfirmedProjects();
+           //get projectID for the first row of this table
+           String rowRead = "";
+
+           foreach (DataRow dr in dt.Rows)
+           {
+               rowRead = dr["ProjectID"].ToString();
+               String projectID = rowRead.
+               Console.WriteLine(rowRead);
+           }
+
+           //Expected before method is run
+           String oldExpected = "1 Dylan 0 11 0 0 0";
+
+       }
+       */
+
+        //Method wich tests whether the correct number of records are returned which are unconfirmed by a researcher. There should be 31 records with a status code of 0
+        //as of 16/02/2018 but this will change. 
+
+        /* MAY NOT BE NEEDED
+       [TestMethod]
+       public void getResearcherUnconfirmedProjects()
+       {
+           //should return 31 values
+           ConnectionClass.OpenConnection();
+           ProjectManager pm = new ProjectManager();
+
+           //Expected number of rows returned (THIS IS CONSTANTLY CHANGING SO EXPECT TEST TO FAIL)
+           int expected = 67;
+
+           //Actual number of rows returned
+           DataTable dt = pm.getResearcherUnconfirmedProjects();
+           int actual = dt.Rows.Count;
+           Console.WriteLine(actual);
+
+           //Testing if variables are equal
+           Assert.AreEqual(expected, actual);
+       }
+       */
 
 
-            ConnectionClass.OpenConnection();
-            ProjectManager pm = new ProjectManager();
-
-            //this is a datatable of all the rows which are unconfirmed
-            DataTable dt = pm.getResearcherUnconfirmedProjects();
-            //get projectID for the first row of this table
-            String rowRead = "";
-
-            foreach (DataRow dr in dt.Rows)
-            {
-                rowRead = dr["ProjectID"].ToString();
-                String projectID = rowRead.
-                Console.WriteLine(rowRead);
-            }
-
-
-
-
-
-            //Expected before method is run
-            String oldExpected = "1 Dylan 0 11 0 0 0";
-
-
-        }
-        */
     }
 }  
