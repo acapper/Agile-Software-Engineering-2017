@@ -36,7 +36,7 @@ namespace Agile_2018
             string[] args = ((LinkButton)sender).CommandArgument.ToString().Split(null);
             Session["ProjectID"] = args[0];
             Session["Title"] = args[1];
-            Response.Redirect("ViewProject.aspx");
+            Response.Redirect("ViewProject");
         }
 
         protected void NewProject_Click(object sender, EventArgs e)

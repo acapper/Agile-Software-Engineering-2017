@@ -13,6 +13,9 @@ namespace Agile_2018
             var settings = new FriendlyUrlSettings();
             settings.AutoRedirectMode = RedirectMode.Permanent;
             routes.EnableFriendlyUrls(settings);
+            RouteTable.Routes.MapPageRoute("Login", "Index", "~/Login.aspx");
+            RouteTable.Routes.MapPageRoute("AllProjects", "AllProjects", "~/Pages/AllProjects.aspx");
+            RouteTable.Routes.MapPageRoute("ViewProject", "ViewProject", "~/Pages/ViewProject.aspx");
         }
     }
 }
