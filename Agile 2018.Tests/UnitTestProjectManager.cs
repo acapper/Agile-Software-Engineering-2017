@@ -15,6 +15,48 @@ namespace Agile_2018.Tests
     [TestClass]
     public class UnitTestProjectManager
     {
+        String userID;
+        int projectID;
+        Project newProject = new Project();
+
+        [TestInitialize]
+        public void TestInit()
+        {
+            MySqlCommand cmd;
+            ConnectionClass.OpenConnection();
+            cmd = ConnectionClass.con.CreateCommand(); //New Connection object
+            cmd.CommandText = "INSERT INTO logindetails(StaffID,Forename,Surname,Pass,Position,Email)VALUES(1,1,1,1,1,1);SELECT LAST_INSERT_ID();";
+            // Execute Query
+            MySqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                userID = reader.GetString("LAST_INSERT_ID()");
+            }
+            reader.Close();
+            ConnectionClass.CloseConnection();
+
+            //Name of new project to be added
+            string teststring = "AnotherTest"; //random teststring
+            projectID = Int32.Parse(newProject.CreateProject(teststring, Int32.Parse(userID)));
+        }
+
+        [TestCleanup]
+        public void CleanUp()
+        {
+            MySqlCommand cmd;
+            ConnectionClass.OpenConnection();
+            cmd = ConnectionClass.con.CreateCommand(); //New Connection object
+            cmd.CommandText = "DELETE FROM storedfiles WHERE ProjectID = " + projectID;
+            cmd.ExecuteReader();
+            ConnectionClass.CloseConnection();
+            newProject.DeleteProject(projectID);
+            ConnectionClass.OpenConnection();
+            cmd = ConnectionClass.con.CreateCommand(); //New Connection object
+            cmd.CommandText = "DELETE FROM logindetails WHERE UserID = " + userID;
+            cmd.ExecuteReader();
+            ConnectionClass.CloseConnection();
+        }
+
         //Method which tests if the search function works correctly by calling the searchProject() method and comparing
         //its returned results to what the results should be.
         [TestMethod]
@@ -24,11 +66,9 @@ namespace Agile_2018.Tests
 
             //Add the expected record to the database, which will have a title of "viewProjectInfoTest" and a user ID of "1".
             ProjectManager pm = new ProjectManager();
-            Project expectedProject = new Project();
-            int expectedProjectID = Convert.ToInt32(expectedProject.CreateProject("viewProjectInfoTest", 1));   
             
             //Actual
-            DataTable dt = pm.viewProjectInfo(expectedProjectID);
+            DataTable dt = pm.viewProjectInfo(projectID);
 
             //Making actual result comparable by converting into string format
             string rowRead = "";
@@ -39,7 +79,7 @@ namespace Agile_2018.Tests
             }
             
             //Testing if strings are equal
-            Assert.AreEqual(expectedProjectID.ToString(), rowRead, false, "There was an error with the view for your project.");
+            Assert.AreEqual(projectID.ToString(), rowRead, false, "There was an error with the view for your project.");
 
             //REMEMBER TO DELETE THE RECORDS - get Pete's delete project method
         }
@@ -52,12 +92,7 @@ namespace Agile_2018.Tests
         {
             ConnectionClass.OpenConnection();
 
-            //Add the expected record to the database, which will have a title of "test" and a user ID of "1".
             ProjectManager pm = new ProjectManager();
-            Project expectedProject = new Project();
-            int expectedProjectID = Convert.ToInt32(expectedProject.CreateProject("viewProjectFileTest", 1));
-
-
             //Create and upload test file
             DatabaseFileHandler dfh = new DatabaseFileHandler();
 
@@ -76,12 +111,11 @@ namespace Agile_2018.Tests
                     Thread.Sleep(1000);
                 }
             }
-            int id = expectedProjectID;
 
-            int expectedRowCount = dfh.UploadFile(id, File.Open(fullPath, FileMode.Open), fileName);
+            int expectedRowCount = dfh.UploadFile(projectID, File.Open(fullPath, FileMode.Open), fileName);
 
             //Actual
-            DataTable dt = pm.viewProjectFiles(expectedProjectID);
+            DataTable dt = pm.viewProjectFiles(projectID);
             int actualRowCount = dt.Rows.Count;
 
             Assert.AreEqual(expectedRowCount, actualRowCount);
@@ -91,7 +125,7 @@ namespace Agile_2018.Tests
             MySqlCommand comm = ConnectionClass.con.CreateCommand();
             comm.CommandText = "SELECT FileID FROM storedfiles sf WHERE sf.FileName = @fileName AND sf.ProjectID = @id";
             comm.Parameters.AddWithValue("@fileName", fileName);
-            comm.Parameters.AddWithValue("@id", id);
+            comm.Parameters.AddWithValue("@id", projectID);
 
             int fileID = 0;
 
@@ -109,7 +143,7 @@ namespace Agile_2018.Tests
 
 
             //REMEMBER TO DELETE THE PROJECT RECORDS with pete's method
-
+            newProject.DeleteProject(projectID);
 
         }
 
