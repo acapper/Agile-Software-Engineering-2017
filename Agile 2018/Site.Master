@@ -47,11 +47,11 @@
         <header>
             <!-- Dropdown Structure -->
             <ul id="nav-dropdown" class="dropdown-content">
-                <li><a href="/AllProjects">Home</a><li>
+                <li><a href="/AllProjects">Home</a></li>
+                <li class="divider"></li>
                 <li><a href="#">Profile</a></li>
                 <li class="divider"></li>
-                <li>
-                    <asp:LinkButton runat="server" OnClick="SignOut_Click" Text="Logout"></asp:LinkButton></li>
+                <li><asp:LinkButton runat="server" OnClick="SignOut_Click" Text="Logout"></asp:LinkButton></li>
             </ul>
 
             <!-- Side Nav Structure -->
