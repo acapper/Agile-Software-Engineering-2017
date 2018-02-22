@@ -8,121 +8,160 @@ using MySql.Data.MySqlClient;
 
 namespace Agile_2018
 {
-    /*
-     * Method which takes in the project ID the user wants to search for from 
-     * the user and returns it from the database. 
-     */
     public class ProjectManager
     {
-        //object [] returnedRow = new object[9];
-        public DataRow returnedRow;
-        public DataTable dt = new DataTable();
-        public int ProjectID;
+        //DB INFO:
+        //Hostname: silva.computing.dundee.ac.uk    
+        //Port: 3306
+        //Username: 17agileteam5
+        //Password: 7485.at5.5847
 
-        public String searchProject(int input)
+        //DONE
+        //Method which returns a datatable containing all the information returned for a project based on the projectID passed to it. 
+        public DataTable viewProjectInfo(int input)
         {
-            String Title;
+            //Connects to database
             ConnectionClass.OpenConnection();
-            int userInput = input;
-            MySqlCommand cmd = ConnectionClass.con.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT * FROM projects WHERE ProjectID = '" + userInput + "'";
-            cmd.ExecuteNonQuery();
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
-            da.Fill(dt);
-            ProjectID = Convert.ToInt32(dt.Rows[0]["ProjectID"]);
-            Title = Convert.ToString(dt.Rows[0]["Title"]);
-            return Title;
-            //returnedRow = dt.Select("ProjectID = '" + userInput + "'");
+
+            //Declare new mysql command using stored procedure.
+            MySqlCommand command = new MySqlCommand("viewProjectInfo", ConnectionClass.con);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new MySqlParameter("@id", input));
+
+            //Create datatable for results to be read into
+            DataTable dt = new DataTable();
+
+            //Adaptor to read results into the datatable
+            MySqlDataAdapter adapter = new MySqlDataAdapter(command);
+            //Fill the datatable with the results from the MYSQL command using data adapter
+            adapter.Fill(dt);
+
+            //Close Connection
+            ConnectionClass.CloseConnection();
+
+            //If the datatable is empty, ie the project row does not exist in the database, then return null.
+            if (dt == null)
+            {
+                return null;
+            }
+            //else if the project record does exist, return this datatable. 
+            else
+            {
+                return dt;
+            }
         }
 
-            public String viewProject(int input)
-        {
-            String rowRead = "";
 
+
+        //Method which returns a datatable containing all the related files returned based on the projectID passed to it. 
+        public DataTable viewProjectFiles(int input)
+        {
+            
+            //Connects to database
             ConnectionClass.OpenConnection();
-            int userInput = input;
-            MySqlCommand cmd = ConnectionClass.con.CreateCommand();
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = "SELECT * FROM projects WHERE ProjectID = '" + userInput + "'";
-            cmd.ExecuteNonQuery();
+
+            //Declare new mysql command using stored procedure.
+            MySqlCommand command = new MySqlCommand("viewProjectFiles", ConnectionClass.con);
+            command.CommandType = System.Data.CommandType.StoredProcedure;
+            command.Parameters.Add(new MySqlParameter("@id", input));
+
+            //Create datatable for results to be read into
             DataTable dt = new DataTable();
-            MySqlDataAdapter da = new MySqlDataAdapter(cmd);
+
+            //Adaptor to read results into the datatable
+            MySqlDataAdapter sda = new MySqlDataAdapter(command);
+            //Fill the datatable with the results from the MYSQL command using data adapter
+            sda.Fill(dt);
+
+            //Close Connection
+            ConnectionClass.CloseConnection();
+
+            return dt;
+        }
+
+
+
+        //////////////////////////////////////////////////
+        //  IGNORE BEYOND THIS POINT BUT DO NOT DELETE  //
+        //////////////////////////////////////////////////
+
+
+        /* //DO NOT DELETE
+        //Method which returns all project records which have a status code of 0, ie need to be confirmed by a researcher. 
+        public DataTable getResearcherUnconfirmedProjects()
+        {
+            //Connects to database
+            ConnectionClass.OpenConnection();
+
+            //Declare new mysql command using connection to returns all projects which need
+
+            //MySqlCommand cmd = ConnectionClass.con.CreateCommand();
+            //cmd.CommandType = CommandType.Text;
+            //cmd.CommandText = "SELECT * FROM projects WHERE StatusCode = '0'";
+            //cmd.ExecuteNonQuery();
+
+            String query = "SELECT * FROM projects WHERE StatusCode = '0'";
+
+            //Create datatable for results to be read into
+            DataTable dt = new DataTable();
+            MySqlDataAdapter da = new MySqlDataAdapter(query, ConnectionClass.con);
+            //Fill the datatable with the results from the MYSQL command using data adapter
             da.Fill(dt);
-            //Prints the selected data row to the console as one line
+            ConnectionClass.CloseConnection();
+            //If the datatable is empty, ie there are no Projects which require a researcher to confirm
+            if (dt == null)
+            {
+                return null;
+            }
+            //else if there are projects to be confirmed 
+            else
+            {
+                return dt;
+            }
+        }
+        */
+
+        /*
+         * 1. Using ProjectID researcher wants to sign, check the database to see if it has been confirmed or not already. 
+         * 2. If it has not been signed yet, sign it
+         * */
+
+
+         //DO NOT DELETE
+        //Function which takes in a ProjectID for the project to be confirmed, changing its status code to 1 and its Researcher signed value to userID
+        public void researcherConfirmation(int projectID, int userID)
+        {
+
+            //Connects to database
+            ConnectionClass.OpenConnection();
+
+            DataTable dt = viewProjectInfo(projectID);
+
+            int researcherSigned = 0;
+            int statusCode = 0;
             foreach (DataRow dr in dt.Rows)
             {
-                rowRead = dr["ProjectID"].ToString() + " " + dr["Title"].ToString() + " " + dr["AssocDeanSigned"].ToString() + " " + dr["ResearcherSigned"].ToString() + " " + dr["RISSigned"].ToString() + " " + dr["CompletionProgress"].ToString() + " " + dr["StatusCode"].ToString();
-                Console.WriteLine(rowRead);
+                researcherSigned = Convert.ToInt32(dr["ResearcherSigned"]);
+                statusCode = Convert.ToInt32(dr["StatusCode"]);
+                Console.WriteLine(researcherSigned + " " + statusCode);
             }
 
-            return rowRead;
-            //
-
-            /*
-            MySqlCommand cmd = new MySqlCommand();
-            MySqlDataReader dr;
-
-           // DataTable dt;
-           // DataRow dr;
-
-            int idToView = input;
-
-            //adp.SelectCommand = new MySqlCommand("Select * from project where ProjectID = '" + idToView + "'", ConnectionClass.con);
-
-            //adp.Fill(ds, "result");
-            //dt = ds.Tables["result"];
-           // dr = dt.Rows[0];
-
-            //dg.DataSource = ds.Tables["results"];
-
-
-            string[] results = new string[8];
-
-            MySqlCommand viewProjectSQL = new MySqlCommand("Select ProjectID from projects where ProjectID = '" + idToView + "'", ConnectionClass.con);
-
-            MySqlDataReader reader = viewProjectSQL.ExecuteReader();
-                while(reader.Read())
-                    {
-                        results[0] = (string)reader[0];
-                        results[1] = (string)reader[1];
-                        results[2] = (string)reader[2];
-                        results[3] = (string)reader[3];
-                        results[4] = (string)reader[4];
-                        results[5] = (string)reader[5];
-                        results[6] = (string)reader[6];
-                        results[7] = (string)reader[7];
-                    }
-
-            reader.Close();
-
-            for(int i = 0; i < 7; i++)
+            if (researcherSigned == 0 && statusCode == 0)
             {
-                Console.WriteLine(results[i]);
+                //Declare new mysql command using connection which sets user specified project's ResearcherSigned and StatusCode values to userID
+
+                
+                MySqlCommand cmd = ConnectionClass.con.CreateCommand();
+                cmd.CommandType = CommandType.Text;
+                cmd.CommandText = "UPDATE projects SET ResearcherSigned = '" + userID + "', StatusCode = '1' WHERE ProjectID = '" + projectID + "'";
+                cmd.ExecuteNonQuery();
+           
             }
+       
+            ConnectionClass.CloseConnection();
 
-            MySqlCommand viewProjectFilesSQL = new MySqlCommand("Select ProjectID from storedfiles where ProjectID = '" + idToView + "'", ConnectionClass.con);
-
-
-
-
-            return idToView;
-
-
-
-
-            //1. take in project id
-            //2. query projects in database for the row with this id
-            //3. query stored files for all files with this id in the database. 
-            //4. you should have 2 arrays at this point. one with the first query and one with the second query, 
-            //5. Combine these in some way, such as with a json
-            //6. return the combined results from the json file. 
-            */
         }
-
-
-
-
+        
 
     }
 }

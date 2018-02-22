@@ -12,22 +12,19 @@ namespace Agile_2018
     public class DatabaseFileHandler
     {
         /// <summary>
-        /// Deletes any existing files in the project with the same name then uploads the file at the path location to the database. 
+        /// Deletes any existing files in the project with the same name then reads the bytes from the pasted stream and inputs them into the database. 
         /// </summary>
         /// <param name="id">Project ID that the file belongs to</param>
-        /// <param name="path">Path to the file that you are uploading</param>
+        /// <param name="stream">Stream of the file you are uploading</param>
         /// <param name="fileName">File name to display to the user</param>
         /// <returns>Number of rows effected</returns>
-        public int UploadFile(int id, string path, string fileName)
+        public int UploadFile(int id, Stream stream, string fileName)
         {
             //Convert file to bytes
             byte[] file;
-            using (var stream = new FileStream(path, FileMode.Open, FileAccess.Read))
+            using (var reader = new BinaryReader(stream))
             {
-                using (var reader = new BinaryReader(stream))
-                {
-                    file = reader.ReadBytes((int)stream.Length);
-                }
+                file = reader.ReadBytes((int)stream.Length);
             }
 
             ConnectionClass.OpenConnection();
@@ -159,6 +156,29 @@ namespace Agile_2018
             return fileList;
         }
 
+        public byte[] GetFile(int id)
+        {
+            ConnectionClass.OpenConnection();
+            MySqlCommand comm = new MySqlCommand("selectFileWithFileID", ConnectionClass.con);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
+            comm.Parameters.AddWithValue("@id", id);
+            using (MySqlDataReader sqlQueryResult = comm.ExecuteReader())
+            {
+                if (sqlQueryResult.HasRows)
+                {
+                    //Loop for all files
+                    while (sqlQueryResult != null && sqlQueryResult.Read())
+                    {
+                        byte[] blob = new Byte[(sqlQueryResult.GetBytes(sqlQueryResult.GetOrdinal("FileData"), 0, null, 0, int.MaxValue))];
+                        sqlQueryResult.GetBytes(sqlQueryResult.GetOrdinal("FileData"), 0, blob, 0, blob.Length);
+                        ConnectionClass.CloseConnection();
+                        return blob;
+                    }
+                }
+            }
+            return null;
+        }
+
         /// <summary>
         /// Opens a file dialog allowing the user to select a file.
         /// </summary>
@@ -188,7 +208,7 @@ namespace Agile_2018
                         }
                     }
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
                     //MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
                     MessageBox.Show("Could not read file from disk", "File Error", MessageBoxButtons.OK, MessageBoxIcon.Error);

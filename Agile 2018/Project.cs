@@ -15,7 +15,7 @@ namespace Agile_2018
         /// <param name="title"></param>
         /// <param name="userID"></param>
         /// <returns></returns>
-        public string CreateProject(string title, int userID)
+        public String CreateProject(string title, int userID)
         {
             MySqlCommand cmd;
             ConnectionClass.OpenConnection();
@@ -25,25 +25,17 @@ namespace Agile_2018
             {
                 //FIRST INSERT THE NEW PROJECT INTO THE PROJECTS TABLE
                 //SQL Query
-                cmd.CommandText = "INSERT INTO projects(Title)VALUES(@title)";
+                cmd.CommandText = "INSERT INTO projects(Title)VALUES(@title);SELECT LAST_INSERT_ID();";
 
                 // Populate SQl query values
                 cmd.Parameters.AddWithValue("@title", title);
 
                 // Execute Query
-                cmd.ExecuteNonQuery();
-
-                //query server to find out what ID that record got
-                cmd.CommandText = "SELECT ProjectID From projects Where Title = @newtitle";
-                cmd.Parameters.AddWithValue("@newtitle", title);
-
-                //Read the return and grab the HIGHEST project ID. This allows multiple of the same named records
-                string projID = "";
                 MySqlDataReader reader = cmd.ExecuteReader();
+                String pID = "";
                 while (reader.Read())
                 {
-                    projID = reader["ProjectID"].ToString();
-                  
+                    pID = reader.GetString("LAST_INSERT_ID()");
                 }
                 reader.Close();
 
@@ -53,14 +45,15 @@ namespace Agile_2018
 
                 // Populate SQl query values
                 cmd.Parameters.AddWithValue("@userID", userID);
-                cmd.Parameters.AddWithValue("@projID", projID);
+                cmd.Parameters.AddWithValue("@projID", pID);
+               
 
                 // Execute Query
                 cmd.ExecuteNonQuery();
 
                 // Close Connection
                 ConnectionClass.CloseConnection();
-                return projID;
+                return pID;
             }
             catch(Exception)
             {
@@ -106,7 +99,7 @@ namespace Agile_2018
         public int ResearcherSign(int projectID, string staffID)
         {
             //assign stored procedure
-            string storedProc = "researcherSignProject;";
+            string storedProc = "researcherSignProject";
             //open connection
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
             connection.Open();
@@ -212,7 +205,7 @@ namespace Agile_2018
         public int ResearcherReject(int projectID)
         {
             //assign stored procedure
-            string storedProc = "``ResearcherRejectProject``;";
+            string storedProc = "ResearcherRejectProject";
             //open connection
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
             connection.Open();
@@ -237,7 +230,7 @@ namespace Agile_2018
         public int RISReject(int projectID)
         {
             //assign stored procedure
-            string storedProc = "``RISRejectProject``;";
+            string storedProc = "RISRejectProject";
             //open connection
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
             connection.Open();
@@ -262,7 +255,7 @@ namespace Agile_2018
         public int AssocDeanReject(int projectID)
         {
             //assign stored procedure
-            string storedProc = "``assocDeanRejectProject``;";
+            string storedProc = "assocDeanRejectProject";
             //open connection
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
             connection.Open();
@@ -287,7 +280,7 @@ namespace Agile_2018
         public int DeanReject(int projectID)
         {
             //assign stored procedure
-            string storedProc = "`deanRejectProject`;";
+            string storedProc = "deanRejectProject";
             //open connection
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
             connection.Open();
@@ -386,7 +379,36 @@ namespace Agile_2018
             connection.Close();
             return i;
         }
-        */
-        ///////////////////////////////////////////////////////////////////////////
+        public bool DeleteProject(int projectID)
+        {
+            try
+            {
+                //assign stored procedure
+                string storedProc = "DeletePairingAndProject;";
+
+                //open connection
+                MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+                connection.Open();
+
+                //define stored procedure
+                MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+                cmd.CommandType = System.Data.CommandType.StoredProcedure;
+
+                //assign parameters
+                cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+
+                //execute procedure
+                cmd.ExecuteNonQuery();
+                ConnectionClass.CloseConnection();
+
+                return true;//file deleted
+            }
+            catch (Exception)
+            {
+                ConnectionClass.CloseConnection();
+                return false;
+                throw;
+            }
+        }
     }
 }

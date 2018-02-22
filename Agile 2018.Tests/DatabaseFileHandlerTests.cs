@@ -11,6 +11,48 @@ namespace Agile_2018.Tests
     [TestClass]
     public class DatabaseFileHandlerTests
     {
+        String userID;
+        int projectID;
+        Project newProject = new Project();
+
+        [TestInitialize]
+        public void TestInit()
+        {
+            MySqlCommand cmd;
+            ConnectionClass.OpenConnection();
+            cmd = ConnectionClass.con.CreateCommand(); //New Connection object
+            cmd.CommandText = "INSERT INTO logindetails(StaffID,Forename,Surname,Pass,Position,Email)VALUES(1,1,1,1,1,1);SELECT LAST_INSERT_ID();";
+            // Execute Query
+            MySqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                userID = reader.GetString("LAST_INSERT_ID()");
+            }
+            reader.Close();
+            ConnectionClass.CloseConnection();
+
+            //Name of new project to be added
+            string teststring = "AnotherTest"; //random teststring
+            projectID = Int32.Parse(newProject.CreateProject(teststring, Int32.Parse(userID)));
+        }
+
+        [TestCleanup]
+        public void CleanUp()
+        {
+            MySqlCommand cmd;
+            ConnectionClass.OpenConnection();
+            cmd = ConnectionClass.con.CreateCommand(); //New Connection object
+            cmd.CommandText = "DELETE FROM storedfiles WHERE ProjectID = " + projectID;
+            cmd.ExecuteReader();
+            ConnectionClass.CloseConnection();
+            newProject.DeleteProject(projectID);
+            ConnectionClass.OpenConnection();
+            cmd = ConnectionClass.con.CreateCommand(); //New Connection object
+            cmd.CommandText = "DELETE FROM logindetails WHERE UserID = " + userID;
+            cmd.ExecuteReader();
+            ConnectionClass.CloseConnection();
+        }
+
         [TestMethod]
         public void UploadFile()
         {
@@ -31,9 +73,8 @@ namespace Agile_2018.Tests
                     Thread.Sleep(1000);
                 }
             }
-            int id = 50;
 
-            int i = dfh.UploadFile(id, fullPath, fileName);
+            int i = dfh.UploadFile(projectID, File.Open(fullPath, FileMode.Open), fileName);
 
             Assert.AreEqual(1, i);
             File.Delete(fullPath);
@@ -59,14 +100,12 @@ namespace Agile_2018.Tests
                     Thread.Sleep(1000);
                 }
             }
-            int id = 50;
 
-            int i = dfh.UploadFile(id, fullPath, fileName);
+            int i = dfh.UploadFile(projectID, File.Open(fullPath, FileMode.Open), fileName);
 
             path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            id = 50;
 
-            List<String> fileList = dfh.DownloadAllFiles(id, path);
+            List<String> fileList = dfh.DownloadAllFiles(projectID, path);
 
             foreach (String f in fileList)
             {
@@ -83,7 +122,7 @@ namespace Agile_2018.Tests
             MySqlCommand comm = ConnectionClass.con.CreateCommand();
             comm.CommandText = "SELECT FileID FROM storedfiles sf WHERE sf.FileName = @fileName AND sf.ProjectID = @id";
             comm.Parameters.AddWithValue("@fileName", fileName);
-            comm.Parameters.AddWithValue("@id", id);
+            comm.Parameters.AddWithValue("@id", projectID);
             using (MySqlDataReader sqlQueryResult = comm.ExecuteReader())
                 if (sqlQueryResult != null)
                 {
@@ -101,9 +140,8 @@ namespace Agile_2018.Tests
             DatabaseFileHandler dfh = new DatabaseFileHandler();
 
             String path = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            int id = 21;
 
-            List<String> fileList = dfh.DownloadFile(id, path);
+            List<String> fileList = dfh.DownloadFile(projectID, path);
 
             foreach (String f in fileList)
             {
@@ -128,9 +166,8 @@ namespace Agile_2018.Tests
                 FileStream f = File.Create(fullPath);
                 f.Close();
             }
-            int id = 50;
 
-            dfh.UploadFile(id, fullPath, fileName);
+            dfh.UploadFile(projectID, File.Open(fullPath, FileMode.Open), fileName);
 
             int fileID = 0;
 
@@ -138,7 +175,7 @@ namespace Agile_2018.Tests
             MySqlCommand comm = ConnectionClass.con.CreateCommand();
             comm.CommandText = "SELECT FileID FROM storedfiles sf WHERE sf.FileName = @fileName AND sf.ProjectID = @id";
             comm.Parameters.AddWithValue("@fileName", fileName);
-            comm.Parameters.AddWithValue("@id", id);
+            comm.Parameters.AddWithValue("@id", projectID);
             using(MySqlDataReader sqlQueryResult = comm.ExecuteReader())
                 if (sqlQueryResult != null)
             {
