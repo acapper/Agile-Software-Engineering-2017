@@ -22,9 +22,15 @@
                                 </form>
                                 <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small amber darken-1 button-icon" 
                                     OnClick="Sign_Click" CommandArgument='<%# Eval("ProjectID") %>'
-                                    Visible='<%# Int32.Parse(Session["pID"].ToString()) == Int32.Parse(Eval("StatusCode").ToString()) %>'>
+                                    Visible='<%# Int32.Parse(Session["pID"].ToString()) == Int32.Parse(Eval("StatusCode").ToString()) || Int32.Parse(Eval("StatusCode").ToString()) == 5 %>'>
                             <i class="material-icons">create</i>
                                     Sign
+                                </asp:LinkButton>
+                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small red darken-1 button-icon" 
+                                    OnClick="Reject_Click" CommandArgument='<%# Eval("ProjectID") %>'
+                                    Visible='<%# Int32.Parse(Session["pID"].ToString()) != 0 %>'>
+                            <i class="material-icons">clear</i>
+                                    Reject
                                 </asp:LinkButton>
                                 <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small red darken-1 button-icon" OnClick="DeleteProject_Click" CommandArgument='<%# Eval("ProjectID") %>'>
                             <i class="material-icons">delete_forever</i>

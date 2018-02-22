@@ -143,7 +143,7 @@ namespace Agile_2018
         public int ResearcherSign(int projectID, string staffID)
         {
             //assign stored procedure
-            string storedProc = "researcherSignProject;";
+            string storedProc = "researcherSignProject";
             //open connection
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
             connection.Open();
@@ -249,7 +249,7 @@ namespace Agile_2018
         public int ResearcherReject(int projectID)
         {
             //assign stored procedure
-            string storedProc = "``ResearcherRejectProject``;";
+            string storedProc = "ResearcherRejectProject";
             //open connection
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
             connection.Open();
@@ -274,7 +274,7 @@ namespace Agile_2018
         public int RISReject(int projectID)
         {
             //assign stored procedure
-            string storedProc = "``RISRejectProject``;";
+            string storedProc = "RISRejectProject";
             //open connection
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
             connection.Open();
@@ -299,7 +299,7 @@ namespace Agile_2018
         public int AssocDeanReject(int projectID)
         {
             //assign stored procedure
-            string storedProc = "``assocDeanRejectProject``;";
+            string storedProc = "assocDeanRejectProject";
             //open connection
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
             connection.Open();
@@ -324,7 +324,7 @@ namespace Agile_2018
         public int DeanReject(int projectID)
         {
             //assign stored procedure
-            string storedProc = "`deanRejectProject`;";
+            string storedProc = "deanRejectProject";
             //open connection
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
             connection.Open();
