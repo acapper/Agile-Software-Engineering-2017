@@ -129,7 +129,7 @@ namespace Agile_2018
 
          //DO NOT DELETE
         //Function which takes in a ProjectID for the project to be confirmed, changing its status code to 1 and its Researcher signed value to userID
-        public void researcherConfirmation(int projectID, int userID)
+        public void researcherConfirmation1(int projectID, int userID)
         {
 
             //Connects to database
@@ -150,12 +150,13 @@ namespace Agile_2018
             {
                 //Declare new mysql command using connection which sets user specified project's ResearcherSigned and StatusCode values to userID
 
-                
+
+                ConnectionClass.OpenConnection();
                 MySqlCommand cmd = ConnectionClass.con.CreateCommand();
-                cmd.CommandType = CommandType.Text;
                 cmd.CommandText = "UPDATE projects SET ResearcherSigned = '" + userID + "', StatusCode = '1' WHERE ProjectID = '" + projectID + "'";
                 cmd.ExecuteNonQuery();
-           
+                ConnectionClass.CloseConnection();
+
             }
        
             ConnectionClass.CloseConnection();

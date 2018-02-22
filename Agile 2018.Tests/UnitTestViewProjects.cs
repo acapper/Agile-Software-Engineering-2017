@@ -53,7 +53,10 @@ namespace Agile_2018.Tests
             ConnectionClass.OpenConnection();
             cmd = ConnectionClass.con.CreateCommand(); //New Connection object
             cmd.CommandText = "DELETE FROM logindetails WHERE UserID = " + userID;
-            cmd.ExecuteReader();
+            cmd.ExecuteNonQuery();
+            cmd = ConnectionClass.con.CreateCommand(); //New Connection object
+            cmd.CommandText = "DELETE FROM logindetails WHERE UserID = " + risID;
+            cmd.ExecuteNonQuery();
             ConnectionClass.CloseConnection();
         }
 

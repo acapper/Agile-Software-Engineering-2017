@@ -9,8 +9,12 @@ namespace Agile_2018.Tests
     public class UnitTestSign
     {
         string researcherID;
+        string risID;
+        string asDeanID;
+        string deanID;
         int projectID;
         Project newProject = new Project();
+        string testString = "SigningTest";
 
         [TestInitialize]
         public void TestInit()
@@ -22,56 +26,74 @@ namespace Agile_2018.Tests
             cmd2 = ConnectionClass.con.CreateCommand();
             cmd3 = ConnectionClass.con.CreateCommand();
 
-            cmd.CommandText = "INSERT INTO Logindetails(staffID,Forename,Surname,Pass,Position,Email)VALUES(researcher,a,a,a,researcher,a);SELECT LAST_INSERT_ID();";
+            cmd.CommandText = "INSERT INTO Logindetails(staffID,Forename,Surname,Pass,Position,Email)VALUES('researcher',1,1,1,0,1);SELECT LAST_INSERT_ID();";
             MySqlDataReader r = cmd.ExecuteReader();
             while (r.Read())
             {
                 researcherID = r.GetString("LAST_INSERT_ID()");
             }
             r.Close();
-            
-            cmd1.CommandText = "INSERT INTO Logindetails(staffID,Forename,Surname,Pass,Position,Email)VALUES(ris,a,a,a,ris,a);";
-            cmd1.ExecuteNonQuery();
-            cmd2.CommandText = "INSERT INTO Logindetails(staffID,Forename,Surname,Pass,Position,Email)VALUES(assdean,a,a,a,assocdean,a);";
-            cmd2.ExecuteNonQuery();
-            cmd3.CommandText = "INSERT INTO Logindetails(staffID,Forename,Surname,Pass,Position,Email)VALUES(dean,a,a,a,dean,a);";
-            cmd3.ExecuteNonQuery();
+            cmd1.CommandText = "INSERT INTO Logindetails(staffID,Forename,Surname,Pass,Position,Email)VALUES('ris',1,1,1,1,1);";
+            r = cmd.ExecuteReader();
+            while (r.Read())
+            {
+                risID = r.GetString("LAST_INSERT_ID()");
+            }
+            r.Close();
+            cmd2.CommandText = "INSERT INTO Logindetails(staffID,Forename,Surname,Pass,Position,Email)VALUES('assdean',1,1,1,2,1);";
+            r = cmd.ExecuteReader();
+            while (r.Read())
+            {
+                asDeanID = r.GetString("LAST_INSERT_ID()");
+            }
+            r.Close();
+            cmd3.CommandText = "INSERT INTO Logindetails(staffID,Forename,Surname,Pass,Position,Email)VALUES('dean',1,1,1,3,1);";
+            r = cmd.ExecuteReader();
+            while (r.Read())
+            {
+                deanID = r.GetString("LAST_INSERT_ID()");
+            }
+            r.Close();
 
             ConnectionClass.CloseConnection();
-
-            string testString = "SigningTest";
-            projectID = Int32.Parse(newProject.CreateProject(testString, Int32.Parse(researcherID)));
         }
 
         [TestMethod]
         public void TestSignResearcher()
         {
+            projectID = Int32.Parse(newProject.CreateProject(testString, Int32.Parse(researcherID)));
             Project testResearcher = new Project();
-            int i = testResearcher.ResearcherSign(80, "researcher");
+            int i = testResearcher.ResearcherSign(projectID, researcherID);
             Assert.AreEqual(1, i);
         }
 
         [TestMethod]
         public void TestSignRIS()
         {
-            Project testRIS = new Project();
-            int i = testRIS.RISSign(80, "ris");
+            projectID = Int32.Parse(newProject.CreateProject(testString, Int32.Parse(researcherID)));
+            newProject.ResearcherSign(projectID, researcherID);
+            int i = newProject.RISSign(projectID, risID);
             Assert.AreEqual(1, i);
         }
 
         [TestMethod]
         public void TestSignAssocDean()
         {
-            Project testAssocDean = new Project();
-            int i = testAssocDean.AssocDeanSign(80, "assdean");
+            projectID = Int32.Parse(newProject.CreateProject(testString, Int32.Parse(researcherID)));
+            newProject.ResearcherSign(projectID, researcherID);
+            newProject.RISSign(projectID, risID);
+            int i = newProject.AssocDeanSign(projectID, asDeanID);
             Assert.AreEqual(1, i);
         }
 
         [TestMethod]
         public void TestSignDean()
         {
-            Project testDean = new Project();
-            int i = testDean.DeanSign(80, "dean");
+            projectID = Int32.Parse(newProject.CreateProject(testString, Int32.Parse(researcherID)));
+            newProject.ResearcherSign(projectID, researcherID);
+            newProject.RISSign(projectID, risID);
+            newProject.AssocDeanSign(projectID, asDeanID);
+            int i = newProject.DeanSign(projectID, deanID);
             Assert.AreEqual(1, i);
         }
 
@@ -79,16 +101,19 @@ namespace Agile_2018.Tests
         public void CleanUp()
         {
             MySqlCommand cmd;
-            ConnectionClass.OpenConnection();
-            cmd = ConnectionClass.con.CreateCommand(); //New Connection object
-
-            cmd.CommandText = "DELETE FROM userprojectpairing WHERE Projects_ProjectID = " + projectID;
-            cmd.ExecuteReader();
-            ConnectionClass.CloseConnection();
             newProject.DeleteProject(projectID);
             ConnectionClass.OpenConnection();
             cmd = ConnectionClass.con.CreateCommand();
-            cmd.CommandText = "DELETE FROM logindetails WHERE staffID = researcher or staffID = ris or staffID = assdean or staffID = dean";
+            cmd.CommandText = "DELETE FROM logindetails WHERE UserID=" + researcherID;
+            cmd.ExecuteNonQuery();
+            cmd = ConnectionClass.con.CreateCommand();
+            cmd.CommandText = "DELETE FROM logindetails WHERE UserID=" + risID;
+            cmd.ExecuteNonQuery();
+            cmd = ConnectionClass.con.CreateCommand();
+            cmd.CommandText = "DELETE FROM logindetails WHERE UserID=" + asDeanID;
+            cmd.ExecuteNonQuery();
+            cmd = ConnectionClass.con.CreateCommand();
+            cmd.CommandText = "DELETE FROM logindetails WHERE UserID=" + deanID;
             cmd.ExecuteNonQuery();
             ConnectionClass.CloseConnection();
         }

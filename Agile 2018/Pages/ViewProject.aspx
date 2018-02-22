@@ -38,7 +38,7 @@
                                 </asp:LinkButton>
                             </div>
                         </p>
-                        <div class="secondary-content"><span class="new badge" data-badge-caption="Files">4</span></div>
+                        <div class="secondary-content"><span class="new badge" data-badge-caption="Files">1</span></div>
                     </li>
                 </ItemTemplate>
             </asp:Repeater>

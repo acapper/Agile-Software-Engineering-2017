@@ -80,20 +80,23 @@ namespace Agile_2018
             {
                 case 0:
                     p.ResearcherSign(projectID, Session["uID"].ToString());
+                    Response.Redirect(Request.RawUrl);
                     break;
                 case 1:
                     p.RISSign(projectID, Session["uID"].ToString());
+                    Response.Redirect("AllProjects");
                     break;
                 case 2:
                     p.AssocDeanSign(projectID, Session["uID"].ToString());
+                    Response.Redirect("AllProjects");
                     break;
                 case 3:
                     p.DeanSign(projectID, Session["uID"].ToString());
+                    Response.Redirect("AllProjects");
                     break;
                 default:
                     break;
             }
-            Response.Redirect(Request.RawUrl);
         }
 
         protected void DeleteProject_Click(object sender, EventArgs e)
@@ -101,7 +104,7 @@ namespace Agile_2018
             int projectID = Int32.Parse(((LinkButton)sender).CommandArgument.ToString());
             Project p = new Project();
             p.DeleteProject(projectID);
-            Response.Redirect(Request.RawUrl);
+            Response.Redirect("AllProjects");
         }
 
         protected void DeleteFile_Click(object sender, EventArgs e)
