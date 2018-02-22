@@ -18,7 +18,7 @@ namespace Agile_2018
         protected void SignOut_Click(object sender, EventArgs e)
         {
             FormsAuthentication.SignOut();
-            Response.Redirect("Login.aspx");
+            Response.Redirect("/2017-agile/team5/Login");
         }
     }
 }
