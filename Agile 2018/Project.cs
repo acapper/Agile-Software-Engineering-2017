@@ -409,5 +409,27 @@ namespace Agile_2018
                 throw;
             }
         }
+
+        public int GetProjectOwner(int pID)
+        {
+
+            int owner = 0;
+            ConnectionClass.OpenConnection();
+            MySqlCommand comm = new MySqlCommand("GetProjectOwner", ConnectionClass.con);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
+            comm.Parameters.AddWithValue("@id", pID);
+            using (MySqlDataReader sqlQueryResult = comm.ExecuteReader())
+            {
+                if (sqlQueryResult.HasRows)
+                {
+                    while (sqlQueryResult != null && sqlQueryResult.Read())
+                    {
+                        owner = (int)sqlQueryResult["LoginDetails_UserID"];
+                    }
+                }
+            }
+            ConnectionClass.CloseConnection();
+            return owner;
+        }
     }
 }
