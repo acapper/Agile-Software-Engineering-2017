@@ -67,7 +67,7 @@ namespace Agile_2018
             MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
             MySqlDataAdapter sda = new MySqlDataAdapter("viewSignedProjects", connection);
             sda.SelectCommand.CommandType = CommandType.StoredProcedure;
-            sda.SelectCommand.Parameters.AddWithValue("?uID", id);
+            sda.SelectCommand.Parameters.AddWithValue("?sID", id);
             DataTable dt = new DataTable();
             sda.Fill(dt);
             ConnectionClass.CloseConnection();
