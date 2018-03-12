@@ -89,6 +89,11 @@ namespace Agile_2018
             return true;
         }
 
+        internal string getProjectName(int projectID)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Sets project record researcherSigned field = staffID. 
         /// Increments project record statusCode 1.
@@ -430,6 +435,48 @@ namespace Agile_2018
             }
             ConnectionClass.CloseConnection();
             return owner;
+        }
+
+        public string GetProjectName(int projectID)
+        {
+            string projectName = "";
+            ConnectionClass.OpenConnection();
+            MySqlCommand comm = new MySqlCommand("GetProjectName", ConnectionClass.con);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
+            comm.Parameters.AddWithValue("@pID", projectID);
+            using (MySqlDataReader sqlQueryResult = comm.ExecuteReader())
+            {
+                if (sqlQueryResult.HasRows)
+                {
+                    while (sqlQueryResult != null && sqlQueryResult.Read())
+                    {
+                        projectName = (string)sqlQueryResult["Title"];
+                    }
+                }
+            }
+            ConnectionClass.CloseConnection();
+            return projectName;
+        }
+
+        public int GetRISSignID(int projectID)
+        {
+            int RISID = 0;
+            ConnectionClass.OpenConnection();
+            MySqlCommand comm = new MySqlCommand("GetRISSignID", ConnectionClass.con);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
+            comm.Parameters.AddWithValue("@pID", projectID);
+            using (MySqlDataReader sqlQueryResult = comm.ExecuteReader())
+            {
+                if (sqlQueryResult.HasRows)
+                {
+                    while (sqlQueryResult != null && sqlQueryResult.Read())
+                    {
+                        RISID = (int)sqlQueryResult["Title"];
+                    }
+                }
+            }
+            ConnectionClass.CloseConnection();
+            return RISID;
         }
     }
 }

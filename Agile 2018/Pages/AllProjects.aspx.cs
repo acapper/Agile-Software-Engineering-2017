@@ -71,27 +71,8 @@ namespace Agile_2018
 
         protected void Sign_Click(object sender, EventArgs e)
         {
-            Project p = new Project();
-            int id = Int32.Parse(Session["pID"].ToString());
-            int projectID = Int32.Parse(((LinkButton)sender).CommandArgument.ToString());
-            switch (id)
-            {
-                case 0:
-                    p.ResearcherSign(projectID, Session["uID"].ToString());
-                    break;
-                case 1:
-                    p.RISSign(projectID, Session["uID"].ToString());
-                    break;
-                case 2:
-                    p.AssocDeanSign(projectID, Session["uID"].ToString());
-                    break;
-                case 3:
-                    p.DeanSign(projectID, Session["uID"].ToString());
-                    break;
-                default:
-                    break;
-            }
-            Response.Redirect(Request.RawUrl);
+            ViewProject vp = new ViewProject();
+            vp.Sign_Click(sender, e);
         }
     }
 }

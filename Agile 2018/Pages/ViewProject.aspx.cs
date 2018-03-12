@@ -71,12 +71,14 @@ namespace Agile_2018
             catch (Exception){}
         }
 
-        protected void Sign_Click(object sender, EventArgs e)
+        public void Sign_Click(object sender, EventArgs e)
         {
             Project p = new Project();
             int id = Int32.Parse(Session["pID"].ToString());
             int projectID = Int32.Parse(((LinkButton)sender).CommandArgument.ToString());
             int owner = p.GetProjectOwner(projectID);
+
+            string projectName = p.GetProjectName(projectID);
             switch (id)
             {
                 case 0:
@@ -85,17 +87,18 @@ namespace Agile_2018
                     break;
                 case 1:
                     p.RISSign(projectID, Session["uID"].ToString());
-                    ComfirmationEmail(owner, "An RIS Staff Member");
+                    ComfirmationEmail(owner, "An RIS Staff Member", projectName);
                     Response.Redirect("/2017-agile/team5/Pages/AllProjects");
                     break;
                 case 2:
                     p.AssocDeanSign(projectID, Session["uID"].ToString());
-                    ComfirmationEmail(owner, "The Associate Dean");
+                    ComfirmationEmail(owner, "The Associate Dean", projectName);
                     Response.Redirect("/2017-agile/team5/Pages/AllProjects");
                     break;
                 case 3:
                     p.DeanSign(projectID, Session["uID"].ToString());
-                    ComfirmationEmail(owner, "The Dean");
+                    CompleteEmail(owner, projectName);
+                    CompleteEmail(p.GetRISSignID(projectID), projectName);
                     Response.Redirect("/2017-agile/team5/Pages/AllProjects");
                     break;
                 default:
@@ -125,6 +128,8 @@ namespace Agile_2018
             int id = Int32.Parse(Session["pID"].ToString());
             int projectID = Int32.Parse(((LinkButton)sender).CommandArgument.ToString());
             int owner = p.GetProjectOwner(projectID);
+            
+            string projectName = p.GetProjectName(projectID);
             switch (id)
             {
                 case 0:
@@ -132,15 +137,15 @@ namespace Agile_2018
                     break;
                 case 1:
                     p.RISReject(projectID);
-                    RejectEmail(owner, "An RIS Staff Member");
+                    RejectEmail(owner, "An RIS Staff Member", projectName);
                     break;
                 case 2:
                     p.AssocDeanReject(projectID);
-                    RejectEmail(owner, "The Associate Dean");
+                    RejectEmail(owner, "The Associate Dean", projectName);
                     break;
                 case 3:
                     p.DeanReject(projectID);
-                    RejectEmail(owner, "The Dean");
+                    RejectEmail(owner, "The Dean", projectName);
                     break;
                 default:
                     break;
@@ -148,18 +153,25 @@ namespace Agile_2018
             Response.Redirect(Request.RawUrl);
         }
 
-        protected void RejectEmail(int owner, string who)
+        protected void RejectEmail(int owner, string who, string projectName)
         {
             AutomaticEmail ae = new AutomaticEmail();
             string email = ae.getUserEmail(owner);
-            ae.SendEmail(email, "Project Rejected", who + " has rejected one of your projects");
+            ae.SendEmail(email, "Project Rejected", who + " has rejected your project (" + projectName + ").");
         }
 
-        protected void ComfirmationEmail(int owner, string who)
+        protected void ComfirmationEmail(int owner, string who, string projectName)
         {
             AutomaticEmail ae = new AutomaticEmail();
             string email = ae.getUserEmail(owner);
-            ae.SendEmail(email, "Project Confirmed", who + " has confirmed one of your projects");
+            ae.SendEmail(email, "Project Confirmed", who + " has confirmed your project (" + projectName + ").");
+        }
+
+        protected void CompleteEmail(int owner, string projectName)
+        {
+            AutomaticEmail ae = new AutomaticEmail();
+            string email = ae.getUserEmail(owner);
+            ae.SendEmail(email, "Project Completed", projectName + " has been fully signed.");
         }
     }
 }
