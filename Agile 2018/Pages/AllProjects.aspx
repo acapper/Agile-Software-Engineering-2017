@@ -29,7 +29,10 @@
                 </form>
             </li>
             <% } %>
+            <% if (dt.Rows.Count != 0)
+                { %>
             <asp:Repeater ID="Projects" runat="server">
+
                 <ItemTemplate>
                     <li class="collection-item avatar">
                         <i class="material-icons circle">folder</i>
@@ -38,7 +41,7 @@
                             <%# Eval("TimeAgo") %>
                             <br>
                             <div class="right-align">
-                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small blue darken-1 button-icon" OnClick="ViewProject_Click" 
+                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small blue darken-1 button-icon" OnClick="ViewProject_Click"
                                     CommandArgument='<%# Eval("ProjectID") +" "+ Eval("Title") %>'>
                             <i class="material-icons">visibility</i>
                                     View
@@ -49,7 +52,7 @@
                             <i class="material-icons">create</i>
                                     Sign
                                 </asp:LinkButton>
-                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small red darken-1 button-icon" OnClick="DeleteProject_Click" 
+                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small red darken-1 button-icon" OnClick="DeleteProject_Click"
                                     CommandArgument='<%# Eval("ProjectID") %>'>
                             <i class="material-icons">delete_forever</i>
                                     Delete
@@ -61,5 +64,10 @@
                 </ItemTemplate>
             </asp:Repeater>
         </ul>
+        <% }
+        else
+        { %>
+        <p>There is no project to display</p>
+        <% } %>
     </div>
 </asp:Content>
