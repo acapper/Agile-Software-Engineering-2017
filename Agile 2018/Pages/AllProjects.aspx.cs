@@ -13,11 +13,13 @@ namespace Agile_2018
 {
     public partial class _Default : Page
     {
+        public DataTable dt;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             ConnectionClass.OpenConnection();
             ViewProjects vp = new ViewProjects();
-            DataTable dt = vp.ViewSignedProjects((string)Session["uID"]);
+            dt = vp.ViewSignedProjects((string)Session["uID"]);
             dt.Columns.Add("TimeAgo", typeof(string));
             foreach (DataRow dr in dt.Rows)
             {
