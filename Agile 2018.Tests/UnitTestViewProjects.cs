@@ -12,6 +12,7 @@ namespace Agile_2018.Tests
     {
         String userID;
         String risID;
+        String DeanID = "458";
         int projectID;
         Project newProject = new Project();
 
@@ -75,6 +76,19 @@ namespace Agile_2018.Tests
             p.ResearcherSign(projectID, risID);
             table = testView.ViewAllProjects(risID);
             i = table.Rows.Count;
+
+            Assert.AreNotEqual(0, i);
+        }
+        [TestMethod]
+        public void ViewSignedProjectsTest()
+        {
+            DataTable table = new DataTable();
+            Project p = new Project();
+
+            ViewProjects testView = new ViewProjects();
+            p.DeanSign(projectID, DeanID);
+            table = testView.ViewSignedProjects(DeanID);
+            int i = table.Rows.Count;
 
             Assert.AreNotEqual(0, i);
         }
