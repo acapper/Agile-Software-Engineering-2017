@@ -67,7 +67,7 @@
         <% }
         else
         { %>
-        <p>There is no project to display</p>
+        <p style="text-align:center">There is no project to display</p>
         <% } %>
     </div>
 </asp:Content>
