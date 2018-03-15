@@ -15,49 +15,54 @@
           <div class="form-group">
             <label class="col-lg-3 control-label">Username:</label>
             <div class="col-lg-8">
-              <input id="username" runat="server" class="form-control" type="text" value="GET ME FROM DATABASE" readonly>
+              <input id="username" runat="server" class="form-control" type="text" value="" readonly>
             </div>
           </div>
             <div class="form-group">
             <label class="col-md-3 control-label">Email:</label>
             <div class="col-md-8">
-              <input class="form-control" type="text" value="GET ME FROM DATABASE">
+              <input id="email" runat="server" class="form-control" type="text" value="">
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">First Name:</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="GET ME FROM DATABASE">
+              <input id="firstname" runat="server" class="form-control" type="text" value="">
             </div>
           </div>
             <div class="form-group">
             <label class="col-lg-3 control-label">Last Name:</label>
             <div class="col-lg-8">
-              <input class="form-control" type="text" value="GET ME FROM DATABASE">
+              <input id="lastname" runat="server" class="form-control" type="text" value="">
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">Current Password:</label>
             <div class="col-lg-8">
-              <input class="form-control" type="password" value="HIDE FROM USER">
+              <input id="currentpassword" runat="server" class="form-control" type="password" value="">
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">New Password:</label>
             <div class="col-lg-8">
-              <input class="form-control" type="password" value="">
+              <input id="newpassword" runat="server" class="form-control" type="password" value="">
             </div>
           </div>
           <div class="form-group">
             <label class="col-lg-3 control-label">Confirm Password:</label>
             <div class="col-lg-8">
-              <input class="form-control" type="password" value="">
+              <input id="confirmpassword" runat="server" class="form-control" type="password" value="">
             </div>
           </div>
+        <div class="row center-align">
+                    <div class="input-field col s12" style="color: red">
+                        <asp:Label runat="server" ID="errorLabel"></asp:Label>
+                    </div>
+                </div>
           <div class="form-group">
             <label class="col-md-3 control-label"></label>
             <div class="col-md-8">
-              <input type="button" class="btn btn-primary" value="Save Changes" onclick="Save_Click">
+              <input type="button" class="btn btn-primary" value="Save Changes" onclick="Save_Click()">
               <span></span>
               <input type="reset" class="btn btn-default" value="Cancel">
             </div>

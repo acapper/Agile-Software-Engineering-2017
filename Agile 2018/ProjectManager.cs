@@ -20,7 +20,7 @@ namespace Agile_2018
         //Method which returns a datatable containing all the information returned for a project based on the projectID passed to it. 
         public DataTable viewProjectInfo(int input)
         {
-            //Connects to database
+            //Connects to database 
             ConnectionClass.OpenConnection();
 
             //Declare new mysql command using stored procedure.
