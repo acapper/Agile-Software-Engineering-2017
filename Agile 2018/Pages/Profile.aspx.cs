@@ -80,10 +80,12 @@ namespace Agile_2018.Pages
 
 
                 //Check if user wants to change password or not.
-                if (newpassword.Value != null) //User wants to change password
+                if (newpassword.Value != "") //User wants to change password
                 {
+                    //If new password and confirm password are the same
                     if (newpassword.Value == confirmpassword.Value)
                     {
+                        //update the 
                         pm.updateBot(Convert.ToInt32(Session["uID"]), Convert.ToString(newpassword.Value));
                         if (IsValidEmail(email.Value) == true)
                         {
