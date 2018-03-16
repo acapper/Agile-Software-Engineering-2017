@@ -71,7 +71,7 @@ namespace Agile_2018
                 Response.Cookies["UserName"].Value = username.Value.ToString();
                 Response.Cookies["Password"].Value = password.Value.ToString();
 
-                Response.Redirect("/2017-agile/team5/Pages/AllProjects");
+                Response.Redirect("2017-agile/team5/AllProjects#");
             }
             errorLabel.Text = "Invalid username or password.";
         }

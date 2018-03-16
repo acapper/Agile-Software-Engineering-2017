@@ -13,15 +13,13 @@ namespace Agile_2018
 {
     public partial class _Default : Page
     {
+        public DataTable dt;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             ConnectionClass.OpenConnection();
-            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
-            MySqlDataAdapter sda = new MySqlDataAdapter("viewProjects", connection);
-            sda.SelectCommand.CommandType = CommandType.StoredProcedure;
-            sda.SelectCommand.Parameters.AddWithValue("?uID", Session["uID"]);
-            DataTable dt = new DataTable();
-            sda.Fill(dt);
+            ViewProjects vp = new ViewProjects();
+            dt = vp.ViewSignedProjects((string)Session["uID"]);
             dt.Columns.Add("TimeAgo", typeof(string));
             foreach (DataRow dr in dt.Rows)
             {

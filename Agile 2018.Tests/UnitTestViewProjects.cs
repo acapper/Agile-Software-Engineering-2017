@@ -12,6 +12,8 @@ namespace Agile_2018.Tests
     {
         String userID;
         String risID;
+        String AsDeanID = "457";
+        String DeanID = "458";
         int projectID;
         Project newProject = new Project();
 
@@ -41,7 +43,7 @@ namespace Agile_2018.Tests
             reader.Close();
             ConnectionClass.CloseConnection();
             //Name of new project to be added
-            string teststring = "ViewProject"; //random teststring
+            string teststring = "UnitTestViewProject"; //random teststring
             projectID = Int32.Parse(newProject.CreateProject(teststring, Int32.Parse(userID)));
         }
 
@@ -75,6 +77,23 @@ namespace Agile_2018.Tests
             p.ResearcherSign(projectID, risID);
             table = testView.ViewAllProjects(risID);
             i = table.Rows.Count;
+
+            Assert.AreNotEqual(0, i);
+        }
+
+        [TestMethod]
+        public void ViewSignedProjectsTest()
+        {
+            DataTable table = new DataTable();
+            Project p = new Project();
+
+            ViewProjects testView = new ViewProjects();
+            p.ResearcherSign(projectID, userID);
+            p.RISSign(projectID, risID);
+            p.AssocDeanSign(projectID, AsDeanID);
+            p.DeanSign(projectID, DeanID);
+            table = testView.ViewSignedProjects(DeanID);
+            int i = table.Rows.Count;
 
             Assert.AreNotEqual(0, i);
         }

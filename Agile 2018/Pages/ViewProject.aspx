@@ -13,6 +13,8 @@
                             <%# Eval("StatusDesc") %>
                             <br />
                             <div class="right-align">
+                                <% if ((Int32.Parse(Session["pID"].ToString()) == statusCode || 5 == statusCode) && statusCode != 2 && statusCode != 3 )
+                                    { %>
                                 <form enctype="multipart/form-data" id="form1">
                                     <input runat="server" id="UploadFile" name="myFile" type="file" class="waves-effect waves-light btn btn-small darken-1 button-icon " />
                                     <asp:LinkButton runat="server" ID="name" type="submit" class="waves-effect waves-light btn btn-small blue darken-1 button-icon" OnClick="Upload_Click">
@@ -20,22 +22,29 @@
                                     Upload
                                     </asp:LinkButton>
                                 </form>
-                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small amber darken-1 button-icon" 
+                                <% } %>
+                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small amber darken-1 button-icon"
                                     OnClick="Sign_Click" CommandArgument='<%# Eval("ProjectID") %>'
                                     Visible='<%# Int32.Parse(Session["pID"].ToString()) == Int32.Parse(Eval("StatusCode").ToString()) || Int32.Parse(Eval("StatusCode").ToString()) == 5 %>'>
                             <i class="material-icons">create</i>
                                     Sign
                                 </asp:LinkButton>
-                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small red darken-1 button-icon" 
+                                <% if (statusCode != 4)
+                                    { %>
+                                <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small red darken-1 button-icon"
                                     OnClick="Reject_Click" CommandArgument='<%# Eval("ProjectID") %>'
                                     Visible='<%# Int32.Parse(Session["pID"].ToString()) != 0 %>'>
                             <i class="material-icons">clear</i>
                                     Reject
                                 </asp:LinkButton>
+                                <% } %>
+                                <% if ((Int32.Parse(Session["pID"].ToString()) == 0))
+                                    { %>
                                 <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small red darken-1 button-icon" OnClick="DeleteProject_Click" CommandArgument='<%# Eval("ProjectID") %>'>
                             <i class="material-icons">delete_forever</i>
                                     Delete
                                 </asp:LinkButton>
+                                <% } %>
                             </div>
                         </p>
                         <div class="secondary-content"><span class="new badge" data-badge-caption="Files">1</span></div>
