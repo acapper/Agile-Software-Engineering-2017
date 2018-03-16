@@ -21,7 +21,7 @@
             <div class="form-group">
             <label class="col-md-3 control-label">Email:</label>
             <div class="col-md-8">
-              <input id="email" runat="server" class="form-control" type="text" value="">
+              <input id="email" runat="server" class="form-control" type="email">
             </div>
           </div>
           <div class="form-group">
@@ -62,8 +62,8 @@
           <div class="form-group">
             <label class="col-md-3 control-label"></label>
             <div class="col-md-8">
-                <asp:LinkButton runat="server" class="btn btn-primary" OnClick="Save_Click">
-                    Save Changes
+                <asp:LinkButton runat="server" type="submit" class="btn btn-primary" OnClick="Save_Click">
+                    Save Changes 
                     </asp:LinkButton>
               <span></span>
               <input type="reset" class="btn btn-default" value="Cancel">

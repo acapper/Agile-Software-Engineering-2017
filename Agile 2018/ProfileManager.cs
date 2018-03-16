@@ -10,11 +10,6 @@ namespace Agile_2018
 {
     public class ProfileManager
     {
-        //public DataTable getUsername()
-       // {
-
-       // }
-
         public DataTable getUserInfo(int inputID)
         {
             //Connects to database
@@ -61,11 +56,11 @@ namespace Agile_2018
 
         }
 
-        public void updateNamesEmail(int id, string f, string l, string e)
+        public void updateTop(int id, string f, string l, string e)
         {
             ConnectionClass.OpenConnection();
 
-            MySqlCommand command = new MySqlCommand("updateProfile", ConnectionClass.con);
+            MySqlCommand command = new MySqlCommand("updateProfileTop", ConnectionClass.con);
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.Parameters.Add(new MySqlParameter("@u", id));
             command.Parameters.Add(new MySqlParameter("@f", f));
@@ -76,7 +71,7 @@ namespace Agile_2018
             ConnectionClass.CloseConnection();
         }
 
-        public void updatePassword(int id, string p)
+        public void updateBot(int id, string p)
         {
             ConnectionClass.OpenConnection();
 

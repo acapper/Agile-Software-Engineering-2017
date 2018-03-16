@@ -28,7 +28,7 @@ namespace Agile_2018.Pages {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlInputText email;
+        protected global::System.Web.UI.HtmlControls.HtmlInputGenericControl email;
         
         /// <summary>
         /// firstname control.
