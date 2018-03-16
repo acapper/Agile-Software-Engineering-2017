@@ -245,6 +245,7 @@
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Comment.cs" />
     <Compile Include="ViewProjects.cs" />
     <Compile Include="AutomaticEmail.cs" />
     <Compile Include="Pages\ViewProject.aspx.cs">
