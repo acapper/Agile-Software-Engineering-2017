@@ -65,7 +65,7 @@ namespace Agile_2018
         {
             ConnectionClass.OpenConnection();
 
-            MySqlCommand command = new MySqlCommand("updateProfileTop", ConnectionClass.con);
+            MySqlCommand command = new MySqlCommand("updateProfile", ConnectionClass.con);
             command.CommandType = System.Data.CommandType.StoredProcedure;
             command.Parameters.Add(new MySqlParameter("@u", id));
             command.Parameters.Add(new MySqlParameter("@f", f));

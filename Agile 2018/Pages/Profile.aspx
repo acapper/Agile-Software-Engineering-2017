@@ -62,7 +62,9 @@
           <div class="form-group">
             <label class="col-md-3 control-label"></label>
             <div class="col-md-8">
-              <input type="button" class="btn btn-primary" value="Save Changes" onclick="Save_Click()">
+                <asp:LinkButton runat="server" class="btn btn-primary" OnClick="Save_Click">
+                    Save Changes
+                    </asp:LinkButton>
               <span></span>
               <input type="reset" class="btn btn-default" value="Cancel">
             </div>

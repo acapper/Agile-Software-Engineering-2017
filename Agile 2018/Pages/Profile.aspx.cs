@@ -19,10 +19,17 @@ namespace Agile_2018.Pages
         {
             // On load, the users information will be presented to them on the web form. 
             thisProfile = pm.getUserInfo(Convert.ToInt32(Session["uID"]));
-            username.Value = thisProfile.Rows[0].Field<string>(1);
-            email.Value = thisProfile.Rows[0].Field<string>(6);
-            firstname.Value = thisProfile.Rows[0].Field<string>(3);
-            lastname.Value = thisProfile.Rows[0].Field<string>(2);
+            foreach (DataRow dr in thisProfile.Rows)
+            {
+                username.Value = dr["StaffID"].ToString();
+                email.Value = dr["Email"].ToString();
+                firstname.Value = dr["Forename"].ToString();
+                lastname.Value = dr["Surname"].ToString();
+            }
+            //username.Value = thisProfile.Rows[0].Field<string>(1);
+            //email.Value = thisProfile.Rows[0].Field<string>(6);
+            //firstname.Value = thisProfile.Rows[0].Field<string>(3);
+            //lastname.Value = thisProfile.Rows[0].Field<string>(2);
         }
 
          protected void Save_Click(object sender, EventArgs e)
@@ -35,7 +42,7 @@ namespace Agile_2018.Pages
             }
 
             //Check if current password is correct for this user.
-            if (currentpassword.Value == thisProfile.Rows[0].Field<string>(4))
+            if (currentpassword.Value == thisProfile.Rows[0]["Pass"].ToString())
             {
                 //Check if email value is valid
                 if (IsValidEmail(email.Value) == true)
@@ -78,15 +85,15 @@ namespace Agile_2018.Pages
                         errorLabel.Text = "New Password and Confirm Password fields must be equal.";
                     }
                 }
-
             }
             //Else if password is not correct
             else
-            {
+             {
                 errorLabel.Text = "Current Password is not correct for this user profile.";
 
             }
-            
+            Response.Redirect("/2017-agile/team5/Pages/AllProjects");
+
         }
 
 
