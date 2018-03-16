@@ -16,6 +16,7 @@ namespace Agile_2018
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
             try
             {
                 this.Title = Session["Title"].ToString();
@@ -30,6 +31,9 @@ namespace Agile_2018
 
                 ProjectName.DataSource = pn;
                 ProjectName.DataBind();
+
+                comments.DataSource = pn;
+                comments.DataBind();
             }
             catch (Exception) { Response.Redirect("~/Login.aspx"); }
         }
@@ -68,7 +72,7 @@ namespace Agile_2018
                 Response.OutputStream.Write(blob, 0, blob.Length);
                 Response.Flush();
             }
-            catch (Exception){}
+            catch (Exception) { }
         }
 
         protected void Sign_Click(object sender, EventArgs e)
@@ -137,6 +141,15 @@ namespace Agile_2018
                 default:
                     break;
             }
+            Response.Redirect(Request.RawUrl);
+        }
+
+        protected void Post_Comments(object sender, EventArgs e)
+        {
+            int pID = Int32.Parse(Session["projectID"].ToString());
+            string comment = inputComment.Text;
+            Project newProject = new Project();
+            newProject.PostComment(comment, pID);
             Response.Redirect(Request.RawUrl);
         }
     }

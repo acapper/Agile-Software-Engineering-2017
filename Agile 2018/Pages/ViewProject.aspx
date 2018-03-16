@@ -59,4 +59,23 @@
             </asp:Repeater>
         </ul>
     </div>
+    <div class="container" style="margin-top: 30px; "width: 800px">
+            <asp:Repeater ID="comments" runat="server">
+                <ItemTemplate>
+                    <li style="list-style-type:none">
+                        <span class="title truncate">Notes:</span>
+                        <p><%# Eval("comments") %></p>
+                        <br /><br/>
+                    </li>
+                </ItemTemplate>
+            </asp:Repeater>
+            <asp:TextBox id="inputComment" TextMode="multiline" runat="server"/>
+            <br /><br />
+            <div class="left-align">
+                <asp:LinkButton runat="server" type="submit" class="waves-effect waves-light btn btn-small blue darken-1 button-icon" OnClick="Post_Comments">
+                    <i class="material-icons">comment</i>
+                        Submit Comment
+                </asp:LinkButton>
+            </div>
+        </div>
 </asp:Content>

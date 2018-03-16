@@ -9,24 +9,24 @@ namespace Agile_2018.Tests
     public class AddComment
     {
         [TestMethod]
-        public void commentAddTest()
+        public void CommentAddTest()
         {
             //pass through string
             string comment = "This is my comment";
             int projectID = 530;
-            Comment myComment = new Comment();
-            Assert.AreEqual(1, myComment.postComment(comment,projectID));
+            Project myComment = new Project();
+            Assert.AreEqual(1, myComment.PostComment(comment,projectID));
         }
 
         [TestMethod]
-        public void getCommentTest()
+        public void GetCommentTest()
         {
             //return expected string
             //string comes from default id
             string comment = "This is my comment";
             int projectID = 530;
-            Comment myComment = new Comment();
-            Assert.AreEqual(comment, myComment.getComment(projectID));
+            Project myComment = new Project();
+            Assert.AreEqual(comment, myComment.GetComment(projectID));
         }
     }
 }
