@@ -52,11 +52,14 @@
                             <i class="material-icons">create</i>
                                     Sign
                                 </asp:LinkButton>
+                                <% if ((Int32.Parse(Session["pID"].ToString()) == 0))
+                                    { %>
                                 <asp:LinkButton runat="server" class="waves-effect waves-light btn btn-small red darken-1 button-icon" OnClick="DeleteProject_Click"
                                     CommandArgument='<%# Eval("ProjectID") %>'>
                             <i class="material-icons">delete_forever</i>
                                     Delete
                                 </asp:LinkButton>
+                                <% } %>
                             </div>
                         </p>
                         <!--<div class="secondary-content"><span class="new badge" data-badge-caption="Files">4</span></div>-->
@@ -65,9 +68,9 @@
             </asp:Repeater>
         </ul>
         <% }
-        else
-        { %>
-        <p style="text-align:center">There is no project to display</p>
+            else
+            { %>
+        <p style="text-align: center">There is no project to display</p>
         <% } %>
     </div>
 </asp:Content>

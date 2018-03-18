@@ -14,6 +14,8 @@ namespace Agile_2018
         private int numOfFiles;
         public int NumOfFiles { get { return numOfFiles; } }
 
+        public int statusCode;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             try
@@ -30,8 +32,10 @@ namespace Agile_2018
 
                 ProjectName.DataSource = pn;
                 ProjectName.DataBind();
+
+                statusCode = Int32.Parse(pn.Rows[0]["StatusCode"].ToString());
             }
-            catch (Exception) { Response.Redirect("~/Login.aspx"); }
+            catch (Exception) { Response.Redirect("Login"); }
         }
 
         protected void Upload_Click(object sender, EventArgs e)
@@ -134,6 +138,7 @@ namespace Agile_2018
             {
                 case 0:
                     p.ResearcherReject(projectID);
+                    Response.Redirect(Request.RawUrl);
                     break;
                 case 1:
                     p.RISReject(projectID);
@@ -150,7 +155,6 @@ namespace Agile_2018
                 default:
                     break;
             }
-            Response.Redirect(Request.RawUrl);
         }
 
         protected void RejectEmail(int owner, string who, string projectName)
