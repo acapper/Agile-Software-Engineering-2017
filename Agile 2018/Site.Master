@@ -49,7 +49,7 @@
             <ul id="nav-dropdown" class="dropdown-content">
                 <li><a href="AllProjects#">Home</a></li>
                 <li class="divider"></li>
-                <li><a href="#">Profile</a></li>
+                <li><a href="/2017-agile/team5/Pages/Profile">Profile</a></li>
                 <li class="divider"></li>
                 <li><asp:LinkButton runat="server" OnClick="SignOut_Click" Text="Logout"></asp:LinkButton></li>
             </ul>
@@ -58,7 +58,7 @@
             <ul class="side-nav" id="mobile-demo">
                 <li><a href="AllProjects#">Home</a><li>
                 <li class="divider"></li>
-                <li><a href="#!" class="panel-heading"><i class="material-icons prefix">person</i>Profile</a></li>
+                <li><a href="/2017-agile/team5/Pages/Profile#" class="panel-heading"><i class="material-icons prefix">person</i>Profile</a></li>
                 <li class="divider"></li>
                 <li>
                     <asp:LinkButton runat="server" OnClick="SignOut_Click" Text="Logout"></asp:LinkButton>
