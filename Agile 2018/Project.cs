@@ -89,6 +89,11 @@ namespace Agile_2018
             return true;
         }
 
+        internal string getProjectName(int projectID)
+        {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         /// Sets project record researcherSigned field = staffID. 
         /// Increments project record statusCode 1.
@@ -408,6 +413,110 @@ namespace Agile_2018
                 return false;
                 throw;
             }
+        }
+
+        public int PostComment(string comment, int projectID)
+        {
+            string storedProc = "postComment";
+            //open connection
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            connection.Open();
+            //define stored procedure
+            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+            cmd.Parameters.Add(new MySqlParameter("?c", comment));
+            //execute procedure
+            int i = cmd.ExecuteNonQuery();
+            //close connection and return number of rows affected (should be 1)
+            connection.Close();
+            return i;
+        }
+
+        public string GetComment(int projectID)
+        {
+            string storedProc = "getComment";
+            MySqlConnection connection = new MySqlConnection(ConnectionClass.ConnectionString);
+            connection.Open();
+            //define stored procedure
+            MySqlCommand cmd = new MySqlCommand(storedProc, connection);
+            cmd.CommandType = System.Data.CommandType.StoredProcedure;
+            cmd.Parameters.Add(new MySqlParameter("?pID", projectID));
+            //cmd.ExecuteNonQuery();
+            //string returnvalue = (string)cmd.Parameters["comments"].Value;
+            string returnvalue = "";
+            MySqlDataReader reader = cmd.ExecuteReader();
+            while (reader.Read())
+            {
+                returnvalue = reader.GetString("comments");
+            }
+            reader.Close();
+            connection.Close();
+            return returnvalue;
+        }
+
+        public int GetProjectOwner(int pID)
+        {
+
+            int owner = 0;
+            ConnectionClass.OpenConnection();
+            MySqlCommand comm = new MySqlCommand("GetProjectOwner", ConnectionClass.con);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
+            comm.Parameters.AddWithValue("@id", pID);
+            using (MySqlDataReader sqlQueryResult = comm.ExecuteReader())
+            {
+                if (sqlQueryResult.HasRows)
+                {
+                    while (sqlQueryResult != null && sqlQueryResult.Read())
+                    {
+                        owner = (int)sqlQueryResult["LoginDetails_UserID"];
+                    }
+                }
+            }
+            ConnectionClass.CloseConnection();
+            return owner;
+        }
+
+        public string GetProjectName(int projectID)
+        {
+            string projectName = "";
+            ConnectionClass.OpenConnection();
+            MySqlCommand comm = new MySqlCommand("GetProjectName", ConnectionClass.con);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
+            comm.Parameters.AddWithValue("@pID", projectID);
+            using (MySqlDataReader sqlQueryResult = comm.ExecuteReader())
+            {
+                if (sqlQueryResult.HasRows)
+                {
+                    while (sqlQueryResult != null && sqlQueryResult.Read())
+                    {
+                        projectName = (string)sqlQueryResult["Title"];
+                    }
+                }
+            }
+            ConnectionClass.CloseConnection();
+            return projectName;
+        }
+
+        public int GetRISSignID(int projectID)
+        {
+            int RISID = 0;
+            ConnectionClass.OpenConnection();
+            MySqlCommand comm = new MySqlCommand("GetRISSignID", ConnectionClass.con);
+            comm.CommandType = System.Data.CommandType.StoredProcedure;
+            comm.Parameters.AddWithValue("@pID", projectID);
+            using (MySqlDataReader sqlQueryResult = comm.ExecuteReader())
+            {
+                if (sqlQueryResult.HasRows)
+                {
+                    while (sqlQueryResult != null && sqlQueryResult.Read())
+                    {
+                        RISID = (int)sqlQueryResult["Title"];
+                    }
+                }
+            }
+            ConnectionClass.CloseConnection();
+            return RISID;
         }
     }
 }

@@ -19,16 +19,17 @@ namespace Agile_2018
         /// </summary>
         /// <param name="m">Mailmessage that you wish to send. From gets overwritten with no-reply@acapper.tk</param>
         /// <returns>True on send success. False on fail.</returns>
-        public bool SendConfirmationEmail(MailMessage m)
+        public bool SendEmail(MailMessage m)
         {
-            JObject secrets = JObject.Parse(File.ReadAllText("SECRETS.json"));
-            m.From = new MailAddress(secrets["email"]["address"].ToString());
+            string address = "no-reply@acapper.tk";
+            string pass = "v{Cg{sh?FBEJ";
+            m.From = new MailAddress(address);
 
             SmtpClient sc = new SmtpClient();
             sc.UseDefaultCredentials = false;
             sc.Host = "cp3.tserverhq.com";
             sc.Port = 587;
-            sc.Credentials = new NetworkCredential(secrets["email"]["address"].ToString(), secrets["email"]["pass"].ToString());
+            sc.Credentials = new NetworkCredential(address, pass);
             sc.EnableSsl = true; // runtime encrypt the SMTP communications using SSL
             try
             {
@@ -48,14 +49,14 @@ namespace Agile_2018
         /// <param name="subject">The email subject</param>
         /// <param name="body">The email body text</param>
         /// <returns>True on send success. False on fail.</returns>
-        public bool SendConfirmationEmail(String email, String subject, String body)
+        public bool SendEmail(String email, String subject, String body)
         {
             MailMessage m = new MailMessage();
             m.To.Add(email);
             m.Subject = subject;
             m.Body = body;
 
-            return SendConfirmationEmail(m);
+            return SendEmail(m);
         }
 
         /// <summary>

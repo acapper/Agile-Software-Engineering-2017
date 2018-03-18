@@ -30,7 +30,7 @@ namespace Agile_2018.Tests
         public void SendConfirmationEmail()
         {
             AutomaticEmail ae = new AutomaticEmail();
-            bool r = ae.SendConfirmationEmail("testemail@acapper.tk", "Test", "This is an automated test");
+            bool r = ae.SendEmail("testemail@acapper.tk", "Test", "This is an automated test");
             Assert.IsTrue(r);
         }
 
