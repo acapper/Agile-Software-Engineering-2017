@@ -254,6 +254,7 @@
     <Compile Include="Pages\Profile.aspx.designer.cs">
       <DependentUpon>Profile.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Comment.cs" />
     <Compile Include="ViewProjects.cs" />
     <Compile Include="AutomaticEmail.cs" />
     <Compile Include="Pages\ViewProject.aspx.cs">

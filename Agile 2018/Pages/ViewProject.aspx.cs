@@ -18,6 +18,7 @@ namespace Agile_2018
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
             try
             {
                 this.Title = Session["Title"].ToString();
@@ -32,6 +33,9 @@ namespace Agile_2018
 
                 ProjectName.DataSource = pn;
                 ProjectName.DataBind();
+
+                comments.DataSource = pn;
+                comments.DataBind();
 
                 statusCode = Int32.Parse(pn.Rows[0]["StatusCode"].ToString());
             }
@@ -72,7 +76,7 @@ namespace Agile_2018
                 Response.OutputStream.Write(blob, 0, blob.Length);
                 Response.Flush();
             }
-            catch (Exception){}
+            catch (Exception) { }
         }
 
         public void Sign_Click(object sender, EventArgs e)
@@ -176,6 +180,16 @@ namespace Agile_2018
             AutomaticEmail ae = new AutomaticEmail();
             string email = ae.getUserEmail(owner);
             ae.SendEmail(email, "Project Completed", projectName + " has been fully signed.");
+            Response.Redirect(Request.RawUrl);
+        }
+
+        protected void Post_Comments(object sender, EventArgs e)
+        {
+            int pID = Int32.Parse(Session["projectID"].ToString());
+            string comment = inputComment.Text;
+            Project newProject = new Project();
+            newProject.PostComment(comment, pID);
+            Response.Redirect(Request.RawUrl);
         }
     }
 }
