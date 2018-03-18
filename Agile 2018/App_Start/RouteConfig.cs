@@ -15,9 +15,9 @@ namespace Agile_2018
             routes.EnableFriendlyUrls(settings);
             RouteTable.Routes.MapPageRoute("Login", "", "~/Login.aspx");
             RouteTable.Routes.MapPageRoute("Login2", "2017-agile/team5/Login", "~/Login.aspx");
-            RouteTable.Routes.MapPageRoute("AllProjects", "2017-agile/team5/Pages/AllProjects", "~/Pages/AllProjects.aspx");
-            RouteTable.Routes.MapPageRoute("ViewProject", "2017-agile/team5/Pages/ViewProject", "~/Pages/ViewProject.aspx");
-            RouteTable.Routes.MapPageRoute("Profile", "2017-agile/team5/Pages/Profile", "~/Pages/Profile.aspx");
+            RouteTable.Routes.MapPageRoute("AllProjects", "2017-agile/team5/AllProjects", "~/Pages/AllProjects.aspx");
+            RouteTable.Routes.MapPageRoute("ViewProject", "2017-agile/team5/ViewProject", "~/Pages/ViewProject.aspx");
+            RouteTable.Routes.MapPageRoute("Profile", "2017-agile/team5/Profile", "~/Pages/Profile.aspx");
         }
     }
 }
