@@ -91,23 +91,23 @@ namespace Agile_2018
             {
                 case 0:
                     p.ResearcherSign(projectID, Session["uID"].ToString());
-                    Response.Redirect(Request.RawUrl);
+                    HttpContext.Current.Response.Redirect(Request.RawUrl);
                     break;
                 case 1:
                     p.RISSign(projectID, Session["uID"].ToString());
                     ComfirmationEmail(owner, "An RIS Staff Member", projectName);
-                    Response.Redirect("/2017-agile/team5/Pages/AllProjects");
+                    HttpContext.Current.Response.Redirect("AllProjects");
                     break;
                 case 2:
                     p.AssocDeanSign(projectID, Session["uID"].ToString());
                     ComfirmationEmail(owner, "The Associate Dean", projectName);
-                    Response.Redirect("/2017-agile/team5/Pages/AllProjects");
+                    HttpContext.Current.Response.Redirect("AllProjects");
                     break;
                 case 3:
                     p.DeanSign(projectID, Session["uID"].ToString());
                     CompleteEmail(owner, projectName);
                     CompleteEmail(p.GetRISSignID(projectID), projectName);
-                    Response.Redirect("/2017-agile/team5/Pages/AllProjects");
+                    HttpContext.Current.Response.Redirect("AllProjects");
                     break;
                 default:
                     break;
@@ -119,7 +119,7 @@ namespace Agile_2018
             int projectID = Int32.Parse(((LinkButton)sender).CommandArgument.ToString());
             Project p = new Project();
             p.DeleteProject(projectID);
-            Response.Redirect("/2017-agile/team5/Pages/AllProjects#");
+            HttpContext.Current.Response.Redirect("AllProjects#");
         }
 
         protected void DeleteFile_Click(object sender, EventArgs e)
@@ -127,7 +127,7 @@ namespace Agile_2018
             int fileID = Int32.Parse(((LinkButton)sender).CommandArgument.ToString());
             DatabaseFileHandler dfh = new DatabaseFileHandler();
             dfh.DeleteFile(fileID);
-            Response.Redirect(Request.RawUrl);
+            HttpContext.Current.Response.Redirect(Request.RawUrl);
         }
 
         protected void Reject_Click(object sender, EventArgs e)
@@ -142,7 +142,7 @@ namespace Agile_2018
             {
                 case 0:
                     p.ResearcherReject(projectID);
-                    Response.Redirect(Request.RawUrl);
+                    HttpContext.Current.Response.Redirect(Request.RawUrl);
                     break;
                 case 1:
                     p.RISReject(projectID);
@@ -180,7 +180,7 @@ namespace Agile_2018
             AutomaticEmail ae = new AutomaticEmail();
             string email = ae.getUserEmail(owner);
             ae.SendEmail(email, "Project Completed", projectName + " has been fully signed.");
-            Response.Redirect(Request.RawUrl);
+            HttpContext.Current.Response.Redirect(HttpContext.Current.Request.RawUrl);
         }
 
         protected void Post_Comments(object sender, EventArgs e)
@@ -189,7 +189,7 @@ namespace Agile_2018
             string comment = inputComment.Text;
             Project newProject = new Project();
             newProject.PostComment(comment, pID);
-            Response.Redirect(Request.RawUrl);
+            HttpContext.Current.Response.Redirect(HttpContext.Current.Request.RawUrl);
         }
     }
 }

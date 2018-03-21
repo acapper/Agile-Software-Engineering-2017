@@ -19,7 +19,7 @@ namespace Agile_2018
         {
             ConnectionClass.OpenConnection();
             ViewProjects vp = new ViewProjects();
-            dt = vp.ViewSignedProjects((string)Session["uID"]);
+            dt = vp.ViewAllProjects((string)Session["uID"]);
             dt.Columns.Add("TimeAgo", typeof(string));
             foreach (DataRow dr in dt.Rows)
             {
